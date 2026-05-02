@@ -36,14 +36,16 @@ export default function Notification() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <span className="cursor-pointer icon-[solar--bell-linear] size-6"></span>
+        <span className="cursor-pointer icon-[material-symbols--notifications-rounded] size-6"></span>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
         className="w-[340px] overflow-hidden rounded-md border border-border bg-popover shadow-xl p-0"
       >
         <div className="px-4 py-3 flex items-center justify-between">
-          <h1 className="font-medium text-base text-white">Notifications</h1>
+          <h1 className="font-medium text-base text-accent-foreground">
+            Notifications
+          </h1>
           <span className="text-xs text-muted-foreground">
             {notifications.length} total
           </span>
@@ -62,7 +64,7 @@ export default function Notification() {
                   className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0
               ${
                 n.type === "message"
-                  ? "bg-muted/40 text-white/60"
+                  ? "bg-black/40 text-white/60"
                   : n.type === "success"
                     ? "bg-green-400/15 text-green-500"
                     : "bg-red-400/15 text-red-500"
@@ -81,7 +83,7 @@ export default function Notification() {
 
                 <div className="flex flex-col flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <h1 className="text-sm text-white font-medium truncate">
+                    <h1 className="text-sm text-accent-foreground font-medium truncate">
                       {n.title}
                     </h1>
                     <span className="text-[10px] text-muted-foreground whitespace-nowrap">

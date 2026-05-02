@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 
 import React from "react";
 export default function BreadCrumbHeader() {
-  const { selectedShop } = useShop();
+  const { shops, selectedShop } = useShop();
   const path = usePathname();
   return (
     <Breadcrumb className="hidden md:block">
@@ -20,16 +20,10 @@ export default function BreadCrumbHeader() {
           Dashboard
         </BreadcrumbItem>
 
-        <BreadcrumbSeparator />
-
-        <BreadcrumbItem className="font-medium text-muted-foreground">
-          {selectedShop?.name}
-        </BreadcrumbItem>
-
         {path
           .split("/")
           .filter(Boolean)
-          .slice(2)
+          .slice(1)
           .map((segment, idx, arr) => {
             const label = segment.charAt(0).toUpperCase() + segment.slice(1);
             const href =
@@ -38,6 +32,9 @@ export default function BreadCrumbHeader() {
                 "/",
               );
 
+            const isShopId = shops.find((s) => {
+              return s.id === segment;
+            });
             return (
               <React.Fragment key={idx}>
                 <BreadcrumbSeparator />
@@ -51,7 +48,7 @@ export default function BreadCrumbHeader() {
                         : "text-muted-foreground"
                     }`}
                   >
-                    {label}
+                    {isShopId ? selectedShop?.name : label}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </React.Fragment>

@@ -13,18 +13,8 @@ export default function ShopConsumerLayout({
   children: React.ReactNode;
 }) {
   const params = useParams();
-  const shopId = params.shopId as string;
-  const router = useRouter();
 
   const { shops, selectedShop } = useShop();
-
-  React.useEffect(() => {
-    if (!selectedShop) {
-      router.replace(`/dashboard/${shops[0].id}/overview`);
-    }
-  }, [shopId, router, shops]);
-
-  if (!selectedShop) return <div>Shop not found</div>;
 
   return (
     <SidebarProvider>
