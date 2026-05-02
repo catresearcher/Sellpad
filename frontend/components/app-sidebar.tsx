@@ -47,12 +47,6 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
     },
   ];
 
-  const user = {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  };
-
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -65,10 +59,6 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
       <SidebarContent>
         <NavMain items={navMain} />
       </SidebarContent>
-      <SidebarRail />
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
     </Sidebar>
   );
 }
