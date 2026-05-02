@@ -1,5 +1,5 @@
 "use client";
-import { difficultyStyles, priorityStyles, TodoProps } from "@/types/Todos";
+import { difficultyStyles, priorityStyles, TodoProps } from "@/types/Products";
 
 import {
   Card,

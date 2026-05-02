@@ -7,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TodoProps } from "@/types/Todos";
+import { ProductProps } from "@/types/Products";
 
-export default function TodoAnalytics({ Todos }: TodoProps) {
+export default function ProductsAnalytics({ Products }: ProductProps) {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       <Card>
@@ -21,7 +21,7 @@ export default function TodoAnalytics({ Todos }: TodoProps) {
         </CardHeader>
         <CardContent>
           <h1 className="text-3xl font-semibold">
-            {Todos.filter((t) => t.difficulty === "easy").length}
+            {Products.filter((t) => t.difficulty === "easy").length}
           </h1>
         </CardContent>
       </Card>
@@ -34,7 +34,7 @@ export default function TodoAnalytics({ Todos }: TodoProps) {
         </CardHeader>
         <CardContent>
           <h1 className="text-3xl font-semibold">
-            {Todos.filter((t) => t.difficulty === "medium").length}
+            {Products.filter((t) => t.difficulty === "medium").length}
           </h1>
         </CardContent>
       </Card>
@@ -47,7 +47,7 @@ export default function TodoAnalytics({ Todos }: TodoProps) {
         </CardHeader>
         <CardContent>
           <h1 className="text-3xl font-semibold">
-            {Todos.filter((t) => t.difficulty === "hard").length}
+            {Products.filter((t) => t.difficulty === "hard").length}
           </h1>
         </CardContent>
       </Card>
@@ -60,7 +60,7 @@ export default function TodoAnalytics({ Todos }: TodoProps) {
         </CardHeader>
         <CardContent>
           <h1 className="text-3xl font-semibold">
-            {Todos.filter((t) => t.difficulty === "expert").length}
+            {Products.filter((t) => t.difficulty === "expert").length}
           </h1>
         </CardContent>
       </Card>

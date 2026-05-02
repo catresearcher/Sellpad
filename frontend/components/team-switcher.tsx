@@ -18,18 +18,29 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 export function TeamSwitcher({
   teams,
+  activeTeam,
+  setActiveTeam,
 }: {
   teams: {
+    id: number;
     name: string;
     logo: React.ReactNode;
     plan: string;
   }[];
+  activeTeam: {
+    name: string;
+    logo: React.ReactNode;
+    plan: string;
+  };
+  setActiveTeam: (team: any) => void;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   if (!activeTeam) {
     return null;
@@ -66,7 +77,16 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => {
+                  setActiveTeam(team);
+                  const segments = pathname.split("/");
+
+                  segments[2] = String(team.id);
+
+                  const newPath = segments.join("/");
+
+                  router.push(newPath);
+                }}
                 className="gap-2 p-2"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border">

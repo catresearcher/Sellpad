@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TodoProps } from "@/types/Todos";
+import { TodoProps } from "@/types/Products";
 
 export default function AllTodos({ Todos }: TodoProps) {
   return (
