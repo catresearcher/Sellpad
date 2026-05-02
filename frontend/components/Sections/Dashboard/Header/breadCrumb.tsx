@@ -14,7 +14,7 @@ export default function BreadCrumbHeader() {
   const { selectedShop } = useShop();
   const path = usePathname();
   return (
-    <Breadcrumb>
+    <Breadcrumb className="hidden md:block">
       <BreadcrumbList>
         <BreadcrumbItem className="font-medium text-muted-foreground">
           Dashboard
