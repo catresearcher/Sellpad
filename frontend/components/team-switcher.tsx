@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function TeamSwitcher({
   teams,
@@ -98,12 +99,17 @@ export function TeamSwitcher({
             ))}
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                <PlusIcon className="size-4" />
-              </div>
-              <div className="font-medium text-muted-foreground">
-                Create new
-              </div>
+              <Link
+                href={"/dashboard/onboarding"}
+                className="flex items-center gap-2 w-full"
+              >
+                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                  <PlusIcon className="size-4" />
+                </div>
+                <div className="font-medium text-muted-foreground">
+                  Create new
+                </div>
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

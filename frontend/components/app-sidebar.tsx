@@ -13,13 +13,27 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { ListChecksIcon } from "lucide-react";
+import { useParams } from "next/navigation";
 
 type SidebarProps = React.ComponentProps<typeof Sidebar> & {
   teams: any;
 };
 
 export function AppSidebar({ teams, ...props }: SidebarProps) {
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
+  const params = useParams();
+  const shopId = params?.shopId as string;
+
+  const [activeTeam, setActiveTeam] = React.useState(
+    teams.find((t: any) => t.id === shopId) || teams[0],
+  );
+
+  React.useEffect(() => {
+    const teamFromUrl = teams.find((t: any) => t.id === shopId);
+    if (teamFromUrl) {
+      setActiveTeam(teamFromUrl);
+    }
+  }, [shopId, teams]);
+
   const navMain = [
     {
       title: "Shop",

@@ -7,12 +7,16 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useShop } from "@/context/shopContext";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 import React from "react";
 export default function BreadCrumbHeader() {
-  const { shops, selectedShop } = useShop();
+  const params = useParams();
+  const shopId = params?.shopId as string;
+
+  const { selectedShop } = useShop();
   const path = usePathname();
+
   return (
     <Breadcrumb className="hidden md:block">
       <BreadcrumbList>
@@ -26,19 +30,20 @@ export default function BreadCrumbHeader() {
           .slice(1)
           .map((segment, idx, arr) => {
             const label = segment.charAt(0).toUpperCase() + segment.slice(1);
+
             const href =
               "/" +
-              ["dashboard", selectedShop?.id, ...arr.slice(0, idx + 1)].join(
+              ["dashboard", selectedShop?.id, ...arr.slice(1, idx + 1)].join(
                 "/",
               );
 
-            const isShopId = shops.find((s) => {
-              return s.id === segment;
-            });
+            const isShopId = segment === shopId;
+
+            if (isShopId) return null;
+
             return (
               <React.Fragment key={idx}>
                 <BreadcrumbSeparator />
-
                 <BreadcrumbItem>
                   <BreadcrumbLink
                     href={href}
@@ -48,7 +53,7 @@ export default function BreadCrumbHeader() {
                         : "text-muted-foreground"
                     }`}
                   >
-                    {isShopId ? selectedShop?.name : label}
+                    {label}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </React.Fragment>
