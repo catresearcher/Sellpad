@@ -23,7 +23,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { PanelLeftIcon } from "lucide-react";
+import { ExternalLink, PanelLeftIcon } from "lucide-react";
+import Link from "next/link";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -277,6 +278,29 @@ function SidebarTrigger({
   );
 }
 
+export function SidebarStoreLink({
+  className,
+  href,
+  ...props
+}: React.ComponentProps<typeof Button> & { href: any }) {
+  return (
+    <Button
+      variant={"secondary"}
+      asChild
+      className="flex items-center rounded shadow-sm h-10"
+    >
+      <Link
+        className="w-full flex items-center font-semibold!"
+        target="_blank"
+        href={href}
+      >
+        <ExternalLink />
+        Visit your store
+      </Link>
+    </Button>
+  );
+}
+
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
 
@@ -449,7 +473,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
-      className={cn("flex w-full min-w-0 flex-col gap-0", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-1", className)}
       {...props}
     />
   );
@@ -627,7 +651,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       className={cn(
-        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden",
+        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 px-2.5 py-0.5 group-data-[collapsible=icon]:hidden",
         className,
       )}
       {...props}

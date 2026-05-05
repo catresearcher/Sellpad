@@ -10,9 +10,33 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenuButton,
   SidebarRail,
+  SidebarStoreLink,
 } from "@/components/ui/sidebar";
-import { ListChecksIcon } from "lucide-react";
+import {
+  BadgePercent,
+  Bitcoin,
+  Boxes,
+  CreditCard,
+  Download,
+  Globe,
+  House,
+  Layers,
+  LayoutList,
+  ListChecksIcon,
+  Package,
+  ReceiptText,
+  Settings,
+  Shield,
+  ShieldCheck,
+  ShieldOff,
+  Star,
+  Ticket,
+  UserRoundSearch,
+  Users,
+  Wallet,
+} from "lucide-react";
 import { useParams } from "next/navigation";
 import { SidebarHeaderContent } from "./sidebarHeader";
 
@@ -37,26 +61,119 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
 
   const navMain = [
     {
-      title: "Shop",
+      title: "Dashboard",
+      url: `/dashboard/${activeTeam.id}/overview`,
+      icon: <House />,
+    },
+    {
+      title: "Catalog",
       url: `/dashboard/${activeTeam.id}/products`,
-      icon: <ListChecksIcon />,
+      icon: <Layers />,
       isActive: true,
       items: [
         {
-          title: "Overview",
-          url: `/dashboard/${activeTeam.id}/overview`,
-        },
-        {
           title: "Products",
           url: `/dashboard/${activeTeam.id}/products`,
+          icon: <Package />,
         },
         {
-          title: "Users",
-          url: `/dashboard/${activeTeam.id}/users`,
+          title: "Groups",
+          url: `/dashboard/${activeTeam.id}/groups`,
+          icon: <Boxes />,
         },
         {
-          title: "Settings",
-          url: `/dashboard/${activeTeam.id}/settings`,
+          title: "Categories",
+          url: `/dashboard/${activeTeam.id}/categories`,
+          icon: <LayoutList />,
+        },
+        {
+          title: "Coupouns",
+          url: `/dashboard/${activeTeam.id}/coupouns`,
+          icon: <BadgePercent />,
+        },
+      ],
+    },
+    {
+      title: "Orders",
+      url: `/dashboard/${activeTeam.id}/products`,
+      icon: <ReceiptText />,
+      isActive: false,
+      items: [
+        {
+          title: "Invoices",
+          url: `/dashboard/${activeTeam.id}/invoices`,
+          icon: <ReceiptText />,
+        },
+        {
+          title: "Customers",
+          url: `/dashboard/${activeTeam.id}/customers`,
+          icon: <UserRoundSearch />,
+        },
+        {
+          title: "Feedbacks",
+          url: `/dashboard/${activeTeam.id}/feedbacks`,
+          icon: <Star />,
+        },
+        {
+          title: "Tickets",
+          url: `/dashboard/${activeTeam.id}/tickets`,
+          icon: <Ticket />,
+        },
+      ],
+    },
+    {
+      title: "Wallets",
+      url: `/dashboard/${activeTeam.id}/products`,
+      icon: <Wallet />,
+      isActive: false,
+      items: [
+        {
+          title: "Crypto",
+          url: `/dashboard/${activeTeam.id}/crypto`,
+          icon: <Bitcoin />,
+        },
+      ],
+    },
+    {
+      title: "Settings",
+      url: `/dashboard/${activeTeam.id}/products`,
+      icon: <Settings />,
+      isActive: false,
+      items: [
+        {
+          title: "Payment Methods",
+          url: `/dashboard/${activeTeam.id}/payment-methods`,
+          icon: <CreditCard />,
+        },
+        {
+          title: "Team",
+          url: `/dashboard/${activeTeam.id}/team`,
+          icon: <Users />,
+        },
+        {
+          title: "Domains",
+          url: `/dashboard/${activeTeam.id}/domains`,
+          icon: <Globe />,
+        },
+        {
+          title: "Import",
+          url: `/dashboard/${activeTeam.id}/import`,
+          icon: <Download />,
+        },
+        {
+          title: "Blacklist",
+          url: `/dashboard/${activeTeam.id}/blacklist`,
+          icon: <ShieldOff />,
+        },
+        {
+          title: "Whitelist",
+          url: `/dashboard/${activeTeam.id}/whitelist`,
+          icon: <ShieldCheck />,
+        },
+        {
+          title: "Fraud Logs",
+          url: `/dashboard/${activeTeam.id}/fraud-logs`,
+          icon: <Shield />,
         },
       ],
     },
@@ -71,6 +188,12 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
         <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <SidebarStoreLink
+          href={`https://${activeTeam.subdomain}.sellpad.io`}
+          className=""
+        >
+          Visit Store
+        </SidebarStoreLink>
         <TeamSwitcher
           teams={teams}
           activeTeam={activeTeam}

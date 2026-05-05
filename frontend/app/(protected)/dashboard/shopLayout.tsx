@@ -16,8 +16,6 @@ export default function ShopConsumerLayout({
   const params = useParams();
   const shopId = params.shopId as string;
 
-  console.log("shopId", shopId);
-
   const { shops, selectedShop, isLoading } = useShop();
   const shopExists = shops?.some((s) => s.id === shopId);
 

@@ -18,7 +18,7 @@ export function SidebarHeaderContent() {
             <span className="icon-[material-symbols--storefront-outline-rounded] text-foreground size-5"></span>
           </div>
 
-          <h1 className="text-3xl text-foreground font-medium">Sellora</h1>
+          <h1 className="text-3xl text-foreground font-medium">Sellpad</h1>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
