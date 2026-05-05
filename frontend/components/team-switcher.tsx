@@ -17,9 +17,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
+import * as Icons from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+
+import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 
 export function TeamSwitcher({
   teams,
@@ -29,13 +32,15 @@ export function TeamSwitcher({
   teams: {
     id: number;
     name: string;
-    logo: React.ReactNode;
+    logo: string;
     plan: string;
+    subdomain: string;
   }[];
   activeTeam: {
     name: string;
-    logo: React.ReactNode;
+    logo: string;
     plan: string;
+    subdomain: string;
   };
   setActiveTeam: (team: any) => void;
 }) {
@@ -47,6 +52,8 @@ export function TeamSwitcher({
     return null;
   }
 
+  const ActiveIcon = Icons[activeTeam.logo as keyof typeof Icons] as LucideIcon;
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -57,11 +64,15 @@ export function TeamSwitcher({
               className="data-[state=open]:bg-muted data-[state=open]:text-muted-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                {activeTeam.logo}
+                {ActiveIcon ? <ActiveIcon className="size-4" /> : null}
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeTeam.name}</span>
-                <span className="truncate text-xs">{activeTeam.plan}</span>
+                <span className="truncate font-medium text-accent-foreground">
+                  {activeTeam.name}
+                </span>
+                <span className="truncate text-xs text-muted-foreground">
+                  {activeTeam.subdomain}.sellora.io
+                </span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />
             </SidebarMenuButton>
@@ -69,34 +80,38 @@ export function TeamSwitcher({
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="start"
-            side={isMobile ? "bottom" : "right"}
+            side={"top"}
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               Shops
             </DropdownMenuLabel>
-            {teams.map((team, index) => (
-              <DropdownMenuItem
-                key={team.name}
-                onClick={() => {
-                  setActiveTeam(team);
-                  const segments = pathname.split("/");
+            {teams.map((team, index) => {
+              const Icon = Icons[team.logo as keyof typeof Icons] as LucideIcon;
+              return (
+                <DropdownMenuItem
+                  key={team.name}
+                  onClick={() => {
+                    setActiveTeam(team);
+                    const segments = pathname.split("/");
 
-                  segments[2] = String(team.id);
+                    segments[2] = String(team.id);
 
-                  const newPath = segments.join("/");
+                    const newPath = segments.join("/");
 
-                  router.push(newPath);
-                }}
-                className="gap-2 p-2"
-              >
-                <div className="flex size-6 items-center justify-center rounded-md border">
-                  {team.logo}
-                </div>
-                {team.name}
-                <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            ))}
+                    router.push(newPath);
+                  }}
+                  className="gap-2 p-2"
+                >
+                  <div className="flex size-6 items-center justify-center rounded-md border">
+                    {Icon ? <Icon className="size-4" /> : null}
+                  </div>
+                  {team.name}
+
+                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              );
+            })}
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <Link

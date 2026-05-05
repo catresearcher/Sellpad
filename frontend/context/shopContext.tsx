@@ -1,17 +1,17 @@
 "use client";
-
+import { LoginApi } from "@/api/auth/login";
+import { fetchShops } from "@/api/shops/shops";
+import { useQuery } from "@tanstack/react-query";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
-import {
-  GalleryVerticalEndIcon,
-  AudioLinesIcon,
-  TerminalIcon,
-} from "lucide-react";
 
 export type Shop = {
   id: string;
   name: string;
-  logo: React.ReactNode;
+  logo: string;
   plan: string;
+
+  subdomain: string;
   analytics: {
     Products: number;
     Users: number;
@@ -22,63 +22,39 @@ export type Shop = {
 type ShopContextType = {
   shops: Shop[];
   selectedShop?: Shop;
+  isLoading: boolean;
 };
 
 export const ShopContext = React.createContext<ShopContextType | null>(null);
 
-export function ShopProvider({
-  children,
-  shopId,
-}: {
-  children: React.ReactNode;
-  shopId: string;
-}) {
-  const shops = React.useMemo<Shop[]>(
-    () => [
-      {
-        id: "hjkjhkjhk",
-        name: "Apple Inc",
-        logo: <GalleryVerticalEndIcon />,
-        plan: "Enterprise",
-        analytics: {
-          Products: 225,
-          Users: 1725,
-          Revenue: 120240,
-        },
-      },
-      {
-        id: "bgbgfhfgh",
-        name: "Teemu Oy.",
-        logo: <AudioLinesIcon />,
-        plan: "Startup",
-        analytics: {
-          Products: 15,
-          Users: 55,
-          Revenue: 4240,
-        },
-      },
-      {
-        id: "asdasdsad",
-        name: "TeemuGang",
-        logo: <TerminalIcon />,
-        plan: "Free",
-        analytics: {
-          Products: 25,
-          Users: 125,
-          Revenue: 24240,
-        },
-      },
-    ],
-    [],
-  );
+export function ShopProvider({ children }: { children: React.ReactNode }) {
+  const params = useParams();
+  console.log("Context");
 
-  const selectedShop = React.useMemo(
-    () => shops.find((t) => t.id === shopId),
-    [shops, shopId],
-  );
+  const shopId = React.useMemo(() => {
+    return params?.shopId ? String(params.shopId) : undefined;
+  }, [params]);
+
+  const { data = [], isLoading } = useQuery({
+    queryKey: ["shopsdata"],
+    queryFn: fetchShops,
+  });
+
+  const shops = (data ?? []) as Shop[];
+
+  const selectedShop = React.useMemo(() => {
+    if (!shopId) return shops[0];
+    return data.find((t) => t.id === shopId);
+  }, [data, shopId]);
 
   return (
-    <ShopContext.Provider value={{ shops, selectedShop }}>
+    <ShopContext.Provider
+      value={{
+        shops,
+        selectedShop,
+        isLoading,
+      }}
+    >
       {children}
     </ShopContext.Provider>
   );

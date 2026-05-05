@@ -10,13 +10,8 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const params = useParams();
-  const router = useRouter();
-
-  const shopId = params.shopId as string;
-
   return (
-    <ShopProvider shopId={shopId}>
+    <ShopProvider>
       <ShopConsumerLayout>{children}</ShopConsumerLayout>
     </ShopProvider>
   );

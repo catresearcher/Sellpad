@@ -64,15 +64,23 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
+        <div className="flex items-center gap-3 px-2 py-1.5">
+          <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
+            <span className="icon-[material-symbols--storefront-outline-rounded] text-foreground size-5"></span>
+          </div>
+          <h1 className="text-3xl text-foreground font-medium">Sellora</h1>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={navMain} />
+      </SidebarContent>
+      <SidebarFooter>
         <TeamSwitcher
           teams={teams}
           activeTeam={activeTeam}
           setActiveTeam={setActiveTeam}
         />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={navMain} />
-      </SidebarContent>
+      </SidebarFooter>
     </Sidebar>
   );
 }
