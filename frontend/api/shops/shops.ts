@@ -4,8 +4,8 @@ export function fetchShops() {
   const shops = [
     {
       id: "hjkjhkjhk",
-      name: "Apple Inc",
-      logo: "GalleryVerticalEndIcon",
+      name: "Rich Store",
+      logo: "CircleDollarSign",
       plan: "Enterprise",
       subdomain: "rich",
       analytics: {
@@ -16,8 +16,8 @@ export function fetchShops() {
     },
     {
       id: "bgbgfhfgh",
-      name: "Teemu Oy.",
-      logo: "AudioLinesIcon",
+      name: "Nigga Store",
+      logo: "Swords",
       plan: "Startup",
       subdomain: "nigga",
       analytics: {
@@ -28,8 +28,8 @@ export function fetchShops() {
     },
     {
       id: "asdasdsad",
-      name: "TeemuGang",
-      logo: "TerminalIcon",
+      name: "Teemugang Store",
+      logo: "Users",
       plan: "Free",
       subdomain: "gang",
       analytics: {

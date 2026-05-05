@@ -25,7 +25,9 @@ export default function ShopConsumerLayout({
     if (isLoading) return;
     if (!shops?.length) return;
 
-    if (!shopExists || !shopId === undefined) {
+    if (!shopId) return;
+
+    if (!shopExists) {
       router.replace(`/dashboard/${shops[0].id}/overview`);
     }
   }, [isLoading, shops, shopExists, router]);

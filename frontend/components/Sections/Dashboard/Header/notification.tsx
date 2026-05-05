@@ -30,13 +30,41 @@ const notifications = [
     type: "error",
     date: "5/3/2026 00:00",
   },
+  {
+    id: "4",
+    title: "Subscription payment declined",
+    sender: "Stripe",
+    type: "error",
+    date: "5/3/2026 00:00",
+  },
+  {
+    id: "5",
+    title: "Subscription payment declined",
+    sender: "Stripe",
+    type: "error",
+    date: "5/3/2026 00:00",
+  },
+  {
+    id: "6",
+    title: "Subscription payment declined",
+    sender: "Stripe",
+    type: "error",
+    date: "5/3/2026 00:00",
+  },
+  {
+    id: "7",
+    title: "Subscription payment declined",
+    sender: "Stripe",
+    type: "error",
+    date: "5/3/2026 00:00",
+  },
 ];
 
 export default function Notification() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <span className="cursor-pointer icon-[material-symbols--notifications-rounded] size-6"></span>
+        <span className="cursor-pointer icon-[solar--bell-linear] size-6"></span>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
@@ -60,33 +88,12 @@ export default function Notification() {
                 key={n.id}
                 className="flex items-start gap-3 px-4 py-3 border-b border-border/40 last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
               >
-                <span
-                  className={`w-8 h-8 flex items-center justify-center rounded-full shrink-0
-              ${
-                n.type === "message"
-                  ? "bg-black/40 text-white/60"
-                  : n.type === "success"
-                    ? "bg-green-400/15 text-green-500"
-                    : "bg-red-400/15 text-red-500"
-              }`}
-                >
-                  <span
-                    className={
-                      n.type === "message"
-                        ? "icon-[solar--letter-bold]"
-                        : n.type === "success"
-                          ? "icon-[material-symbols--check-rounded]"
-                          : "icon-[material-symbols--close-rounded]"
-                    }
-                  />
-                </span>
-
                 <div className="flex flex-col flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <h1 className="text-sm text-accent-foreground font-medium truncate">
+                    <h1 className="text-md text-accent-foreground font-medium truncate">
                       {n.title}
                     </h1>
-                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                    <span className="text-md text-muted-foreground whitespace-nowrap">
                       {n.date}
                     </span>
                   </div>

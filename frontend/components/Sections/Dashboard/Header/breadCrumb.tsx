@@ -49,7 +49,7 @@ export default function BreadCrumbHeader() {
                     href={href}
                     className={`font-medium capitalize ${
                       idx === arr.length - 1
-                        ? "text-white"
+                        ? "text-accent-foreground"
                         : "text-muted-foreground"
                     }`}
                   >
