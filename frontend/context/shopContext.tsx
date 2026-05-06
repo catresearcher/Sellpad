@@ -3,7 +3,8 @@ import { LoginApi } from "@/api/auth/login";
 import { fetchShops } from "@/api/shops/shops";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import { DateRange } from "react-day-picker";
 
 export type Shop = {
   id: string;
@@ -14,8 +15,8 @@ export type Shop = {
   subdomain: string;
   analytics: {
     Products: number;
-    Users: number;
-    Revenue: number;
+    Users: { date: string; uv: number }[];
+    Revenue: { date: string; uv: number }[];
   };
 };
 
@@ -23,13 +24,14 @@ type ShopContextType = {
   shops: Shop[];
   selectedShop?: Shop;
   isLoading: boolean;
+  date: DateRange | undefined;
+  setDate: (value: DateRange | undefined) => void;
 };
 
 export const ShopContext = React.createContext<ShopContextType | null>(null);
 
 export function ShopProvider({ children }: { children: React.ReactNode }) {
   const params = useParams();
-  console.log("Context");
 
   const shopId = React.useMemo(() => {
     return params?.shopId ? String(params.shopId) : undefined;
@@ -40,6 +42,8 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     queryFn: fetchShops,
   });
 
+  console.log(data);
+
   const shops = (data ?? []) as Shop[];
 
   const selectedShop = React.useMemo(() => {
@@ -47,12 +51,19 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     return data.find((t) => t.id === shopId);
   }, [data, shopId]);
 
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(new Date().getFullYear(), 0, 1),
+    to: new Date(),
+  });
+
   return (
     <ShopContext.Provider
       value={{
         shops,
         selectedShop,
         isLoading,
+        date,
+        setDate,
       }}
     >
       {children}

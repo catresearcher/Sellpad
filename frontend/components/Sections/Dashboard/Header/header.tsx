@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/ui/lightSwitch";
 
 export default function Header() {
   return (
-    <header className="flex h-16 shrink-0 items-center justify-between border-b border-border gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <header className="sticky top-0 z-50 w-full bg-background flex h-16 shrink-0 items-center justify-between border-b border-border gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
       <div className="flex items-center gap-4 px-4 h-full">
         <SidebarTrigger className="flex items-center justify-center sm:hidden" />
         <hr className="w-px h-full bg-border block sm:hidden"></hr>

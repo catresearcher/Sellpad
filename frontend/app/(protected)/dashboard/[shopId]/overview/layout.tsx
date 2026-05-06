@@ -1,8 +1,11 @@
 "use client";
-import ShopAnalytics from "@/components/Sections/Dashboard/Shop/analytics";
+import ShopAnalyticDate from "@/components/Sections/Dashboard/Shop/date-picker";
 import PageTitle from "@/components/ui/pageTitle";
 import { useShop } from "@/context/shopContext";
-import React from "react";
+import React, { useState } from "react";
+import { addDays, format } from "date-fns";
+
+import { type DateRange } from "react-day-picker";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -18,26 +21,23 @@ export default function ShopOverviewLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { selectedShop } = useShop();
+  const { selectedShop, date, setDate } = useShop();
 
   if (!selectedShop) return <div>Shop not found</div>;
 
   const greeting = getGreeting();
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex items-center justify-between w-full">
         {" "}
         <PageTitle
           title={`${greeting.text}, Teemu ${greeting.emoji}`}
           description="Here you can view your shops analytics"
         />
+        <ShopAnalyticDate date={date} setDate={setDate} />
       </div>
-      <ShopAnalytics
-        Products={selectedShop.analytics.Products}
-        Users={selectedShop.analytics.Users}
-        Revenue={selectedShop.analytics.Revenue}
-      />
+
       {children}
     </div>
   );

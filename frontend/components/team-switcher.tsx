@@ -71,7 +71,7 @@ export function TeamSwitcher({
                   {activeTeam.name}
                 </span>
                 <span className="truncate text-xs text-muted-foreground">
-                  {activeTeam.subdomain}.sellora.io
+                  {activeTeam.subdomain}.sellpad.io
                 </span>
               </div>
               <ChevronsUpDownIcon className="ml-auto" />

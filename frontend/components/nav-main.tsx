@@ -52,7 +52,7 @@ export function NavMain({
                 >
                   <a
                     href={item.url}
-                    className={`${pathname === item.url ? "text-primary!" : "hover:text-white! hover:bg-accent-foreground/5!"} transition-all duration-100 !font-semibold `}
+                    className={`${pathname === item.url ? "text-primary!" : "hover:text-white! hover:bg-accent-foreground/5!"} transition-all duration-100 font-semibold! `}
                   >
                     {item.icon}
                     <span>{item.title}</span>
@@ -78,8 +78,8 @@ export function NavMain({
                   <SidebarMenuButton
                     className={`
                       cursor-pointer transition-all duration-100 font-semibold!
-                      hover:text-white
-                      ${isSubItemActive && !open ? "!text-primary" : ""}
+                      hover:text-white!
+                      ${isSubItemActive && !open ? "text-primary!" : ""}
                     `}
                     tooltip={item.title}
                   >
@@ -90,15 +90,15 @@ export function NavMain({
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
-                  <SidebarMenuSub>
+                  <SidebarMenuSub className="flex flex-col gap-2">
                     {item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton
                           asChild
                           className={`${
                             pathname === subItem.url
-                              ? "!text-primary"
-                              : "hover:!text-white hover:!bg-accent-foreground/5"
+                              ? "text-primary!"
+                              : "hover:text-white! hover:bg-accent-foreground/5!"
                           } transition-all duration-100 font-semibold! [&_svg]:text-inherit!`}
                         >
                           <a
