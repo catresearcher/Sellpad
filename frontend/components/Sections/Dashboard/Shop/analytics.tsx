@@ -17,7 +17,7 @@ export default function ShopAnalytics({
     visitors: number;
     current_visitors: number;
     orders: number;
-    products: number;
+    Orders: { date: string; uv: number }[];
   };
 }) {
   const all_time_users = Object.values(Users).reduce(
@@ -25,6 +25,10 @@ export default function ShopAnalytics({
     0,
   );
   const all_time_revenue = Object.values(Revenue).reduce(
+    (sum, month: any) => sum + month.uv,
+    0,
+  );
+  const all_time_products = Object.values(ShopAnalytics.Orders).reduce(
     (sum, month: any) => sum + month.uv,
     0,
   );
@@ -53,11 +57,11 @@ export default function ShopAnalytics({
           <CardHeader>
             <CardTitle className="text-sm">Orders</CardTitle>
             <CardDescription className="text-xs">
-              All of your users
+              All of your orders
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <h1 className="text-3xl font-semibold">{ShopAnalytics.orders}</h1>
+            <h1 className="text-3xl font-semibold">{all_time_products}</h1>
           </CardContent>
         </Card>
 

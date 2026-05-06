@@ -17,32 +17,15 @@ const daysInMonth: Record<number, number> = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const generateRevenue = (base = 2000) => {
+const generateFake = (base = 2000, number = 5) => {
   const data: { date: string; uv: number }[] = [];
 
   for (let month = 0; month < 12; month++) {
     for (let day = 1; day <= daysInMonth[month]; day++) {
-      const variation = Math.sin(day * 0.5) * 812 + Math.random() * 572;
+      const variation =
+        Math.sin(day * 0.5) * number + 100 + Math.random() * number;
 
-      const uv = Math.round(base + variation + month * 300);
-
-      const date = `2026-${pad(month + 1)}-${pad(day)}`;
-
-      data.push({ date, uv });
-    }
-  }
-
-  return data;
-};
-
-const generateUsers = (base = 2000) => {
-  const data: { date: string; uv: number }[] = [];
-
-  for (let month = 0; month < 12; month++) {
-    for (let day = 1; day <= daysInMonth[month]; day++) {
-      const variation = Math.sin(day * 0.5) * 5 + Math.random() * 1;
-
-      const uv = Math.round(base + variation + month * 3);
+      const uv = Math.round(base + variation + month * number * 10);
 
       const date = `2026-${pad(month + 1)}-${pad(day)}`;
 
@@ -62,9 +45,9 @@ export function fetchShops() {
       plan: "Enterprise",
       subdomain: "rich",
       analytics: {
-        Products: 225,
-        Users: generateUsers(200),
-        Revenue: generateRevenue(3000),
+        Orders: generateFake(200, 10),
+        Users: generateFake(200, 10),
+        Revenue: generateFake(3000, 50),
       },
     },
 
@@ -75,22 +58,22 @@ export function fetchShops() {
       plan: "Enterprise",
       subdomain: "rich",
       analytics: {
-        Products: 15,
-        Users: generateUsers(200),
-        Revenue: generateRevenue(1800),
+        Orders: generateFake(200, 10),
+        Users: generateFake(200, 10),
+        Revenue: generateFake(3000, 50),
       },
     },
 
     {
-      id: "asdsadsad",
+      id: "asdsadsads",
       name: "Teemugang Store",
       logo: "TerminalIcon",
       plan: "Enterprise",
       subdomain: "rich",
       analytics: {
-        Products: 25,
-        Users: generateUsers(200),
-        Revenue: generateRevenue(1000),
+        Orders: generateFake(200, 10),
+        Users: generateFake(200, 10),
+        Revenue: generateFake(3000, 50),
       },
     },
   ];

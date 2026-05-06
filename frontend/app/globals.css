@@ -181,6 +181,107 @@
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
 }
 
+* {
+  scroll-behavior: smooth;
+  letter-spacing: -0.005255;
+}
+
+.Toastify__toast {
+  color: var(--foreground) !important;
+  background-color: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror {
+  outline: none;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.ProseMirror:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.tiptap-content {
+  ul,
+  ol {
+    all: unset;
+    display: block;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  a {
+    color: #0051ff;
+  }
+
+  p {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  blockquote {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1rem;
+    font-style: italic;
+    margin: 0.5rem 0;
+  }
+
+  code {
+    background-color: var(--secondary);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: monospace;
+  }
+
+  pre {
+    background-color: var(--accent);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    font-family: monospace;
+    margin: 0.5rem 0;
+    overflow-x: auto;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

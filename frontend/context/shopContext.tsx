@@ -14,7 +14,7 @@ export type Shop = {
 
   subdomain: string;
   analytics: {
-    Products: number;
+    Orders: { date: string; uv: number }[];
     Users: { date: string; uv: number }[];
     Revenue: { date: string; uv: number }[];
   };
@@ -41,8 +41,6 @@ export function ShopProvider({ children }: { children: React.ReactNode }) {
     queryKey: ["shopsdata"],
     queryFn: fetchShops,
   });
-
-  console.log(data);
 
   const shops = (data ?? []) as Shop[];
 
