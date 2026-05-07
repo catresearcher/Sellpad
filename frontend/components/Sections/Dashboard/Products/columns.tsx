@@ -8,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import { useShop } from "@/context/shopContext";
 import { MinimalProduct } from "@/hooks/hooks/use-products";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
@@ -109,7 +110,8 @@ export const columns: ColumnDef<MinimalProduct>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const productId = row.getValue("id");
-
+      const { selectedShop } = useShop();
+      if (!selectedShop) return null;
       return (
         <div className="text-right">
           <DropdownMenu>
@@ -121,7 +123,11 @@ export const columns: ColumnDef<MinimalProduct>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <Link href={`/products/edit/${productId}`}>Edit product</Link>
+                <Link
+                  href={`/dashboard/${selectedShop.id}/products/edit/${productId}`}
+                >
+                  Edit product
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive">
                 Delete product

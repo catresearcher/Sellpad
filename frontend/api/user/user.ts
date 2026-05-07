@@ -5,7 +5,7 @@ export function fetchUser() {
     username: "Teemu",
     email: "Teemu@teemu.com",
     avatar:
-      "https://cdn.discordapp.com/attachments/1444186738816847924/1472392311630725266/IMG_0989.gif?ex=69fc8872&is=69fb36f2&hm=b3434c667a3f759b45603614a9b3190436b794c20b1bd893c8e6b900d2d8c16b&",
+      "https://cdn.discordapp.com/attachments/1444186738816847924/1472392311630725266/IMG_0989.gif?ex=69fdd9f2&is=69fc8872&hm=4ce3ff3607cd3ca088d8f576b02f57ddce18be5266248b092b93ac62b175d30f&",
     role: "admin",
     tier: 1,
   };
