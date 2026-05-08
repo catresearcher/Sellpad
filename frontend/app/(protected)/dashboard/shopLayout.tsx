@@ -16,11 +16,10 @@ export default function ShopConsumerLayout({
   const params = useParams();
   const shopId = params.shopId as string;
 
-  const { shops, selectedShop, isLoading } = useShop();
+  const { shops, selectedShop } = useShop();
   const shopExists = shops?.some((s) => s.id === shopId);
 
   useEffect(() => {
-    if (isLoading) return;
     if (!shops?.length) return;
 
     if (!shopId) return;
@@ -28,9 +27,7 @@ export default function ShopConsumerLayout({
     if (!shopExists) {
       router.replace(`/dashboard/${shops[0].id}/overview`);
     }
-  }, [isLoading, shops, shopExists, router]);
-
-  if (isLoading) return <div>loading</div>;
+  }, [shops, shopExists, router]);
 
   return (
     <SidebarProvider>

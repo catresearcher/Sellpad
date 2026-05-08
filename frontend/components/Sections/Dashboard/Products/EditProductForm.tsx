@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/select";
 import { editProductFormSchema } from "@/schemas/form.schema";
 import * as z from "zod";
-import { FullProduct, User } from "@/types/user";
 import { useRouter } from "next/navigation";
 import { ChevronDown, ChevronUp, XIcon } from "@/components/assets/svgs";
 import {
@@ -32,6 +31,8 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { TipTapEditor } from "./TipTapEditor";
+import { User } from "@/context/userContext";
+import { FullProduct } from "@/hooks/hooks/use-products";
 
 interface EditProductFormProps {
   product: FullProduct;
@@ -86,7 +87,7 @@ export function EditProductForm({ product, user }: EditProductFormProps) {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: JSON.stringify(payload),
-          }
+          },
         );
 
         const data = await response.json();
@@ -194,7 +195,7 @@ export function EditProductForm({ product, user }: EditProductFormProps) {
                 <CollapsibleTrigger asChild>
                   <div className="flex justify-between items-center p-4 cursor-pointer bg-accent dark:bg-input/30">
                     <div className="flex items-center gap-2">
-                      {openVariants[fieldItem.id] ?? false ? (
+                      {(openVariants[fieldItem.id] ?? false) ? (
                         <ChevronUp />
                       ) : (
                         <ChevronDown />
@@ -305,7 +306,11 @@ export function EditProductForm({ product, user }: EditProductFormProps) {
           </div>
 
           <div className="flex gap-4">
-            <Button type="submit" className="flex-1" disabled={isPending}>
+            <Button
+              type="submit"
+              className="flex-1 h-10 font-medium"
+              disabled={isPending}
+            >
               {isPending ? "Updating..." : "Update"}
             </Button>
           </div>

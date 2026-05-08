@@ -30,8 +30,6 @@ export default function EditProductPageChild({
     redirect(`/dashboard/${selectedShop.id}/products`);
   }
 
-  console.log(product);
-
   return (
     <div className="h-full flex flex-col">
       <PageTitle
