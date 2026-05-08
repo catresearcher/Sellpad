@@ -4,6 +4,7 @@ import { ShopProvider } from "@/context/shopContext";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import ShopConsumerLayout from "./shopLayout";
+import LoadingScreenProvider from "@/app/loader";
 
 export default function ProtectedLayout({
   children,
@@ -12,7 +13,9 @@ export default function ProtectedLayout({
 }) {
   return (
     <ShopProvider>
-      <ShopConsumerLayout>{children}</ShopConsumerLayout>
+      <LoadingScreenProvider>
+        <ShopConsumerLayout>{children}</ShopConsumerLayout>
+      </LoadingScreenProvider>
     </ShopProvider>
   );
 }
