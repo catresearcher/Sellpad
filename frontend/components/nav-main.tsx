@@ -61,8 +61,8 @@ export function NavMain({
               </SidebarMenuItem>
             );
           }
-          const isSubItemActive = item.items?.some(
-            (subItem) => subItem.url === pathname,
+          const isSubItemActive = item.items?.some((subItem) =>
+            pathname.startsWith(subItem.url),
           );
           const [open, setOpen] = useState(item.isActive ?? false);
           return (
@@ -96,7 +96,7 @@ export function NavMain({
                         <SidebarMenuSubButton
                           asChild
                           className={`${
-                            pathname === subItem.url
+                            pathname.startsWith(subItem.url)
                               ? "text-primary!"
                               : "hover:text-white! hover:bg-accent-foreground/5!"
                           } transition-all duration-100 font-semibold! [&_svg]:text-inherit!`}
