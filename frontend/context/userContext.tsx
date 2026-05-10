@@ -1,6 +1,6 @@
 "use client";
 import { fetchUser } from "@/api/user/user";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { createContext } from "react";
 
 export type User = {
@@ -14,19 +14,37 @@ export type User = {
 type UserContextType = {
   user: User | undefined;
   isLoading: boolean;
+  login: (data: User) => void;
+  logout: () => void;
 };
 
 export const UserContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
+  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
   });
 
   const user = data ?? undefined;
+
+  function login(data: User) {
+    queryClient.setQueryData(["user"], data);
+  }
+
+  function logout() {
+    queryClient.setQueryData(["user"], null);
+  }
   return (
-    <UserContext.Provider value={{ user, isLoading }}>
+    <UserContext.Provider
+      value={{
+        user,
+        isLoading,
+        login,
+        logout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

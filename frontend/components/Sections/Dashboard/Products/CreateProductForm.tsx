@@ -307,7 +307,11 @@ export function CreateProductForm({ user }: CreateProductFormProps) {
           </div>
 
           <div className="flex gap-4">
-            <Button type="submit" className="flex-1" disabled={isPending}>
+            <Button
+              type="submit"
+              className="flex-1 h-10 text-md"
+              disabled={isPending}
+            >
               {isPending ? "Creating..." : "Create"}
             </Button>
           </div>

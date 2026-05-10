@@ -78,7 +78,7 @@ export function NavMain({
                   <SidebarMenuButton
                     className={`
                       cursor-pointer transition-all duration-100 font-semibold!
-                      hover:text-white!
+                      hover:text-accent-foreground!
                       ${isSubItemActive && !open ? "text-primary!" : ""}
                     `}
                     tooltip={item.title}

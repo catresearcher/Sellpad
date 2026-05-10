@@ -1,13 +1,18 @@
 "use client";
 import Form from "@/components/Form/form";
+import { useUser } from "@/context/userContext";
 import { useLogin } from "@/hooks/Auth/useLogin";
 import { LoginSchema } from "@/schemas/auth.schema";
 import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login() {
+  const router = useRouter();
+  const { login } = useUser();
   const loginMutation = useLogin();
+
   const [error, setError] = useState("");
 
   const form = useForm({
@@ -26,6 +31,8 @@ export default function Login() {
           username: value.username,
           password: value.password,
         });
+        login(data);
+        router.push("/dashboard/1/overview");
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);

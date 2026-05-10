@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/lib/database/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TransactionStatus {
+  Pending
+  Completed
+  Failed
+  Expired
+}
+
+enum CheckoutStatus {
+  Pending
+  Completed
+  Abandoned
+}
+
+enum Roles {
+  Admin
+  User
+}
+
+enum ProductVisibility {
+  Public
+  Private
+  Unlisted
+}
+
+enum CustomerSessionType {
+  Tracking
+  Session
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  role      Roles    @default(User)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  sessions Session[] @relation
+  shops    Shop[]    @relation
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+}
+
+model Shop {
+  id            Int      @id @default(autoincrement())
+  name          String
+  subdomain     String   @unique
+  customDomain  String?   @unique
+  ownerId       String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+
+  owner          User            @relation(fields: [ownerId], references: [id])
+  products       Product[]
+  customers      ShopCustomer[]
+  transactions   Transaction[]
+  paymentMethods PaymentMethod[]
+  checkouts      Checkout[]
+  carts          Cart[]
+}
+
+model PaymentMethod {
+  id     Int    @id @default(autoincrement())
+  shopId Int
+  type   String
+  name   String
+
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  settings Json // whatever the payment method needs, email, notes, apikey etc.
+
+  shop Shop @relation(fields: [shopId], references: [id])
+}
+
+model ShopCustomer {
+  id        String    @id @default(uuid())
+  shopId    Int
+  email     String
+  notes     Json?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  shop         Shop                 @relation(fields: [shopId], references: [id])
+  sessions     CustomerSession[]
+  tokens       CustomerLoginToken[]
+  transactions Transaction[]
+  carts        Cart[]
+
+  @@unique([shopId, email])
+  @@index([shopId])
+}
+
+model CustomerLoginToken {
+  id         String   @id @default(uuid())
+  customerId String
+  token      String   @unique
+  expiresAt  DateTime
+  used       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  customer ShopCustomer @relation(fields: [customerId], references: [id])
+
+  @@index([customerId])
+  @@index([expiresAt])
+}
+
+model Product {
+  id          Int               @id @default(autoincrement())
+  shopId      Int
+  name        String
+  description String?           @db.Text
+  stock       Int               @default(0)
+  visibility  ProductVisibility @default(Public)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @default(now())
+
+  shop      Shop             @relation(fields: [shopId], references: [id])
+  variants  ProductVariant[]
+  cartItems CartItem[]
+
+  @@index([shopId])
+}
+
+model ProductVariant {
+  id           Int      @id @default(autoincrement())
+  productId    Int
+  name         String
+  price        Decimal  @db.Decimal(10, 2)
+  stockCount   Int      @default(0)
+  deliverables Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+
+  product   Product    @relation(fields: [productId], references: [id])
+  cartItems CartItem[]
+
+  @@index([productId])
+}
+
+model Transaction {
+  id           String            @id @default(uuid())
+  customerId   String
+  shopId       Int
+  totalAmount  Decimal           @db.Decimal(10, 2)
+  deliverables Json?
+  status       TransactionStatus @default(Pending)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @default(now())
+
+  customer ShopCustomer @relation(fields: [customerId], references: [id])
+  shop     Shop         @relation(fields: [shopId], references: [id])
+
+  @@index([customerId, status])
+  @@index([shopId, status])
+}
+
+model CustomerSession {
+  id         Int                 @id @default(autoincrement())
+  customerId String
+  type       CustomerSessionType
+  token      String              @unique
+  createdAt  DateTime            @default(now())
+  expiresAt  DateTime
+
+  customer ShopCustomer @relation(fields: [customerId], references: [id])
+
+  @@index([customerId, expiresAt])
+}
+
+model CheckoutItem {
+  id         String @id @default(uuid())
+  checkoutId String
+  productId  Int
+  variantId  Int
+  quantity   Int
+
+  checkout Checkout @relation(fields: [checkoutId], references: [id], onDelete: Cascade)
+}
+
+model Checkout {
+  id            String         @id @default(uuid())
+  shopId        Int
+  email         String?
+  paymentMethod String?
+  items         CheckoutItem[]
+  totalAmount   Decimal        @db.Decimal(10, 2)
+  status        CheckoutStatus @default(Pending)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@index([shopId, status])
+}
+
+model Cart {
+  id         String   @id @default(uuid())
+  customerId String
+  shopId     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  customer ShopCustomer @relation(fields: [customerId], references: [id])
+  shop     Shop         @relation(fields: [shopId], references: [id])
+  items    CartItem[]
+
+  @@index([customerId, shopId])
+}
+
+model CartItem {
+  id        String   @id @default(uuid())
+  cartId    String
+  productId Int
+  variantId Int? // optional
+  quantity  Int      @default(1)
+  price     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  cart    Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id])
+  variant ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull) // <-- optional
+
+  @@index([cartId])
+  @@index([productId])
+}
