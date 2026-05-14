@@ -8,7 +8,7 @@ export function HandleRequestError(message: string, error: any): never {
   }
 
   if (error instanceof Error) {
-    throw error; // <- preserve the original message
+    throw error;
   }
 
   throw new Error(message);
