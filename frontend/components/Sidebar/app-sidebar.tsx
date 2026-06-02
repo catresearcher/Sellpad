@@ -127,15 +127,10 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
   const params = useParams();
   const shopId = params?.shopId as string;
 
-  const [activeTeam, setActiveTeam] = React.useState(
-    teams.find((t: any) => t.id === shopId) || teams[0],
+  const activeTeam = React.useMemo(
+    () => teams.find((t: any) => t.id === Number(shopId)) ?? teams[0],
+    [teams, shopId],
   );
-
-  React.useEffect(() => {
-    const teamFromUrl = teams.find((t: any) => t.id === shopId);
-    if (teamFromUrl) setActiveTeam(teamFromUrl);
-  }, [shopId, teams]);
-
   const navMain = getNavMain(activeTeam.id);
 
   return (
@@ -151,11 +146,7 @@ export function AppSidebar({ teams, ...props }: SidebarProps) {
       <SidebarFooter>
         <SidebarStoreLink href={`/products`}>Visit Store</SidebarStoreLink>
 
-        <TeamSwitcher
-          teams={teams}
-          activeTeam={activeTeam}
-          setActiveTeam={setActiveTeam}
-        />
+        <TeamSwitcher teams={teams} activeTeam={activeTeam} />
       </SidebarFooter>
     </Sidebar>
   );

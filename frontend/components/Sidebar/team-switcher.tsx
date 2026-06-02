@@ -27,7 +27,6 @@ import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 export function TeamSwitcher({
   teams,
   activeTeam,
-  setActiveTeam,
 }: {
   teams: {
     id: number;
@@ -42,7 +41,6 @@ export function TeamSwitcher({
     plan: string;
     subdomain: string;
   };
-  setActiveTeam: (team: any) => void;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -89,7 +87,6 @@ export function TeamSwitcher({
                 <DropdownMenuItem
                   key={team.name}
                   onClick={() => {
-                    setActiveTeam(team);
                     const segments = pathname.split("/");
 
                     segments[2] = String(team.id);
