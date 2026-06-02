@@ -100,15 +100,15 @@ export default function MultiSelect({
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent align="start" className="w-75 p-0!">
+      <PopoverContent align="start" className="w-75 p-0">
         <Command>
           <CommandInput placeholder={searchPlaceholder} />
 
-          <hr className="h-1 bg-card/25!"></hr>
+          <hr className="h-px bg-border border-0" />
 
           <CommandEmpty>{emptyText}</CommandEmpty>
 
-          <CommandGroup className="max-h-64 overflow-auto ">
+          <CommandGroup className="max-h-64 overflow-auto">
             {items.map((item) => {
               const isSelected = selected.includes(item.value);
 
@@ -116,7 +116,7 @@ export default function MultiSelect({
                 <CommandItem
                   key={item.value}
                   onSelect={() => toggleItem(item.value)}
-                  className="flex items-center justify-between bg-transparent! font-medium!"
+                  className="flex items-center justify-between bg-transparent!"
                 >
                   <span>{item.label}</span>
 

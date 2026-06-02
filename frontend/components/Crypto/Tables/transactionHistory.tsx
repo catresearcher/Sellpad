@@ -80,7 +80,13 @@ export default function TransactionTable() {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  const [selectedStatus, setSelectedStatus] = React.useState<string[]>([]);
+  const [filters, setFilters] = React.useState<{
+    status: string[];
+    role: string[];
+  }>({
+    status: [],
+    role: [],
+  });
 
   const status = [
     { value: "completed", label: "Completed" },
@@ -95,8 +101,13 @@ export default function TransactionTable() {
       <div className="p-2 grid grid-cols-4 gap-2">
         <MultiSelect
           items={status}
-          selected={selectedStatus}
-          setSelected={setSelectedStatus}
+          selected={filters.status}
+          setSelected={(value) =>
+            setFilters((prev) => ({
+              ...prev,
+              status: typeof value === "function" ? value(prev.status) : value,
+            }))
+          }
           placeholder="Select Status"
         />
       </div>
@@ -150,11 +161,17 @@ export default function TransactionTable() {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={TransactionColumns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
+                <TableCell colSpan={TransactionColumns.length} className="h-64">
+                  <div className="flex flex-col items-center justify-center gap-1 text-center h-full">
+                    <span className="icon-[uil--receipt] size-20 text-primary"></span>
+
+                    <div className="flex flex-col gap-2">
+                      <h1 className="text-3xl font-medium">No Transactions</h1>
+                      <p className="text-base text-muted-foreground">
+                        You don't have any transactions
+                      </p>
+                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             )}
