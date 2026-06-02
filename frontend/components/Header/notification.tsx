@@ -64,7 +64,7 @@ export default function Notification() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <span className="cursor-pointer icon-[solar--bell-linear] size-6"></span>
+        <span className="cursor-pointer icon-[solar--bell-bing-bold-duotone] size-5"></span>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"

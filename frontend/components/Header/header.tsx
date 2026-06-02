@@ -14,7 +14,7 @@ export default function Header() {
         <hr className="w-px h-full bg-border block sm:hidden"></hr>
         <BreadCrumbHeader />
       </div>
-      <div className="px-4 flex items-center gap-4">
+      <div className="px-4 flex items-center gap-3">
         <ModeToggle />
         <Notification />
         <Profile />
