@@ -11,6 +11,7 @@ const passwordSchema = z
 export const loginUserSchema = z.object({
   username: z.string().min(1, "Username is required"),
   password: z.string().min(1, "Password is required"),
+  // turnstileToken: z.string(),
 });
 
 export const forgotPasswordSchema = z.object({
