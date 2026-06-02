@@ -1,5 +1,7 @@
 "use client";
 
+import { HandleRequestError } from "@/lib/errorHandler";
+
 const daysInMonth: Record<number, number> = {
   0: 31, // Jan
   1: 28, // Feb (non-leap year)
@@ -17,7 +19,7 @@ const daysInMonth: Record<number, number> = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const generateFake = (base = 2000, number = 5) => {
+const generateFake = (base = 200, number = 2) => {
   const data: { date: string; uv: number }[] = [];
 
   for (let month = 0; month < 12; month++) {
@@ -36,46 +38,57 @@ const generateFake = (base = 2000, number = 5) => {
   return data;
 };
 
-export function fetchShops() {
-  const shops = [
-    {
-      id: "hjkjhkjhk",
-      name: "Rich Store",
-      logo: "GalleryVerticalEndIcon",
-      plan: "Enterprise",
-      subdomain: "rich",
-      analytics: {
-        Orders: generateFake(200, 10),
-        Users: generateFake(200, 10),
-        Revenue: generateFake(3000, 50),
-      },
-    },
+const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-    {
-      id: "asdsadsad",
-      name: "Nigga Store",
-      logo: "AudioLinesIcon",
-      plan: "Enterprise",
-      subdomain: "rich",
-      analytics: {
-        Orders: generateFake(200, 10),
-        Users: generateFake(200, 10),
-        Revenue: generateFake(3000, 50),
+export async function createShop({ name, subdomain, description }: any) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const response = await fetch(`${apiUrl}/shop/create`, {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        name,
+        subdomain,
+        description,
+      }),
+      headers: {
+        "Content-Type": "application/json",
       },
-    },
+      signal: controller.signal,
+    });
 
-    {
-      id: "asdsadsads",
-      name: "Teemugang Store",
-      logo: "TerminalIcon",
-      plan: "Enterprise",
-      subdomain: "rich",
-      analytics: {
-        Orders: generateFake(200, 10),
-        Users: generateFake(200, 10),
-        Revenue: generateFake(3000, 50),
-      },
-    },
-  ];
-  return shops;
+    const json = await response.json();
+
+    if (!response.ok) throw Error(json.message || "Shop creation failed");
+
+    return json.shop;
+  } catch (error: string | unknown) {
+    HandleRequestError("Shop creation failed", error);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function fetchShops() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const response = await fetch(`${apiUrl}/user/shops`, {
+      method: "GET",
+      credentials: "include",
+      signal: controller.signal,
+    });
+
+    const json = await response.json();
+
+    if (!response.ok)
+      throw Error(json.message || "Login failed, try again later");
+
+    return json;
+  } catch (error: string | unknown) {
+    HandleRequestError("Login failed, try again later", error);
+  } finally {
+    clearTimeout(timeout);
+  }
 }

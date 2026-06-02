@@ -1,8 +1,8 @@
 "use client";
 
 import { useShop } from "@/context/shopContext";
-import { AppSidebar } from "@/components/app-sidebar";
-import Header from "@/components/Sections/Dashboard/Header/header";
+import { AppSidebar } from "@/components/Sidebar/app-sidebar";
+import Header from "@/components/Header/header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -14,10 +14,10 @@ export default function ShopConsumerLayout({
 }) {
   const router = useRouter();
   const params = useParams();
-  const shopId = params.shopId as string;
+  const shopId = params.shopId;
 
-  const { shops, selectedShop } = useShop();
-  const shopExists = shops?.some((s) => s.id === shopId);
+  const { shops } = useShop();
+  const shopExists = shops?.some((s) => s.id === Number(shopId));
 
   useEffect(() => {
     if (!shops?.length) return;
@@ -34,7 +34,9 @@ export default function ShopConsumerLayout({
       <AppSidebar teams={shops} />
       <SidebarInset>
         <Header />
-        <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 px-4 py-2 pt-4">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

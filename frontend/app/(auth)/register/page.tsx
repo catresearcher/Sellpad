@@ -5,10 +5,13 @@ import { useRegister } from "@/hooks/Auth/useRegister";
 import { RegisterSchema } from "@/schemas/auth.schema";
 import { useForm } from "@tanstack/react-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Register() {
   const registerMutation = useRegister();
+  const router = useRouter();
+
   const [error, setError] = useState("");
 
   const form = useForm({
@@ -29,6 +32,7 @@ export default function Register() {
           username: value.username,
           password: value.password,
         });
+        router.push("/onboarding");
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);

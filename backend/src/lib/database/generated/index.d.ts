@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model CryptoWallet
+ * 
+ */
+export type CryptoWallet = $Result.DefaultSelection<Prisma.$CryptoWalletPayload>
+/**
  * Model Session
  * 
  */
@@ -88,7 +93,17 @@ export type CartItem = $Result.DefaultSelection<Prisma.$CartItemPayload>
  * Enums
  */
 export namespace $Enums {
-  export const TransactionStatus: {
+  export const TransactionType: {
+  PURCHASE: 'PURCHASE',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAW: 'WITHDRAW',
+  REFUND: 'REFUND'
+};
+
+export type TransactionType = (typeof TransactionType)[keyof typeof TransactionType]
+
+
+export const TransactionStatus: {
   Pending: 'Pending',
   Completed: 'Completed',
   Failed: 'Failed',
@@ -109,6 +124,7 @@ export type CheckoutStatus = (typeof CheckoutStatus)[keyof typeof CheckoutStatus
 
 export const Roles: {
   Admin: 'Admin',
+  Moderator: 'Moderator',
   User: 'User'
 };
 
@@ -131,7 +147,20 @@ export const CustomerSessionType: {
 
 export type CustomerSessionType = (typeof CustomerSessionType)[keyof typeof CustomerSessionType]
 
+
+export const CryptoCurrency: {
+  BITCOIN: 'BITCOIN',
+  LITECOIN: 'LITECOIN',
+  ETHEREUM: 'ETHEREUM'
+};
+
+export type CryptoCurrency = (typeof CryptoCurrency)[keyof typeof CryptoCurrency]
+
 }
+
+export type TransactionType = $Enums.TransactionType
+
+export const TransactionType: typeof $Enums.TransactionType
 
 export type TransactionStatus = $Enums.TransactionStatus
 
@@ -152,6 +181,10 @@ export const ProductVisibility: typeof $Enums.ProductVisibility
 export type CustomerSessionType = $Enums.CustomerSessionType
 
 export const CustomerSessionType: typeof $Enums.CustomerSessionType
+
+export type CryptoCurrency = $Enums.CryptoCurrency
+
+export const CryptoCurrency: typeof $Enums.CryptoCurrency
 
 /**
  * ##  Prisma Client ʲˢ
@@ -280,6 +313,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cryptoWallet`: Exposes CRUD operations for the **CryptoWallet** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CryptoWallets
+    * const cryptoWallets = await prisma.cryptoWallet.findMany()
+    * ```
+    */
+  get cryptoWallet(): Prisma.CryptoWalletDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.session`: Exposes CRUD operations for the **Session** model.
@@ -852,6 +895,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    CryptoWallet: 'CryptoWallet',
     Session: 'Session',
     Shop: 'Shop',
     PaymentMethod: 'PaymentMethod',
@@ -883,7 +927,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "shop" | "paymentMethod" | "shopCustomer" | "customerLoginToken" | "product" | "productVariant" | "transaction" | "customerSession" | "checkoutItem" | "checkout" | "cart" | "cartItem"
+      modelProps: "user" | "cryptoWallet" | "session" | "shop" | "paymentMethod" | "shopCustomer" | "customerLoginToken" | "product" | "productVariant" | "transaction" | "customerSession" | "checkoutItem" | "checkout" | "cart" | "cartItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -958,6 +1002,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      CryptoWallet: {
+        payload: Prisma.$CryptoWalletPayload<ExtArgs>
+        fields: Prisma.CryptoWalletFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CryptoWalletFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CryptoWalletFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          findFirst: {
+            args: Prisma.CryptoWalletFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CryptoWalletFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          findMany: {
+            args: Prisma.CryptoWalletFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>[]
+          }
+          create: {
+            args: Prisma.CryptoWalletCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          createMany: {
+            args: Prisma.CryptoWalletCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CryptoWalletCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>[]
+          }
+          delete: {
+            args: Prisma.CryptoWalletDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          update: {
+            args: Prisma.CryptoWalletUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          deleteMany: {
+            args: Prisma.CryptoWalletDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CryptoWalletUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CryptoWalletUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>[]
+          }
+          upsert: {
+            args: Prisma.CryptoWalletUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CryptoWalletPayload>
+          }
+          aggregate: {
+            args: Prisma.CryptoWalletAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCryptoWallet>
+          }
+          groupBy: {
+            args: Prisma.CryptoWalletGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CryptoWalletGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CryptoWalletCountArgs<ExtArgs>
+            result: $Utils.Optional<CryptoWalletCountAggregateOutputType> | number
           }
         }
       }
@@ -2020,6 +2138,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    cryptoWallet?: CryptoWalletOmit
     session?: SessionOmit
     shop?: ShopOmit
     paymentMethod?: PaymentMethodOmit
@@ -2114,11 +2233,13 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     sessions: number
+    cryptoWallets: number
     shops: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    cryptoWallets?: boolean | UserCountOutputTypeCountCryptoWalletsArgs
     shops?: boolean | UserCountOutputTypeCountShopsArgs
   }
 
@@ -2143,6 +2264,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountCryptoWalletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CryptoWalletWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountShopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShopWhereInput
   }
@@ -2156,6 +2284,7 @@ export namespace Prisma {
     products: number
     customers: number
     transactions: number
+    cryptoWallets: number
     paymentMethods: number
     checkouts: number
     carts: number
@@ -2165,6 +2294,7 @@ export namespace Prisma {
     products?: boolean | ShopCountOutputTypeCountProductsArgs
     customers?: boolean | ShopCountOutputTypeCountCustomersArgs
     transactions?: boolean | ShopCountOutputTypeCountTransactionsArgs
+    cryptoWallets?: boolean | ShopCountOutputTypeCountCryptoWalletsArgs
     paymentMethods?: boolean | ShopCountOutputTypeCountPaymentMethodsArgs
     checkouts?: boolean | ShopCountOutputTypeCountCheckoutsArgs
     carts?: boolean | ShopCountOutputTypeCountCartsArgs
@@ -2200,6 +2330,13 @@ export namespace Prisma {
    */
   export type ShopCountOutputTypeCountTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
+  }
+
+  /**
+   * ShopCountOutputType without action
+   */
+  export type ShopCountOutputTypeCountCryptoWalletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CryptoWalletWhereInput
   }
 
   /**
@@ -2600,6 +2737,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    cryptoWallets?: boolean | User$cryptoWalletsArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -2637,6 +2775,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "email" | "role" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    cryptoWallets?: boolean | User$cryptoWalletsArgs<ExtArgs>
     shops?: boolean | User$shopsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -2647,6 +2786,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      cryptoWallets: Prisma.$CryptoWalletPayload<ExtArgs>[]
       shops: Prisma.$ShopPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3052,6 +3192,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cryptoWallets<T extends User$cryptoWalletsArgs<ExtArgs> = {}>(args?: Subset<T, User$cryptoWalletsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     shops<T extends User$shopsArgs<ExtArgs> = {}>(args?: Subset<T, User$shopsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3501,6 +3642,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.cryptoWallets
+   */
+  export type User$cryptoWalletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    where?: CryptoWalletWhereInput
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    cursor?: CryptoWalletWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CryptoWalletScalarFieldEnum | CryptoWalletScalarFieldEnum[]
+  }
+
+  /**
    * User.shops
    */
   export type User$shopsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3540,6 +3705,1179 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CryptoWallet
+   */
+
+  export type AggregateCryptoWallet = {
+    _count: CryptoWalletCountAggregateOutputType | null
+    _avg: CryptoWalletAvgAggregateOutputType | null
+    _sum: CryptoWalletSumAggregateOutputType | null
+    _min: CryptoWalletMinAggregateOutputType | null
+    _max: CryptoWalletMaxAggregateOutputType | null
+  }
+
+  export type CryptoWalletAvgAggregateOutputType = {
+    shopId: number | null
+    subIndex: number | null
+    balance: number | null
+  }
+
+  export type CryptoWalletSumAggregateOutputType = {
+    shopId: number | null
+    subIndex: number | null
+    balance: number | null
+  }
+
+  export type CryptoWalletMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    shopId: number | null
+    isActive: boolean | null
+    currency: $Enums.CryptoCurrency | null
+    subIndex: number | null
+    address: string | null
+    balance: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CryptoWalletMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    shopId: number | null
+    isActive: boolean | null
+    currency: $Enums.CryptoCurrency | null
+    subIndex: number | null
+    address: string | null
+    balance: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CryptoWalletCountAggregateOutputType = {
+    id: number
+    userId: number
+    shopId: number
+    isActive: number
+    currency: number
+    subIndex: number
+    address: number
+    balance: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CryptoWalletAvgAggregateInputType = {
+    shopId?: true
+    subIndex?: true
+    balance?: true
+  }
+
+  export type CryptoWalletSumAggregateInputType = {
+    shopId?: true
+    subIndex?: true
+    balance?: true
+  }
+
+  export type CryptoWalletMinAggregateInputType = {
+    id?: true
+    userId?: true
+    shopId?: true
+    isActive?: true
+    currency?: true
+    subIndex?: true
+    address?: true
+    balance?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CryptoWalletMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    shopId?: true
+    isActive?: true
+    currency?: true
+    subIndex?: true
+    address?: true
+    balance?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CryptoWalletCountAggregateInputType = {
+    id?: true
+    userId?: true
+    shopId?: true
+    isActive?: true
+    currency?: true
+    subIndex?: true
+    address?: true
+    balance?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CryptoWalletAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CryptoWallet to aggregate.
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CryptoWallets to fetch.
+     */
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CryptoWalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CryptoWallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CryptoWallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CryptoWallets
+    **/
+    _count?: true | CryptoWalletCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CryptoWalletAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CryptoWalletSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CryptoWalletMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CryptoWalletMaxAggregateInputType
+  }
+
+  export type GetCryptoWalletAggregateType<T extends CryptoWalletAggregateArgs> = {
+        [P in keyof T & keyof AggregateCryptoWallet]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCryptoWallet[P]>
+      : GetScalarType<T[P], AggregateCryptoWallet[P]>
+  }
+
+
+
+
+  export type CryptoWalletGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CryptoWalletWhereInput
+    orderBy?: CryptoWalletOrderByWithAggregationInput | CryptoWalletOrderByWithAggregationInput[]
+    by: CryptoWalletScalarFieldEnum[] | CryptoWalletScalarFieldEnum
+    having?: CryptoWalletScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CryptoWalletCountAggregateInputType | true
+    _avg?: CryptoWalletAvgAggregateInputType
+    _sum?: CryptoWalletSumAggregateInputType
+    _min?: CryptoWalletMinAggregateInputType
+    _max?: CryptoWalletMaxAggregateInputType
+  }
+
+  export type CryptoWalletGroupByOutputType = {
+    id: string
+    userId: string
+    shopId: number
+    isActive: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance: number
+    createdAt: Date
+    updatedAt: Date
+    _count: CryptoWalletCountAggregateOutputType | null
+    _avg: CryptoWalletAvgAggregateOutputType | null
+    _sum: CryptoWalletSumAggregateOutputType | null
+    _min: CryptoWalletMinAggregateOutputType | null
+    _max: CryptoWalletMaxAggregateOutputType | null
+  }
+
+  type GetCryptoWalletGroupByPayload<T extends CryptoWalletGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CryptoWalletGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CryptoWalletGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CryptoWalletGroupByOutputType[P]>
+            : GetScalarType<T[P], CryptoWalletGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CryptoWalletSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    shopId?: boolean
+    isActive?: boolean
+    currency?: boolean
+    subIndex?: boolean
+    address?: boolean
+    balance?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cryptoWallet"]>
+
+  export type CryptoWalletSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    shopId?: boolean
+    isActive?: boolean
+    currency?: boolean
+    subIndex?: boolean
+    address?: boolean
+    balance?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cryptoWallet"]>
+
+  export type CryptoWalletSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    shopId?: boolean
+    isActive?: boolean
+    currency?: boolean
+    subIndex?: boolean
+    address?: boolean
+    balance?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cryptoWallet"]>
+
+  export type CryptoWalletSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    shopId?: boolean
+    isActive?: boolean
+    currency?: boolean
+    subIndex?: boolean
+    address?: boolean
+    balance?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CryptoWalletOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "shopId" | "isActive" | "currency" | "subIndex" | "address" | "balance" | "createdAt" | "updatedAt", ExtArgs["result"]["cryptoWallet"]>
+  export type CryptoWalletInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type CryptoWalletIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+  export type CryptoWalletIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    shop?: boolean | ShopDefaultArgs<ExtArgs>
+  }
+
+  export type $CryptoWalletPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CryptoWallet"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      shop: Prisma.$ShopPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      shopId: number
+      isActive: boolean
+      currency: $Enums.CryptoCurrency
+      subIndex: number
+      address: string
+      balance: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["cryptoWallet"]>
+    composites: {}
+  }
+
+  type CryptoWalletGetPayload<S extends boolean | null | undefined | CryptoWalletDefaultArgs> = $Result.GetResult<Prisma.$CryptoWalletPayload, S>
+
+  type CryptoWalletCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CryptoWalletFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CryptoWalletCountAggregateInputType | true
+    }
+
+  export interface CryptoWalletDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CryptoWallet'], meta: { name: 'CryptoWallet' } }
+    /**
+     * Find zero or one CryptoWallet that matches the filter.
+     * @param {CryptoWalletFindUniqueArgs} args - Arguments to find a CryptoWallet
+     * @example
+     * // Get one CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CryptoWalletFindUniqueArgs>(args: SelectSubset<T, CryptoWalletFindUniqueArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CryptoWallet that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CryptoWalletFindUniqueOrThrowArgs} args - Arguments to find a CryptoWallet
+     * @example
+     * // Get one CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CryptoWalletFindUniqueOrThrowArgs>(args: SelectSubset<T, CryptoWalletFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CryptoWallet that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletFindFirstArgs} args - Arguments to find a CryptoWallet
+     * @example
+     * // Get one CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CryptoWalletFindFirstArgs>(args?: SelectSubset<T, CryptoWalletFindFirstArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CryptoWallet that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletFindFirstOrThrowArgs} args - Arguments to find a CryptoWallet
+     * @example
+     * // Get one CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CryptoWalletFindFirstOrThrowArgs>(args?: SelectSubset<T, CryptoWalletFindFirstOrThrowArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CryptoWallets that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CryptoWallets
+     * const cryptoWallets = await prisma.cryptoWallet.findMany()
+     * 
+     * // Get first 10 CryptoWallets
+     * const cryptoWallets = await prisma.cryptoWallet.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cryptoWalletWithIdOnly = await prisma.cryptoWallet.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CryptoWalletFindManyArgs>(args?: SelectSubset<T, CryptoWalletFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CryptoWallet.
+     * @param {CryptoWalletCreateArgs} args - Arguments to create a CryptoWallet.
+     * @example
+     * // Create one CryptoWallet
+     * const CryptoWallet = await prisma.cryptoWallet.create({
+     *   data: {
+     *     // ... data to create a CryptoWallet
+     *   }
+     * })
+     * 
+     */
+    create<T extends CryptoWalletCreateArgs>(args: SelectSubset<T, CryptoWalletCreateArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CryptoWallets.
+     * @param {CryptoWalletCreateManyArgs} args - Arguments to create many CryptoWallets.
+     * @example
+     * // Create many CryptoWallets
+     * const cryptoWallet = await prisma.cryptoWallet.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CryptoWalletCreateManyArgs>(args?: SelectSubset<T, CryptoWalletCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CryptoWallets and returns the data saved in the database.
+     * @param {CryptoWalletCreateManyAndReturnArgs} args - Arguments to create many CryptoWallets.
+     * @example
+     * // Create many CryptoWallets
+     * const cryptoWallet = await prisma.cryptoWallet.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CryptoWallets and only return the `id`
+     * const cryptoWalletWithIdOnly = await prisma.cryptoWallet.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CryptoWalletCreateManyAndReturnArgs>(args?: SelectSubset<T, CryptoWalletCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CryptoWallet.
+     * @param {CryptoWalletDeleteArgs} args - Arguments to delete one CryptoWallet.
+     * @example
+     * // Delete one CryptoWallet
+     * const CryptoWallet = await prisma.cryptoWallet.delete({
+     *   where: {
+     *     // ... filter to delete one CryptoWallet
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CryptoWalletDeleteArgs>(args: SelectSubset<T, CryptoWalletDeleteArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CryptoWallet.
+     * @param {CryptoWalletUpdateArgs} args - Arguments to update one CryptoWallet.
+     * @example
+     * // Update one CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CryptoWalletUpdateArgs>(args: SelectSubset<T, CryptoWalletUpdateArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CryptoWallets.
+     * @param {CryptoWalletDeleteManyArgs} args - Arguments to filter CryptoWallets to delete.
+     * @example
+     * // Delete a few CryptoWallets
+     * const { count } = await prisma.cryptoWallet.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CryptoWalletDeleteManyArgs>(args?: SelectSubset<T, CryptoWalletDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CryptoWallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CryptoWallets
+     * const cryptoWallet = await prisma.cryptoWallet.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CryptoWalletUpdateManyArgs>(args: SelectSubset<T, CryptoWalletUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CryptoWallets and returns the data updated in the database.
+     * @param {CryptoWalletUpdateManyAndReturnArgs} args - Arguments to update many CryptoWallets.
+     * @example
+     * // Update many CryptoWallets
+     * const cryptoWallet = await prisma.cryptoWallet.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CryptoWallets and only return the `id`
+     * const cryptoWalletWithIdOnly = await prisma.cryptoWallet.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CryptoWalletUpdateManyAndReturnArgs>(args: SelectSubset<T, CryptoWalletUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CryptoWallet.
+     * @param {CryptoWalletUpsertArgs} args - Arguments to update or create a CryptoWallet.
+     * @example
+     * // Update or create a CryptoWallet
+     * const cryptoWallet = await prisma.cryptoWallet.upsert({
+     *   create: {
+     *     // ... data to create a CryptoWallet
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CryptoWallet we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CryptoWalletUpsertArgs>(args: SelectSubset<T, CryptoWalletUpsertArgs<ExtArgs>>): Prisma__CryptoWalletClient<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CryptoWallets.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletCountArgs} args - Arguments to filter CryptoWallets to count.
+     * @example
+     * // Count the number of CryptoWallets
+     * const count = await prisma.cryptoWallet.count({
+     *   where: {
+     *     // ... the filter for the CryptoWallets we want to count
+     *   }
+     * })
+    **/
+    count<T extends CryptoWalletCountArgs>(
+      args?: Subset<T, CryptoWalletCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CryptoWalletCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CryptoWallet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CryptoWalletAggregateArgs>(args: Subset<T, CryptoWalletAggregateArgs>): Prisma.PrismaPromise<GetCryptoWalletAggregateType<T>>
+
+    /**
+     * Group by CryptoWallet.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CryptoWalletGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CryptoWalletGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CryptoWalletGroupByArgs['orderBy'] }
+        : { orderBy?: CryptoWalletGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CryptoWalletGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCryptoWalletGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CryptoWallet model
+   */
+  readonly fields: CryptoWalletFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CryptoWallet.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CryptoWalletClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    shop<T extends ShopDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ShopDefaultArgs<ExtArgs>>): Prisma__ShopClient<$Result.GetResult<Prisma.$ShopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CryptoWallet model
+   */
+  interface CryptoWalletFieldRefs {
+    readonly id: FieldRef<"CryptoWallet", 'String'>
+    readonly userId: FieldRef<"CryptoWallet", 'String'>
+    readonly shopId: FieldRef<"CryptoWallet", 'Int'>
+    readonly isActive: FieldRef<"CryptoWallet", 'Boolean'>
+    readonly currency: FieldRef<"CryptoWallet", 'CryptoCurrency'>
+    readonly subIndex: FieldRef<"CryptoWallet", 'Int'>
+    readonly address: FieldRef<"CryptoWallet", 'String'>
+    readonly balance: FieldRef<"CryptoWallet", 'Float'>
+    readonly createdAt: FieldRef<"CryptoWallet", 'DateTime'>
+    readonly updatedAt: FieldRef<"CryptoWallet", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CryptoWallet findUnique
+   */
+  export type CryptoWalletFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter, which CryptoWallet to fetch.
+     */
+    where: CryptoWalletWhereUniqueInput
+  }
+
+  /**
+   * CryptoWallet findUniqueOrThrow
+   */
+  export type CryptoWalletFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter, which CryptoWallet to fetch.
+     */
+    where: CryptoWalletWhereUniqueInput
+  }
+
+  /**
+   * CryptoWallet findFirst
+   */
+  export type CryptoWalletFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter, which CryptoWallet to fetch.
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CryptoWallets to fetch.
+     */
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CryptoWallets.
+     */
+    cursor?: CryptoWalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CryptoWallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CryptoWallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CryptoWallets.
+     */
+    distinct?: CryptoWalletScalarFieldEnum | CryptoWalletScalarFieldEnum[]
+  }
+
+  /**
+   * CryptoWallet findFirstOrThrow
+   */
+  export type CryptoWalletFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter, which CryptoWallet to fetch.
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CryptoWallets to fetch.
+     */
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CryptoWallets.
+     */
+    cursor?: CryptoWalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CryptoWallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CryptoWallets.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CryptoWallets.
+     */
+    distinct?: CryptoWalletScalarFieldEnum | CryptoWalletScalarFieldEnum[]
+  }
+
+  /**
+   * CryptoWallet findMany
+   */
+  export type CryptoWalletFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter, which CryptoWallets to fetch.
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CryptoWallets to fetch.
+     */
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CryptoWallets.
+     */
+    cursor?: CryptoWalletWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CryptoWallets from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CryptoWallets.
+     */
+    skip?: number
+    distinct?: CryptoWalletScalarFieldEnum | CryptoWalletScalarFieldEnum[]
+  }
+
+  /**
+   * CryptoWallet create
+   */
+  export type CryptoWalletCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CryptoWallet.
+     */
+    data: XOR<CryptoWalletCreateInput, CryptoWalletUncheckedCreateInput>
+  }
+
+  /**
+   * CryptoWallet createMany
+   */
+  export type CryptoWalletCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CryptoWallets.
+     */
+    data: CryptoWalletCreateManyInput | CryptoWalletCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CryptoWallet createManyAndReturn
+   */
+  export type CryptoWalletCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * The data used to create many CryptoWallets.
+     */
+    data: CryptoWalletCreateManyInput | CryptoWalletCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CryptoWallet update
+   */
+  export type CryptoWalletUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CryptoWallet.
+     */
+    data: XOR<CryptoWalletUpdateInput, CryptoWalletUncheckedUpdateInput>
+    /**
+     * Choose, which CryptoWallet to update.
+     */
+    where: CryptoWalletWhereUniqueInput
+  }
+
+  /**
+   * CryptoWallet updateMany
+   */
+  export type CryptoWalletUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CryptoWallets.
+     */
+    data: XOR<CryptoWalletUpdateManyMutationInput, CryptoWalletUncheckedUpdateManyInput>
+    /**
+     * Filter which CryptoWallets to update
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * Limit how many CryptoWallets to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CryptoWallet updateManyAndReturn
+   */
+  export type CryptoWalletUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * The data used to update CryptoWallets.
+     */
+    data: XOR<CryptoWalletUpdateManyMutationInput, CryptoWalletUncheckedUpdateManyInput>
+    /**
+     * Filter which CryptoWallets to update
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * Limit how many CryptoWallets to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CryptoWallet upsert
+   */
+  export type CryptoWalletUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CryptoWallet to update in case it exists.
+     */
+    where: CryptoWalletWhereUniqueInput
+    /**
+     * In case the CryptoWallet found by the `where` argument doesn't exist, create a new CryptoWallet with this data.
+     */
+    create: XOR<CryptoWalletCreateInput, CryptoWalletUncheckedCreateInput>
+    /**
+     * In case the CryptoWallet was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CryptoWalletUpdateInput, CryptoWalletUncheckedUpdateInput>
+  }
+
+  /**
+   * CryptoWallet delete
+   */
+  export type CryptoWalletDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    /**
+     * Filter which CryptoWallet to delete.
+     */
+    where: CryptoWalletWhereUniqueInput
+  }
+
+  /**
+   * CryptoWallet deleteMany
+   */
+  export type CryptoWalletDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CryptoWallets to delete
+     */
+    where?: CryptoWalletWhereInput
+    /**
+     * Limit how many CryptoWallets to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CryptoWallet without action
+   */
+  export type CryptoWalletDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
   }
 
 
@@ -4853,6 +6191,7 @@ export namespace Prisma {
     products?: boolean | Shop$productsArgs<ExtArgs>
     customers?: boolean | Shop$customersArgs<ExtArgs>
     transactions?: boolean | Shop$transactionsArgs<ExtArgs>
+    cryptoWallets?: boolean | Shop$cryptoWalletsArgs<ExtArgs>
     paymentMethods?: boolean | Shop$paymentMethodsArgs<ExtArgs>
     checkouts?: boolean | Shop$checkoutsArgs<ExtArgs>
     carts?: boolean | Shop$cartsArgs<ExtArgs>
@@ -4897,6 +6236,7 @@ export namespace Prisma {
     products?: boolean | Shop$productsArgs<ExtArgs>
     customers?: boolean | Shop$customersArgs<ExtArgs>
     transactions?: boolean | Shop$transactionsArgs<ExtArgs>
+    cryptoWallets?: boolean | Shop$cryptoWalletsArgs<ExtArgs>
     paymentMethods?: boolean | Shop$paymentMethodsArgs<ExtArgs>
     checkouts?: boolean | Shop$checkoutsArgs<ExtArgs>
     carts?: boolean | Shop$cartsArgs<ExtArgs>
@@ -4916,6 +6256,7 @@ export namespace Prisma {
       products: Prisma.$ProductPayload<ExtArgs>[]
       customers: Prisma.$ShopCustomerPayload<ExtArgs>[]
       transactions: Prisma.$TransactionPayload<ExtArgs>[]
+      cryptoWallets: Prisma.$CryptoWalletPayload<ExtArgs>[]
       paymentMethods: Prisma.$PaymentMethodPayload<ExtArgs>[]
       checkouts: Prisma.$CheckoutPayload<ExtArgs>[]
       carts: Prisma.$CartPayload<ExtArgs>[]
@@ -5326,6 +6667,7 @@ export namespace Prisma {
     products<T extends Shop$productsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customers<T extends Shop$customersArgs<ExtArgs> = {}>(args?: Subset<T, Shop$customersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ShopCustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transactions<T extends Shop$transactionsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cryptoWallets<T extends Shop$cryptoWalletsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$cryptoWalletsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CryptoWalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentMethods<T extends Shop$paymentMethodsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$paymentMethodsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMethodPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     checkouts<T extends Shop$checkoutsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$checkoutsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CheckoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     carts<T extends Shop$cartsArgs<ExtArgs> = {}>(args?: Subset<T, Shop$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5830,6 +7172,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * Shop.cryptoWallets
+   */
+  export type Shop$cryptoWalletsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CryptoWallet
+     */
+    select?: CryptoWalletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CryptoWallet
+     */
+    omit?: CryptoWalletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CryptoWalletInclude<ExtArgs> | null
+    where?: CryptoWalletWhereInput
+    orderBy?: CryptoWalletOrderByWithRelationInput | CryptoWalletOrderByWithRelationInput[]
+    cursor?: CryptoWalletWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CryptoWalletScalarFieldEnum | CryptoWalletScalarFieldEnum[]
   }
 
   /**
@@ -7067,26 +8433,30 @@ export namespace Prisma {
   }
 
   export type ShopCustomerAvgAggregateOutputType = {
+    id: number | null
     shopId: number | null
   }
 
   export type ShopCustomerSumAggregateOutputType = {
+    id: number | null
     shopId: number | null
   }
 
   export type ShopCustomerMinAggregateOutputType = {
-    id: string | null
+    id: number | null
     shopId: number | null
     email: string | null
+    password: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
   }
 
   export type ShopCustomerMaxAggregateOutputType = {
-    id: string | null
+    id: number | null
     shopId: number | null
     email: string | null
+    password: string | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -7096,6 +8466,7 @@ export namespace Prisma {
     id: number
     shopId: number
     email: number
+    password: number
     notes: number
     createdAt: number
     updatedAt: number
@@ -7105,10 +8476,12 @@ export namespace Prisma {
 
 
   export type ShopCustomerAvgAggregateInputType = {
+    id?: true
     shopId?: true
   }
 
   export type ShopCustomerSumAggregateInputType = {
+    id?: true
     shopId?: true
   }
 
@@ -7116,6 +8489,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     email?: true
+    password?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -7125,6 +8499,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     email?: true
+    password?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -7134,6 +8509,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     email?: true
+    password?: true
     notes?: true
     createdAt?: true
     updatedAt?: true
@@ -7228,9 +8604,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerGroupByOutputType = {
-    id: string
+    id: number
     shopId: number
     email: string
+    password: string
     notes: JsonValue | null
     createdAt: Date
     updatedAt: Date
@@ -7260,6 +8637,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     email?: boolean
+    password?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7276,6 +8654,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     email?: boolean
+    password?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7287,6 +8666,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     email?: boolean
+    password?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7298,13 +8678,14 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     email?: boolean
+    password?: boolean
     notes?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type ShopCustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "email" | "notes" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["shopCustomer"]>
+  export type ShopCustomerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "email" | "password" | "notes" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["shopCustomer"]>
   export type ShopCustomerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
     sessions?: boolean | ShopCustomer$sessionsArgs<ExtArgs>
@@ -7330,9 +8711,10 @@ export namespace Prisma {
       carts: Prisma.$CartPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: string
+      id: number
       shopId: number
       email: string
+      password: string
       notes: Prisma.JsonValue | null
       createdAt: Date
       updatedAt: Date
@@ -7765,9 +9147,10 @@ export namespace Prisma {
    * Fields of the ShopCustomer model
    */
   interface ShopCustomerFieldRefs {
-    readonly id: FieldRef<"ShopCustomer", 'String'>
+    readonly id: FieldRef<"ShopCustomer", 'Int'>
     readonly shopId: FieldRef<"ShopCustomer", 'Int'>
     readonly email: FieldRef<"ShopCustomer", 'String'>
+    readonly password: FieldRef<"ShopCustomer", 'String'>
     readonly notes: FieldRef<"ShopCustomer", 'Json'>
     readonly createdAt: FieldRef<"ShopCustomer", 'DateTime'>
     readonly updatedAt: FieldRef<"ShopCustomer", 'DateTime'>
@@ -8288,13 +9671,23 @@ export namespace Prisma {
 
   export type AggregateCustomerLoginToken = {
     _count: CustomerLoginTokenCountAggregateOutputType | null
+    _avg: CustomerLoginTokenAvgAggregateOutputType | null
+    _sum: CustomerLoginTokenSumAggregateOutputType | null
     _min: CustomerLoginTokenMinAggregateOutputType | null
     _max: CustomerLoginTokenMaxAggregateOutputType | null
   }
 
+  export type CustomerLoginTokenAvgAggregateOutputType = {
+    customerId: number | null
+  }
+
+  export type CustomerLoginTokenSumAggregateOutputType = {
+    customerId: number | null
+  }
+
   export type CustomerLoginTokenMinAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     token: string | null
     expiresAt: Date | null
     used: boolean | null
@@ -8303,7 +9696,7 @@ export namespace Prisma {
 
   export type CustomerLoginTokenMaxAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     token: string | null
     expiresAt: Date | null
     used: boolean | null
@@ -8320,6 +9713,14 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type CustomerLoginTokenAvgAggregateInputType = {
+    customerId?: true
+  }
+
+  export type CustomerLoginTokenSumAggregateInputType = {
+    customerId?: true
+  }
 
   export type CustomerLoginTokenMinAggregateInputType = {
     id?: true
@@ -8387,6 +9788,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CustomerLoginTokenAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CustomerLoginTokenSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CustomerLoginTokenMinAggregateInputType
@@ -8417,18 +9830,22 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CustomerLoginTokenCountAggregateInputType | true
+    _avg?: CustomerLoginTokenAvgAggregateInputType
+    _sum?: CustomerLoginTokenSumAggregateInputType
     _min?: CustomerLoginTokenMinAggregateInputType
     _max?: CustomerLoginTokenMaxAggregateInputType
   }
 
   export type CustomerLoginTokenGroupByOutputType = {
     id: string
-    customerId: string
+    customerId: number
     token: string
     expiresAt: Date
     used: boolean
     createdAt: Date
     _count: CustomerLoginTokenCountAggregateOutputType | null
+    _avg: CustomerLoginTokenAvgAggregateOutputType | null
+    _sum: CustomerLoginTokenSumAggregateOutputType | null
     _min: CustomerLoginTokenMinAggregateOutputType | null
     _max: CustomerLoginTokenMaxAggregateOutputType | null
   }
@@ -8504,7 +9921,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      customerId: string
+      customerId: number
       token: string
       expiresAt: Date
       used: boolean
@@ -8934,7 +10351,7 @@ export namespace Prisma {
    */
   interface CustomerLoginTokenFieldRefs {
     readonly id: FieldRef<"CustomerLoginToken", 'String'>
-    readonly customerId: FieldRef<"CustomerLoginToken", 'String'>
+    readonly customerId: FieldRef<"CustomerLoginToken", 'Int'>
     readonly token: FieldRef<"CustomerLoginToken", 'String'>
     readonly expiresAt: FieldRef<"CustomerLoginToken", 'DateTime'>
     readonly used: FieldRef<"CustomerLoginToken", 'Boolean'>
@@ -9381,6 +10798,7 @@ export namespace Prisma {
     id: number | null
     shopId: number | null
     name: string | null
+    url_path: string | null
     description: string | null
     stock: number | null
     visibility: $Enums.ProductVisibility | null
@@ -9392,6 +10810,7 @@ export namespace Prisma {
     id: number | null
     shopId: number | null
     name: string | null
+    url_path: string | null
     description: string | null
     stock: number | null
     visibility: $Enums.ProductVisibility | null
@@ -9403,6 +10822,7 @@ export namespace Prisma {
     id: number
     shopId: number
     name: number
+    url_path: number
     description: number
     stock: number
     visibility: number
@@ -9428,6 +10848,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     name?: true
+    url_path?: true
     description?: true
     stock?: true
     visibility?: true
@@ -9439,6 +10860,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     name?: true
+    url_path?: true
     description?: true
     stock?: true
     visibility?: true
@@ -9450,6 +10872,7 @@ export namespace Prisma {
     id?: true
     shopId?: true
     name?: true
+    url_path?: true
     description?: true
     stock?: true
     visibility?: true
@@ -9548,6 +10971,7 @@ export namespace Prisma {
     id: number
     shopId: number
     name: string
+    url_path: string | null
     description: string | null
     stock: number
     visibility: $Enums.ProductVisibility
@@ -9578,6 +11002,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     name?: boolean
+    url_path?: boolean
     description?: boolean
     stock?: boolean
     visibility?: boolean
@@ -9593,6 +11018,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     name?: boolean
+    url_path?: boolean
     description?: boolean
     stock?: boolean
     visibility?: boolean
@@ -9605,6 +11031,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     name?: boolean
+    url_path?: boolean
     description?: boolean
     stock?: boolean
     visibility?: boolean
@@ -9617,6 +11044,7 @@ export namespace Prisma {
     id?: boolean
     shopId?: boolean
     name?: boolean
+    url_path?: boolean
     description?: boolean
     stock?: boolean
     visibility?: boolean
@@ -9624,7 +11052,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "name" | "description" | "stock" | "visibility" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "shopId" | "name" | "url_path" | "description" | "stock" | "visibility" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     shop?: boolean | ShopDefaultArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
@@ -9649,6 +11077,7 @@ export namespace Prisma {
       id: number
       shopId: number
       name: string
+      url_path: string | null
       description: string | null
       stock: number
       visibility: $Enums.ProductVisibility
@@ -10083,6 +11512,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Product", 'Int'>
     readonly shopId: FieldRef<"Product", 'Int'>
     readonly name: FieldRef<"Product", 'String'>
+    readonly url_path: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
     readonly stock: FieldRef<"Product", 'Int'>
     readonly visibility: FieldRef<"Product", 'ProductVisibility'>
@@ -10566,6 +11996,9 @@ export namespace Prisma {
     id: number | null
     productId: number | null
     price: Decimal | null
+    slashed_price: Decimal | null
+    min_quantity: number | null
+    max_quantity: number | null
     stockCount: number | null
   }
 
@@ -10573,6 +12006,9 @@ export namespace Prisma {
     id: number | null
     productId: number | null
     price: Decimal | null
+    slashed_price: Decimal | null
+    min_quantity: number | null
+    max_quantity: number | null
     stockCount: number | null
   }
 
@@ -10580,7 +12016,11 @@ export namespace Prisma {
     id: number | null
     productId: number | null
     name: string | null
+    description: string | null
     price: Decimal | null
+    slashed_price: Decimal | null
+    min_quantity: number | null
+    max_quantity: number | null
     stockCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10590,7 +12030,11 @@ export namespace Prisma {
     id: number | null
     productId: number | null
     name: string | null
+    description: string | null
     price: Decimal | null
+    slashed_price: Decimal | null
+    min_quantity: number | null
+    max_quantity: number | null
     stockCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -10600,7 +12044,11 @@ export namespace Prisma {
     id: number
     productId: number
     name: number
+    description: number
     price: number
+    slashed_price: number
+    min_quantity: number
+    max_quantity: number
     stockCount: number
     deliverables: number
     createdAt: number
@@ -10613,6 +12061,9 @@ export namespace Prisma {
     id?: true
     productId?: true
     price?: true
+    slashed_price?: true
+    min_quantity?: true
+    max_quantity?: true
     stockCount?: true
   }
 
@@ -10620,6 +12071,9 @@ export namespace Prisma {
     id?: true
     productId?: true
     price?: true
+    slashed_price?: true
+    min_quantity?: true
+    max_quantity?: true
     stockCount?: true
   }
 
@@ -10627,7 +12081,11 @@ export namespace Prisma {
     id?: true
     productId?: true
     name?: true
+    description?: true
     price?: true
+    slashed_price?: true
+    min_quantity?: true
+    max_quantity?: true
     stockCount?: true
     createdAt?: true
     updatedAt?: true
@@ -10637,7 +12095,11 @@ export namespace Prisma {
     id?: true
     productId?: true
     name?: true
+    description?: true
     price?: true
+    slashed_price?: true
+    min_quantity?: true
+    max_quantity?: true
     stockCount?: true
     createdAt?: true
     updatedAt?: true
@@ -10647,7 +12109,11 @@ export namespace Prisma {
     id?: true
     productId?: true
     name?: true
+    description?: true
     price?: true
+    slashed_price?: true
+    min_quantity?: true
+    max_quantity?: true
     stockCount?: true
     deliverables?: true
     createdAt?: true
@@ -10745,7 +12211,11 @@ export namespace Prisma {
     id: number
     productId: number
     name: string
+    description: string | null
     price: Decimal
+    slashed_price: Decimal | null
+    min_quantity: number
+    max_quantity: number | null
     stockCount: number
     deliverables: JsonValue | null
     createdAt: Date
@@ -10775,7 +12245,11 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     name?: boolean
+    description?: boolean
     price?: boolean
+    slashed_price?: boolean
+    min_quantity?: boolean
+    max_quantity?: boolean
     stockCount?: boolean
     deliverables?: boolean
     createdAt?: boolean
@@ -10789,7 +12263,11 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     name?: boolean
+    description?: boolean
     price?: boolean
+    slashed_price?: boolean
+    min_quantity?: boolean
+    max_quantity?: boolean
     stockCount?: boolean
     deliverables?: boolean
     createdAt?: boolean
@@ -10801,7 +12279,11 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     name?: boolean
+    description?: boolean
     price?: boolean
+    slashed_price?: boolean
+    min_quantity?: boolean
+    max_quantity?: boolean
     stockCount?: boolean
     deliverables?: boolean
     createdAt?: boolean
@@ -10813,14 +12295,18 @@ export namespace Prisma {
     id?: boolean
     productId?: boolean
     name?: boolean
+    description?: boolean
     price?: boolean
+    slashed_price?: boolean
+    min_quantity?: boolean
+    max_quantity?: boolean
     stockCount?: boolean
     deliverables?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductVariantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "name" | "price" | "stockCount" | "deliverables" | "createdAt" | "updatedAt", ExtArgs["result"]["productVariant"]>
+  export type ProductVariantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "name" | "description" | "price" | "slashed_price" | "min_quantity" | "max_quantity" | "stockCount" | "deliverables" | "createdAt" | "updatedAt", ExtArgs["result"]["productVariant"]>
   export type ProductVariantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
     cartItems?: boolean | ProductVariant$cartItemsArgs<ExtArgs>
@@ -10843,7 +12329,11 @@ export namespace Prisma {
       id: number
       productId: number
       name: string
+      description: string | null
       price: Prisma.Decimal
+      slashed_price: Prisma.Decimal | null
+      min_quantity: number
+      max_quantity: number | null
       stockCount: number
       deliverables: Prisma.JsonValue | null
       createdAt: Date
@@ -11276,7 +12766,11 @@ export namespace Prisma {
     readonly id: FieldRef<"ProductVariant", 'Int'>
     readonly productId: FieldRef<"ProductVariant", 'Int'>
     readonly name: FieldRef<"ProductVariant", 'String'>
+    readonly description: FieldRef<"ProductVariant", 'String'>
     readonly price: FieldRef<"ProductVariant", 'Decimal'>
+    readonly slashed_price: FieldRef<"ProductVariant", 'Decimal'>
+    readonly min_quantity: FieldRef<"ProductVariant", 'Int'>
+    readonly max_quantity: FieldRef<"ProductVariant", 'Int'>
     readonly stockCount: FieldRef<"ProductVariant", 'Int'>
     readonly deliverables: FieldRef<"ProductVariant", 'Json'>
     readonly createdAt: FieldRef<"ProductVariant", 'DateTime'>
@@ -11732,20 +13226,23 @@ export namespace Prisma {
   }
 
   export type TransactionAvgAggregateOutputType = {
+    customerId: number | null
     shopId: number | null
     totalAmount: Decimal | null
   }
 
   export type TransactionSumAggregateOutputType = {
+    customerId: number | null
     shopId: number | null
     totalAmount: Decimal | null
   }
 
   export type TransactionMinAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     shopId: number | null
     totalAmount: Decimal | null
+    type: $Enums.TransactionType | null
     status: $Enums.TransactionStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11753,9 +13250,10 @@ export namespace Prisma {
 
   export type TransactionMaxAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     shopId: number | null
     totalAmount: Decimal | null
+    type: $Enums.TransactionType | null
     status: $Enums.TransactionStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11767,6 +13265,7 @@ export namespace Prisma {
     shopId: number
     totalAmount: number
     deliverables: number
+    type: number
     status: number
     createdAt: number
     updatedAt: number
@@ -11775,11 +13274,13 @@ export namespace Prisma {
 
 
   export type TransactionAvgAggregateInputType = {
+    customerId?: true
     shopId?: true
     totalAmount?: true
   }
 
   export type TransactionSumAggregateInputType = {
+    customerId?: true
     shopId?: true
     totalAmount?: true
   }
@@ -11789,6 +13290,7 @@ export namespace Prisma {
     customerId?: true
     shopId?: true
     totalAmount?: true
+    type?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -11799,6 +13301,7 @@ export namespace Prisma {
     customerId?: true
     shopId?: true
     totalAmount?: true
+    type?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -11810,6 +13313,7 @@ export namespace Prisma {
     shopId?: true
     totalAmount?: true
     deliverables?: true
+    type?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -11904,10 +13408,11 @@ export namespace Prisma {
 
   export type TransactionGroupByOutputType = {
     id: string
-    customerId: string
+    customerId: number
     shopId: number
     totalAmount: Decimal
     deliverables: JsonValue | null
+    type: $Enums.TransactionType
     status: $Enums.TransactionStatus
     createdAt: Date
     updatedAt: Date
@@ -11938,6 +13443,7 @@ export namespace Prisma {
     shopId?: boolean
     totalAmount?: boolean
     deliverables?: boolean
+    type?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11951,6 +13457,7 @@ export namespace Prisma {
     shopId?: boolean
     totalAmount?: boolean
     deliverables?: boolean
+    type?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11964,6 +13471,7 @@ export namespace Prisma {
     shopId?: boolean
     totalAmount?: boolean
     deliverables?: boolean
+    type?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -11977,12 +13485,13 @@ export namespace Prisma {
     shopId?: boolean
     totalAmount?: boolean
     deliverables?: boolean
+    type?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "shopId" | "totalAmount" | "deliverables" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerId" | "shopId" | "totalAmount" | "deliverables" | "type" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | ShopCustomerDefaultArgs<ExtArgs>
     shop?: boolean | ShopDefaultArgs<ExtArgs>
@@ -12004,10 +13513,11 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      customerId: string
+      customerId: number
       shopId: number
       totalAmount: Prisma.Decimal
       deliverables: Prisma.JsonValue | null
+      type: $Enums.TransactionType
       status: $Enums.TransactionStatus
       createdAt: Date
       updatedAt: Date
@@ -12437,10 +13947,11 @@ export namespace Prisma {
    */
   interface TransactionFieldRefs {
     readonly id: FieldRef<"Transaction", 'String'>
-    readonly customerId: FieldRef<"Transaction", 'String'>
+    readonly customerId: FieldRef<"Transaction", 'Int'>
     readonly shopId: FieldRef<"Transaction", 'Int'>
     readonly totalAmount: FieldRef<"Transaction", 'Decimal'>
     readonly deliverables: FieldRef<"Transaction", 'Json'>
+    readonly type: FieldRef<"Transaction", 'TransactionType'>
     readonly status: FieldRef<"Transaction", 'TransactionStatus'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
@@ -12872,15 +14383,17 @@ export namespace Prisma {
 
   export type CustomerSessionAvgAggregateOutputType = {
     id: number | null
+    customerId: number | null
   }
 
   export type CustomerSessionSumAggregateOutputType = {
     id: number | null
+    customerId: number | null
   }
 
   export type CustomerSessionMinAggregateOutputType = {
     id: number | null
-    customerId: string | null
+    customerId: number | null
     type: $Enums.CustomerSessionType | null
     token: string | null
     createdAt: Date | null
@@ -12889,7 +14402,7 @@ export namespace Prisma {
 
   export type CustomerSessionMaxAggregateOutputType = {
     id: number | null
-    customerId: string | null
+    customerId: number | null
     type: $Enums.CustomerSessionType | null
     token: string | null
     createdAt: Date | null
@@ -12909,10 +14422,12 @@ export namespace Prisma {
 
   export type CustomerSessionAvgAggregateInputType = {
     id?: true
+    customerId?: true
   }
 
   export type CustomerSessionSumAggregateInputType = {
     id?: true
+    customerId?: true
   }
 
   export type CustomerSessionMinAggregateInputType = {
@@ -13031,7 +14546,7 @@ export namespace Prisma {
 
   export type CustomerSessionGroupByOutputType = {
     id: number
-    customerId: string
+    customerId: number
     type: $Enums.CustomerSessionType
     token: string
     createdAt: Date
@@ -13114,7 +14629,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      customerId: string
+      customerId: number
       type: $Enums.CustomerSessionType
       token: string
       createdAt: Date
@@ -13544,7 +15059,7 @@ export namespace Prisma {
    */
   interface CustomerSessionFieldRefs {
     readonly id: FieldRef<"CustomerSession", 'Int'>
-    readonly customerId: FieldRef<"CustomerSession", 'String'>
+    readonly customerId: FieldRef<"CustomerSession", 'Int'>
     readonly type: FieldRef<"CustomerSession", 'CustomerSessionType'>
     readonly token: FieldRef<"CustomerSession", 'String'>
     readonly createdAt: FieldRef<"CustomerSession", 'DateTime'>
@@ -16241,16 +17756,18 @@ export namespace Prisma {
   }
 
   export type CartAvgAggregateOutputType = {
+    customerId: number | null
     shopId: number | null
   }
 
   export type CartSumAggregateOutputType = {
+    customerId: number | null
     shopId: number | null
   }
 
   export type CartMinAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     shopId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16258,7 +17775,7 @@ export namespace Prisma {
 
   export type CartMaxAggregateOutputType = {
     id: string | null
-    customerId: string | null
+    customerId: number | null
     shopId: number | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16275,10 +17792,12 @@ export namespace Prisma {
 
 
   export type CartAvgAggregateInputType = {
+    customerId?: true
     shopId?: true
   }
 
   export type CartSumAggregateInputType = {
+    customerId?: true
     shopId?: true
   }
 
@@ -16395,7 +17914,7 @@ export namespace Prisma {
 
   export type CartGroupByOutputType = {
     id: string
-    customerId: string
+    customerId: number
     shopId: number
     createdAt: Date
     updatedAt: Date
@@ -16485,7 +18004,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      customerId: string
+      customerId: number
       shopId: number
       createdAt: Date
       updatedAt: Date
@@ -16916,7 +18435,7 @@ export namespace Prisma {
    */
   interface CartFieldRefs {
     readonly id: FieldRef<"Cart", 'String'>
-    readonly customerId: FieldRef<"Cart", 'String'>
+    readonly customerId: FieldRef<"Cart", 'Int'>
     readonly shopId: FieldRef<"Cart", 'Int'>
     readonly createdAt: FieldRef<"Cart", 'DateTime'>
     readonly updatedAt: FieldRef<"Cart", 'DateTime'>
@@ -18563,6 +20082,22 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const CryptoWalletScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    shopId: 'shopId',
+    isActive: 'isActive',
+    currency: 'currency',
+    subIndex: 'subIndex',
+    address: 'address',
+    balance: 'balance',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CryptoWalletScalarFieldEnum = (typeof CryptoWalletScalarFieldEnum)[keyof typeof CryptoWalletScalarFieldEnum]
+
+
   export const SessionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -18605,6 +20140,7 @@ export namespace Prisma {
     id: 'id',
     shopId: 'shopId',
     email: 'email',
+    password: 'password',
     notes: 'notes',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -18630,6 +20166,7 @@ export namespace Prisma {
     id: 'id',
     shopId: 'shopId',
     name: 'name',
+    url_path: 'url_path',
     description: 'description',
     stock: 'stock',
     visibility: 'visibility',
@@ -18644,7 +20181,11 @@ export namespace Prisma {
     id: 'id',
     productId: 'productId',
     name: 'name',
+    description: 'description',
     price: 'price',
+    slashed_price: 'slashed_price',
+    min_quantity: 'min_quantity',
+    max_quantity: 'max_quantity',
     stockCount: 'stockCount',
     deliverables: 'deliverables',
     createdAt: 'createdAt',
@@ -18660,6 +20201,7 @@ export namespace Prisma {
     shopId: 'shopId',
     totalAmount: 'totalAmount',
     deliverables: 'deliverables',
+    type: 'type',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -18847,6 +20389,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'CryptoCurrency'
+   */
+  export type EnumCryptoCurrencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CryptoCurrency'>
+    
+
+
+  /**
+   * Reference to a field of type 'CryptoCurrency[]'
+   */
+  export type ListEnumCryptoCurrencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CryptoCurrency[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -18885,6 +20455,20 @@ export namespace Prisma {
    * Reference to a field of type 'Decimal[]'
    */
   export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType'
+   */
+  export type EnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionType[]'
+   */
+  export type ListEnumTransactionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionType[]'>
     
 
 
@@ -18928,20 +20512,6 @@ export namespace Prisma {
    */
   export type ListEnumCheckoutStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CheckoutStatus[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -18959,6 +20529,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
+    cryptoWallets?: CryptoWalletListRelationFilter
     shops?: ShopListRelationFilter
   }
 
@@ -18971,6 +20542,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
+    cryptoWallets?: CryptoWalletOrderByRelationAggregateInput
     shops?: ShopOrderByRelationAggregateInput
   }
 
@@ -18986,6 +20558,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
+    cryptoWallets?: CryptoWalletListRelationFilter
     shops?: ShopListRelationFilter
   }, "id" | "username" | "email">
 
@@ -19013,6 +20586,92 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type CryptoWalletWhereInput = {
+    AND?: CryptoWalletWhereInput | CryptoWalletWhereInput[]
+    OR?: CryptoWalletWhereInput[]
+    NOT?: CryptoWalletWhereInput | CryptoWalletWhereInput[]
+    id?: StringFilter<"CryptoWallet"> | string
+    userId?: StringFilter<"CryptoWallet"> | string
+    shopId?: IntFilter<"CryptoWallet"> | number
+    isActive?: BoolFilter<"CryptoWallet"> | boolean
+    currency?: EnumCryptoCurrencyFilter<"CryptoWallet"> | $Enums.CryptoCurrency
+    subIndex?: IntFilter<"CryptoWallet"> | number
+    address?: StringFilter<"CryptoWallet"> | string
+    balance?: FloatFilter<"CryptoWallet"> | number
+    createdAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+    updatedAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }
+
+  export type CryptoWalletOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    shopId?: SortOrder
+    isActive?: SortOrder
+    currency?: SortOrder
+    subIndex?: SortOrder
+    address?: SortOrder
+    balance?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    shop?: ShopOrderByWithRelationInput
+  }
+
+  export type CryptoWalletWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    address?: string
+    userId_shopId_currency?: CryptoWalletUserIdShopIdCurrencyCompoundUniqueInput
+    AND?: CryptoWalletWhereInput | CryptoWalletWhereInput[]
+    OR?: CryptoWalletWhereInput[]
+    NOT?: CryptoWalletWhereInput | CryptoWalletWhereInput[]
+    userId?: StringFilter<"CryptoWallet"> | string
+    shopId?: IntFilter<"CryptoWallet"> | number
+    isActive?: BoolFilter<"CryptoWallet"> | boolean
+    currency?: EnumCryptoCurrencyFilter<"CryptoWallet"> | $Enums.CryptoCurrency
+    subIndex?: IntFilter<"CryptoWallet"> | number
+    balance?: FloatFilter<"CryptoWallet"> | number
+    createdAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+    updatedAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    shop?: XOR<ShopScalarRelationFilter, ShopWhereInput>
+  }, "id" | "address" | "userId_shopId_currency">
+
+  export type CryptoWalletOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    shopId?: SortOrder
+    isActive?: SortOrder
+    currency?: SortOrder
+    subIndex?: SortOrder
+    address?: SortOrder
+    balance?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CryptoWalletCountOrderByAggregateInput
+    _avg?: CryptoWalletAvgOrderByAggregateInput
+    _max?: CryptoWalletMaxOrderByAggregateInput
+    _min?: CryptoWalletMinOrderByAggregateInput
+    _sum?: CryptoWalletSumOrderByAggregateInput
+  }
+
+  export type CryptoWalletScalarWhereWithAggregatesInput = {
+    AND?: CryptoWalletScalarWhereWithAggregatesInput | CryptoWalletScalarWhereWithAggregatesInput[]
+    OR?: CryptoWalletScalarWhereWithAggregatesInput[]
+    NOT?: CryptoWalletScalarWhereWithAggregatesInput | CryptoWalletScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CryptoWallet"> | string
+    userId?: StringWithAggregatesFilter<"CryptoWallet"> | string
+    shopId?: IntWithAggregatesFilter<"CryptoWallet"> | number
+    isActive?: BoolWithAggregatesFilter<"CryptoWallet"> | boolean
+    currency?: EnumCryptoCurrencyWithAggregatesFilter<"CryptoWallet"> | $Enums.CryptoCurrency
+    subIndex?: IntWithAggregatesFilter<"CryptoWallet"> | number
+    address?: StringWithAggregatesFilter<"CryptoWallet"> | string
+    balance?: FloatWithAggregatesFilter<"CryptoWallet"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"CryptoWallet"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CryptoWallet"> | Date | string
   }
 
   export type SessionWhereInput = {
@@ -19087,6 +20746,7 @@ export namespace Prisma {
     products?: ProductListRelationFilter
     customers?: ShopCustomerListRelationFilter
     transactions?: TransactionListRelationFilter
+    cryptoWallets?: CryptoWalletListRelationFilter
     paymentMethods?: PaymentMethodListRelationFilter
     checkouts?: CheckoutListRelationFilter
     carts?: CartListRelationFilter
@@ -19104,6 +20764,7 @@ export namespace Prisma {
     products?: ProductOrderByRelationAggregateInput
     customers?: ShopCustomerOrderByRelationAggregateInput
     transactions?: TransactionOrderByRelationAggregateInput
+    cryptoWallets?: CryptoWalletOrderByRelationAggregateInput
     paymentMethods?: PaymentMethodOrderByRelationAggregateInput
     checkouts?: CheckoutOrderByRelationAggregateInput
     carts?: CartOrderByRelationAggregateInput
@@ -19124,6 +20785,7 @@ export namespace Prisma {
     products?: ProductListRelationFilter
     customers?: ShopCustomerListRelationFilter
     transactions?: TransactionListRelationFilter
+    cryptoWallets?: CryptoWalletListRelationFilter
     paymentMethods?: PaymentMethodListRelationFilter
     checkouts?: CheckoutListRelationFilter
     carts?: CartListRelationFilter
@@ -19233,9 +20895,10 @@ export namespace Prisma {
     AND?: ShopCustomerWhereInput | ShopCustomerWhereInput[]
     OR?: ShopCustomerWhereInput[]
     NOT?: ShopCustomerWhereInput | ShopCustomerWhereInput[]
-    id?: StringFilter<"ShopCustomer"> | string
+    id?: IntFilter<"ShopCustomer"> | number
     shopId?: IntFilter<"ShopCustomer"> | number
     email?: StringFilter<"ShopCustomer"> | string
+    password?: StringFilter<"ShopCustomer"> | string
     notes?: JsonNullableFilter<"ShopCustomer">
     createdAt?: DateTimeFilter<"ShopCustomer"> | Date | string
     updatedAt?: DateTimeFilter<"ShopCustomer"> | Date | string
@@ -19251,6 +20914,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19263,13 +20927,14 @@ export namespace Prisma {
   }
 
   export type ShopCustomerWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
+    id?: number
     shopId_email?: ShopCustomerShopIdEmailCompoundUniqueInput
     AND?: ShopCustomerWhereInput | ShopCustomerWhereInput[]
     OR?: ShopCustomerWhereInput[]
     NOT?: ShopCustomerWhereInput | ShopCustomerWhereInput[]
     shopId?: IntFilter<"ShopCustomer"> | number
     email?: StringFilter<"ShopCustomer"> | string
+    password?: StringFilter<"ShopCustomer"> | string
     notes?: JsonNullableFilter<"ShopCustomer">
     createdAt?: DateTimeFilter<"ShopCustomer"> | Date | string
     updatedAt?: DateTimeFilter<"ShopCustomer"> | Date | string
@@ -19285,6 +20950,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     notes?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19300,9 +20966,10 @@ export namespace Prisma {
     AND?: ShopCustomerScalarWhereWithAggregatesInput | ShopCustomerScalarWhereWithAggregatesInput[]
     OR?: ShopCustomerScalarWhereWithAggregatesInput[]
     NOT?: ShopCustomerScalarWhereWithAggregatesInput | ShopCustomerScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ShopCustomer"> | string
+    id?: IntWithAggregatesFilter<"ShopCustomer"> | number
     shopId?: IntWithAggregatesFilter<"ShopCustomer"> | number
     email?: StringWithAggregatesFilter<"ShopCustomer"> | string
+    password?: StringWithAggregatesFilter<"ShopCustomer"> | string
     notes?: JsonNullableWithAggregatesFilter<"ShopCustomer">
     createdAt?: DateTimeWithAggregatesFilter<"ShopCustomer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ShopCustomer"> | Date | string
@@ -19314,7 +20981,7 @@ export namespace Prisma {
     OR?: CustomerLoginTokenWhereInput[]
     NOT?: CustomerLoginTokenWhereInput | CustomerLoginTokenWhereInput[]
     id?: StringFilter<"CustomerLoginToken"> | string
-    customerId?: StringFilter<"CustomerLoginToken"> | string
+    customerId?: IntFilter<"CustomerLoginToken"> | number
     token?: StringFilter<"CustomerLoginToken"> | string
     expiresAt?: DateTimeFilter<"CustomerLoginToken"> | Date | string
     used?: BoolFilter<"CustomerLoginToken"> | boolean
@@ -19338,7 +21005,7 @@ export namespace Prisma {
     AND?: CustomerLoginTokenWhereInput | CustomerLoginTokenWhereInput[]
     OR?: CustomerLoginTokenWhereInput[]
     NOT?: CustomerLoginTokenWhereInput | CustomerLoginTokenWhereInput[]
-    customerId?: StringFilter<"CustomerLoginToken"> | string
+    customerId?: IntFilter<"CustomerLoginToken"> | number
     expiresAt?: DateTimeFilter<"CustomerLoginToken"> | Date | string
     used?: BoolFilter<"CustomerLoginToken"> | boolean
     createdAt?: DateTimeFilter<"CustomerLoginToken"> | Date | string
@@ -19353,8 +21020,10 @@ export namespace Prisma {
     used?: SortOrder
     createdAt?: SortOrder
     _count?: CustomerLoginTokenCountOrderByAggregateInput
+    _avg?: CustomerLoginTokenAvgOrderByAggregateInput
     _max?: CustomerLoginTokenMaxOrderByAggregateInput
     _min?: CustomerLoginTokenMinOrderByAggregateInput
+    _sum?: CustomerLoginTokenSumOrderByAggregateInput
   }
 
   export type CustomerLoginTokenScalarWhereWithAggregatesInput = {
@@ -19362,7 +21031,7 @@ export namespace Prisma {
     OR?: CustomerLoginTokenScalarWhereWithAggregatesInput[]
     NOT?: CustomerLoginTokenScalarWhereWithAggregatesInput | CustomerLoginTokenScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"CustomerLoginToken"> | string
-    customerId?: StringWithAggregatesFilter<"CustomerLoginToken"> | string
+    customerId?: IntWithAggregatesFilter<"CustomerLoginToken"> | number
     token?: StringWithAggregatesFilter<"CustomerLoginToken"> | string
     expiresAt?: DateTimeWithAggregatesFilter<"CustomerLoginToken"> | Date | string
     used?: BoolWithAggregatesFilter<"CustomerLoginToken"> | boolean
@@ -19376,6 +21045,7 @@ export namespace Prisma {
     id?: IntFilter<"Product"> | number
     shopId?: IntFilter<"Product"> | number
     name?: StringFilter<"Product"> | string
+    url_path?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
     stock?: IntFilter<"Product"> | number
     visibility?: EnumProductVisibilityFilter<"Product"> | $Enums.ProductVisibility
@@ -19390,6 +21060,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     name?: SortOrder
+    url_path?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     stock?: SortOrder
     visibility?: SortOrder
@@ -19407,6 +21078,7 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     shopId?: IntFilter<"Product"> | number
     name?: StringFilter<"Product"> | string
+    url_path?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
     stock?: IntFilter<"Product"> | number
     visibility?: EnumProductVisibilityFilter<"Product"> | $Enums.ProductVisibility
@@ -19421,6 +21093,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     name?: SortOrder
+    url_path?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     stock?: SortOrder
     visibility?: SortOrder
@@ -19440,6 +21113,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Product"> | number
     shopId?: IntWithAggregatesFilter<"Product"> | number
     name?: StringWithAggregatesFilter<"Product"> | string
+    url_path?: StringNullableWithAggregatesFilter<"Product"> | string | null
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     stock?: IntWithAggregatesFilter<"Product"> | number
     visibility?: EnumProductVisibilityWithAggregatesFilter<"Product"> | $Enums.ProductVisibility
@@ -19454,7 +21128,11 @@ export namespace Prisma {
     id?: IntFilter<"ProductVariant"> | number
     productId?: IntFilter<"ProductVariant"> | number
     name?: StringFilter<"ProductVariant"> | string
+    description?: StringNullableFilter<"ProductVariant"> | string | null
     price?: DecimalFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string
+    slashed_price?: DecimalNullableFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFilter<"ProductVariant"> | number
+    max_quantity?: IntNullableFilter<"ProductVariant"> | number | null
     stockCount?: IntFilter<"ProductVariant"> | number
     deliverables?: JsonNullableFilter<"ProductVariant">
     createdAt?: DateTimeFilter<"ProductVariant"> | Date | string
@@ -19467,7 +21145,11 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     price?: SortOrder
+    slashed_price?: SortOrderInput | SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrderInput | SortOrder
     stockCount?: SortOrder
     deliverables?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -19483,7 +21165,11 @@ export namespace Prisma {
     NOT?: ProductVariantWhereInput | ProductVariantWhereInput[]
     productId?: IntFilter<"ProductVariant"> | number
     name?: StringFilter<"ProductVariant"> | string
+    description?: StringNullableFilter<"ProductVariant"> | string | null
     price?: DecimalFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string
+    slashed_price?: DecimalNullableFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFilter<"ProductVariant"> | number
+    max_quantity?: IntNullableFilter<"ProductVariant"> | number | null
     stockCount?: IntFilter<"ProductVariant"> | number
     deliverables?: JsonNullableFilter<"ProductVariant">
     createdAt?: DateTimeFilter<"ProductVariant"> | Date | string
@@ -19496,7 +21182,11 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    description?: SortOrderInput | SortOrder
     price?: SortOrder
+    slashed_price?: SortOrderInput | SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrderInput | SortOrder
     stockCount?: SortOrder
     deliverables?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -19515,7 +21205,11 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"ProductVariant"> | number
     productId?: IntWithAggregatesFilter<"ProductVariant"> | number
     name?: StringWithAggregatesFilter<"ProductVariant"> | string
+    description?: StringNullableWithAggregatesFilter<"ProductVariant"> | string | null
     price?: DecimalWithAggregatesFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string
+    slashed_price?: DecimalNullableWithAggregatesFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntWithAggregatesFilter<"ProductVariant"> | number
+    max_quantity?: IntNullableWithAggregatesFilter<"ProductVariant"> | number | null
     stockCount?: IntWithAggregatesFilter<"ProductVariant"> | number
     deliverables?: JsonNullableWithAggregatesFilter<"ProductVariant">
     createdAt?: DateTimeWithAggregatesFilter<"ProductVariant"> | Date | string
@@ -19527,10 +21221,11 @@ export namespace Prisma {
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     id?: StringFilter<"Transaction"> | string
-    customerId?: StringFilter<"Transaction"> | string
+    customerId?: IntFilter<"Transaction"> | number
     shopId?: IntFilter<"Transaction"> | number
     totalAmount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
     deliverables?: JsonNullableFilter<"Transaction">
+    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
     status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
@@ -19544,6 +21239,7 @@ export namespace Prisma {
     shopId?: SortOrder
     totalAmount?: SortOrder
     deliverables?: SortOrderInput | SortOrder
+    type?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19556,10 +21252,11 @@ export namespace Prisma {
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
-    customerId?: StringFilter<"Transaction"> | string
+    customerId?: IntFilter<"Transaction"> | number
     shopId?: IntFilter<"Transaction"> | number
     totalAmount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
     deliverables?: JsonNullableFilter<"Transaction">
+    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
     status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
@@ -19573,6 +21270,7 @@ export namespace Prisma {
     shopId?: SortOrder
     totalAmount?: SortOrder
     deliverables?: SortOrderInput | SortOrder
+    type?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -19588,10 +21286,11 @@ export namespace Prisma {
     OR?: TransactionScalarWhereWithAggregatesInput[]
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Transaction"> | string
-    customerId?: StringWithAggregatesFilter<"Transaction"> | string
+    customerId?: IntWithAggregatesFilter<"Transaction"> | number
     shopId?: IntWithAggregatesFilter<"Transaction"> | number
     totalAmount?: DecimalWithAggregatesFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
     deliverables?: JsonNullableWithAggregatesFilter<"Transaction">
+    type?: EnumTransactionTypeWithAggregatesFilter<"Transaction"> | $Enums.TransactionType
     status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
@@ -19602,7 +21301,7 @@ export namespace Prisma {
     OR?: CustomerSessionWhereInput[]
     NOT?: CustomerSessionWhereInput | CustomerSessionWhereInput[]
     id?: IntFilter<"CustomerSession"> | number
-    customerId?: StringFilter<"CustomerSession"> | string
+    customerId?: IntFilter<"CustomerSession"> | number
     type?: EnumCustomerSessionTypeFilter<"CustomerSession"> | $Enums.CustomerSessionType
     token?: StringFilter<"CustomerSession"> | string
     createdAt?: DateTimeFilter<"CustomerSession"> | Date | string
@@ -19626,7 +21325,7 @@ export namespace Prisma {
     AND?: CustomerSessionWhereInput | CustomerSessionWhereInput[]
     OR?: CustomerSessionWhereInput[]
     NOT?: CustomerSessionWhereInput | CustomerSessionWhereInput[]
-    customerId?: StringFilter<"CustomerSession"> | string
+    customerId?: IntFilter<"CustomerSession"> | number
     type?: EnumCustomerSessionTypeFilter<"CustomerSession"> | $Enums.CustomerSessionType
     createdAt?: DateTimeFilter<"CustomerSession"> | Date | string
     expiresAt?: DateTimeFilter<"CustomerSession"> | Date | string
@@ -19652,7 +21351,7 @@ export namespace Prisma {
     OR?: CustomerSessionScalarWhereWithAggregatesInput[]
     NOT?: CustomerSessionScalarWhereWithAggregatesInput | CustomerSessionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"CustomerSession"> | number
-    customerId?: StringWithAggregatesFilter<"CustomerSession"> | string
+    customerId?: IntWithAggregatesFilter<"CustomerSession"> | number
     type?: EnumCustomerSessionTypeWithAggregatesFilter<"CustomerSession"> | $Enums.CustomerSessionType
     token?: StringWithAggregatesFilter<"CustomerSession"> | string
     createdAt?: DateTimeWithAggregatesFilter<"CustomerSession"> | Date | string
@@ -19796,7 +21495,7 @@ export namespace Prisma {
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
     id?: StringFilter<"Cart"> | string
-    customerId?: StringFilter<"Cart"> | string
+    customerId?: IntFilter<"Cart"> | number
     shopId?: IntFilter<"Cart"> | number
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
@@ -19821,7 +21520,7 @@ export namespace Prisma {
     AND?: CartWhereInput | CartWhereInput[]
     OR?: CartWhereInput[]
     NOT?: CartWhereInput | CartWhereInput[]
-    customerId?: StringFilter<"Cart"> | string
+    customerId?: IntFilter<"Cart"> | number
     shopId?: IntFilter<"Cart"> | number
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
@@ -19848,7 +21547,7 @@ export namespace Prisma {
     OR?: CartScalarWhereWithAggregatesInput[]
     NOT?: CartScalarWhereWithAggregatesInput | CartScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Cart"> | string
-    customerId?: StringWithAggregatesFilter<"Cart"> | string
+    customerId?: IntWithAggregatesFilter<"Cart"> | number
     shopId?: IntWithAggregatesFilter<"Cart"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Cart"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Cart"> | Date | string
@@ -19941,6 +21640,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutUserInput
     shops?: ShopCreateNestedManyWithoutOwnerInput
   }
 
@@ -19953,6 +21653,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutUserInput
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -19965,6 +21666,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutUserNestedInput
     shops?: ShopUpdateManyWithoutOwnerNestedInput
   }
 
@@ -19977,6 +21679,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutUserNestedInput
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -20006,6 +21709,95 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletCreateInput = {
+    id?: string
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCryptoWalletsInput
+    shop: ShopCreateNestedOneWithoutCryptoWalletsInput
+  }
+
+  export type CryptoWalletUncheckedCreateInput = {
+    id?: string
+    userId: string
+    shopId: number
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CryptoWalletUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCryptoWalletsNestedInput
+    shop?: ShopUpdateOneRequiredWithoutCryptoWalletsNestedInput
+  }
+
+  export type CryptoWalletUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    shopId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletCreateManyInput = {
+    id?: string
+    userId: string
+    shopId: number
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CryptoWalletUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    shopId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20072,6 +21864,7 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
@@ -20088,6 +21881,7 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
@@ -20103,6 +21897,7 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
@@ -20119,6 +21914,7 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
@@ -20226,8 +22022,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20240,9 +22036,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20254,8 +22051,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20268,9 +22065,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20282,9 +22080,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateManyInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20292,8 +22091,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20301,9 +22100,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20321,7 +22121,7 @@ export namespace Prisma {
 
   export type CustomerLoginTokenUncheckedCreateInput = {
     id?: string
-    customerId: string
+    customerId: number
     token: string
     expiresAt: Date | string
     used?: boolean
@@ -20339,7 +22139,7 @@ export namespace Prisma {
 
   export type CustomerLoginTokenUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     used?: BoolFieldUpdateOperationsInput | boolean
@@ -20348,7 +22148,7 @@ export namespace Prisma {
 
   export type CustomerLoginTokenCreateManyInput = {
     id?: string
-    customerId: string
+    customerId: number
     token: string
     expiresAt: Date | string
     used?: boolean
@@ -20365,7 +22165,7 @@ export namespace Prisma {
 
   export type CustomerLoginTokenUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     used?: BoolFieldUpdateOperationsInput | boolean
@@ -20374,6 +22174,7 @@ export namespace Prisma {
 
   export type ProductCreateInput = {
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -20388,6 +22189,7 @@ export namespace Prisma {
     id?: number
     shopId: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -20399,6 +22201,7 @@ export namespace Prisma {
 
   export type ProductUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -20413,6 +22216,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -20426,6 +22230,7 @@ export namespace Prisma {
     id?: number
     shopId: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -20435,6 +22240,7 @@ export namespace Prisma {
 
   export type ProductUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -20446,6 +22252,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -20455,7 +22262,11 @@ export namespace Prisma {
 
   export type ProductVariantCreateInput = {
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -20468,7 +22279,11 @@ export namespace Prisma {
     id?: number
     productId: number
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -20478,7 +22293,11 @@ export namespace Prisma {
 
   export type ProductVariantUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20491,7 +22310,11 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20503,7 +22326,11 @@ export namespace Prisma {
     id?: number
     productId: number
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -20512,7 +22339,11 @@ export namespace Prisma {
 
   export type ProductVariantUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20523,7 +22354,11 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20534,6 +22369,7 @@ export namespace Prisma {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20543,10 +22379,11 @@ export namespace Prisma {
 
   export type TransactionUncheckedCreateInput = {
     id?: string
-    customerId: string
+    customerId: number
     shopId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20556,6 +22393,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20565,10 +22403,11 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20576,10 +22415,11 @@ export namespace Prisma {
 
   export type TransactionCreateManyInput = {
     id?: string
-    customerId: string
+    customerId: number
     shopId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20589,6 +22429,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20596,10 +22437,11 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20615,7 +22457,7 @@ export namespace Prisma {
 
   export type CustomerSessionUncheckedCreateInput = {
     id?: number
-    customerId: string
+    customerId: number
     type: $Enums.CustomerSessionType
     token: string
     createdAt?: Date | string
@@ -20632,7 +22474,7 @@ export namespace Prisma {
 
   export type CustomerSessionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     type?: EnumCustomerSessionTypeFieldUpdateOperationsInput | $Enums.CustomerSessionType
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20641,7 +22483,7 @@ export namespace Prisma {
 
   export type CustomerSessionCreateManyInput = {
     id?: number
-    customerId: string
+    customerId: number
     type: $Enums.CustomerSessionType
     token: string
     createdAt?: Date | string
@@ -20657,7 +22499,7 @@ export namespace Prisma {
 
   export type CustomerSessionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     type?: EnumCustomerSessionTypeFieldUpdateOperationsInput | $Enums.CustomerSessionType
     token?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20810,7 +22652,7 @@ export namespace Prisma {
 
   export type CartUncheckedCreateInput = {
     id?: string
-    customerId: string
+    customerId: number
     shopId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20828,7 +22670,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20837,7 +22679,7 @@ export namespace Prisma {
 
   export type CartCreateManyInput = {
     id?: string
-    customerId: string
+    customerId: number
     shopId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -20851,7 +22693,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20970,6 +22812,12 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
+  export type CryptoWalletListRelationFilter = {
+    every?: CryptoWalletWhereInput
+    some?: CryptoWalletWhereInput
+    none?: CryptoWalletWhereInput
+  }
+
   export type ShopListRelationFilter = {
     every?: ShopWhereInput
     some?: ShopWhereInput
@@ -20977,6 +22825,10 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CryptoWalletOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -21067,9 +22919,144 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type EnumCryptoCurrencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.CryptoCurrency | EnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCryptoCurrencyFilter<$PrismaModel> | $Enums.CryptoCurrency
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
+  }
+
+  export type ShopScalarRelationFilter = {
+    is?: ShopWhereInput
+    isNot?: ShopWhereInput
+  }
+
+  export type CryptoWalletUserIdShopIdCurrencyCompoundUniqueInput = {
+    userId: string
+    shopId: number
+    currency: $Enums.CryptoCurrency
+  }
+
+  export type CryptoWalletCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    shopId?: SortOrder
+    isActive?: SortOrder
+    currency?: SortOrder
+    subIndex?: SortOrder
+    address?: SortOrder
+    balance?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CryptoWalletAvgOrderByAggregateInput = {
+    shopId?: SortOrder
+    subIndex?: SortOrder
+    balance?: SortOrder
+  }
+
+  export type CryptoWalletMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    shopId?: SortOrder
+    isActive?: SortOrder
+    currency?: SortOrder
+    subIndex?: SortOrder
+    address?: SortOrder
+    balance?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CryptoWalletMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    shopId?: SortOrder
+    isActive?: SortOrder
+    currency?: SortOrder
+    subIndex?: SortOrder
+    address?: SortOrder
+    balance?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CryptoWalletSumOrderByAggregateInput = {
+    shopId?: SortOrder
+    subIndex?: SortOrder
+    balance?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumCryptoCurrencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CryptoCurrency | EnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCryptoCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.CryptoCurrency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCryptoCurrencyFilter<$PrismaModel>
+    _max?: NestedEnumCryptoCurrencyFilter<$PrismaModel>
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -21102,22 +23089,6 @@ export namespace Prisma {
 
   export type SessionSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringNullableFilter<$PrismaModel = never> = {
@@ -21255,11 +23226,6 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -21282,11 +23248,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type ShopScalarRelationFilter = {
-    is?: ShopWhereInput
-    isNot?: ShopWhereInput
   }
 
   export type PaymentMethodCountOrderByAggregateInput = {
@@ -21328,14 +23289,6 @@ export namespace Prisma {
   export type PaymentMethodSumOrderByAggregateInput = {
     id?: SortOrder
     shopId?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type JsonWithAggregatesFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -21427,6 +23380,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     notes?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21434,6 +23388,7 @@ export namespace Prisma {
   }
 
   export type ShopCustomerAvgOrderByAggregateInput = {
+    id?: SortOrder
     shopId?: SortOrder
   }
 
@@ -21441,6 +23396,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -21450,12 +23406,14 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     email?: SortOrder
+    password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
 
   export type ShopCustomerSumOrderByAggregateInput = {
+    id?: SortOrder
     shopId?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
@@ -21513,6 +23471,10 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type CustomerLoginTokenAvgOrderByAggregateInput = {
+    customerId?: SortOrder
+  }
+
   export type CustomerLoginTokenMaxOrderByAggregateInput = {
     id?: SortOrder
     customerId?: SortOrder
@@ -21529,6 +23491,10 @@ export namespace Prisma {
     expiresAt?: SortOrder
     used?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type CustomerLoginTokenSumOrderByAggregateInput = {
+    customerId?: SortOrder
   }
 
   export type EnumProductVisibilityFilter<$PrismaModel = never> = {
@@ -21562,6 +23528,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     name?: SortOrder
+    url_path?: SortOrder
     description?: SortOrder
     stock?: SortOrder
     visibility?: SortOrder
@@ -21579,6 +23546,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     name?: SortOrder
+    url_path?: SortOrder
     description?: SortOrder
     stock?: SortOrder
     visibility?: SortOrder
@@ -21590,6 +23558,7 @@ export namespace Prisma {
     id?: SortOrder
     shopId?: SortOrder
     name?: SortOrder
+    url_path?: SortOrder
     description?: SortOrder
     stock?: SortOrder
     visibility?: SortOrder
@@ -21624,6 +23593,28 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ProductScalarRelationFilter = {
     is?: ProductWhereInput
     isNot?: ProductWhereInput
@@ -21633,7 +23624,11 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     price?: SortOrder
+    slashed_price?: SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrder
     stockCount?: SortOrder
     deliverables?: SortOrder
     createdAt?: SortOrder
@@ -21644,6 +23639,9 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     price?: SortOrder
+    slashed_price?: SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrder
     stockCount?: SortOrder
   }
 
@@ -21651,7 +23649,11 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     price?: SortOrder
+    slashed_price?: SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrder
     stockCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21661,7 +23663,11 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     name?: SortOrder
+    description?: SortOrder
     price?: SortOrder
+    slashed_price?: SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrder
     stockCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21671,6 +23677,9 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
     price?: SortOrder
+    slashed_price?: SortOrder
+    min_quantity?: SortOrder
+    max_quantity?: SortOrder
     stockCount?: SortOrder
   }
 
@@ -21690,6 +23699,45 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
+  }
+
   export type EnumTransactionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
@@ -21703,12 +23751,14 @@ export namespace Prisma {
     shopId?: SortOrder
     totalAmount?: SortOrder
     deliverables?: SortOrder
+    type?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
+    customerId?: SortOrder
     shopId?: SortOrder
     totalAmount?: SortOrder
   }
@@ -21718,6 +23768,7 @@ export namespace Prisma {
     customerId?: SortOrder
     shopId?: SortOrder
     totalAmount?: SortOrder
+    type?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -21728,14 +23779,26 @@ export namespace Prisma {
     customerId?: SortOrder
     shopId?: SortOrder
     totalAmount?: SortOrder
+    type?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
+    customerId?: SortOrder
     shopId?: SortOrder
     totalAmount?: SortOrder
+  }
+
+  export type EnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
   }
 
   export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -21766,6 +23829,7 @@ export namespace Prisma {
 
   export type CustomerSessionAvgOrderByAggregateInput = {
     id?: SortOrder
+    customerId?: SortOrder
   }
 
   export type CustomerSessionMaxOrderByAggregateInput = {
@@ -21788,6 +23852,7 @@ export namespace Prisma {
 
   export type CustomerSessionSumOrderByAggregateInput = {
     id?: SortOrder
+    customerId?: SortOrder
   }
 
   export type EnumCustomerSessionTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -21920,6 +23985,7 @@ export namespace Prisma {
   }
 
   export type CartAvgOrderByAggregateInput = {
+    customerId?: SortOrder
     shopId?: SortOrder
   }
 
@@ -21940,18 +24006,8 @@ export namespace Prisma {
   }
 
   export type CartSumOrderByAggregateInput = {
+    customerId?: SortOrder
     shopId?: SortOrder
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type CartScalarRelationFilter = {
@@ -22011,27 +24067,18 @@ export namespace Prisma {
     price?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type CryptoWalletCreateNestedManyWithoutUserInput = {
+    create?: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput> | CryptoWalletCreateWithoutUserInput[] | CryptoWalletUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutUserInput | CryptoWalletCreateOrConnectWithoutUserInput[]
+    createMany?: CryptoWalletCreateManyUserInputEnvelope
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
   }
 
   export type ShopCreateNestedManyWithoutOwnerInput = {
@@ -22046,6 +24093,13 @@ export namespace Prisma {
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type CryptoWalletUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput> | CryptoWalletCreateWithoutUserInput[] | CryptoWalletUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutUserInput | CryptoWalletCreateOrConnectWithoutUserInput[]
+    createMany?: CryptoWalletCreateManyUserInputEnvelope
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
   }
 
   export type ShopUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -22081,6 +24135,20 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type CryptoWalletUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput> | CryptoWalletCreateWithoutUserInput[] | CryptoWalletUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutUserInput | CryptoWalletCreateOrConnectWithoutUserInput[]
+    upsert?: CryptoWalletUpsertWithWhereUniqueWithoutUserInput | CryptoWalletUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CryptoWalletCreateManyUserInputEnvelope
+    set?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    disconnect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    delete?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    update?: CryptoWalletUpdateWithWhereUniqueWithoutUserInput | CryptoWalletUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CryptoWalletUpdateManyWithWhereWithoutUserInput | CryptoWalletUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
+  }
+
   export type ShopUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
@@ -22109,6 +24177,20 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type CryptoWalletUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput> | CryptoWalletCreateWithoutUserInput[] | CryptoWalletUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutUserInput | CryptoWalletCreateOrConnectWithoutUserInput[]
+    upsert?: CryptoWalletUpsertWithWhereUniqueWithoutUserInput | CryptoWalletUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: CryptoWalletCreateManyUserInputEnvelope
+    set?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    disconnect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    delete?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    update?: CryptoWalletUpdateWithWhereUniqueWithoutUserInput | CryptoWalletUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: CryptoWalletUpdateManyWithWhereWithoutUserInput | CryptoWalletUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
+  }
+
   export type ShopUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<ShopCreateWithoutOwnerInput, ShopUncheckedCreateWithoutOwnerInput> | ShopCreateWithoutOwnerInput[] | ShopUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ShopCreateOrConnectWithoutOwnerInput | ShopCreateOrConnectWithoutOwnerInput[]
@@ -22123,6 +24205,58 @@ export namespace Prisma {
     deleteMany?: ShopScalarWhereInput | ShopScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutCryptoWalletsInput = {
+    create?: XOR<UserCreateWithoutCryptoWalletsInput, UserUncheckedCreateWithoutCryptoWalletsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCryptoWalletsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ShopCreateNestedOneWithoutCryptoWalletsInput = {
+    create?: XOR<ShopCreateWithoutCryptoWalletsInput, ShopUncheckedCreateWithoutCryptoWalletsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutCryptoWalletsInput
+    connect?: ShopWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type EnumCryptoCurrencyFieldUpdateOperationsInput = {
+    set?: $Enums.CryptoCurrency
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutCryptoWalletsNestedInput = {
+    create?: XOR<UserCreateWithoutCryptoWalletsInput, UserUncheckedCreateWithoutCryptoWalletsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCryptoWalletsInput
+    upsert?: UserUpsertWithoutCryptoWalletsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCryptoWalletsInput, UserUpdateWithoutCryptoWalletsInput>, UserUncheckedUpdateWithoutCryptoWalletsInput>
+  }
+
+  export type ShopUpdateOneRequiredWithoutCryptoWalletsNestedInput = {
+    create?: XOR<ShopCreateWithoutCryptoWalletsInput, ShopUncheckedCreateWithoutCryptoWalletsInput>
+    connectOrCreate?: ShopCreateOrConnectWithoutCryptoWalletsInput
+    upsert?: ShopUpsertWithoutCryptoWalletsInput
+    connect?: ShopWhereUniqueInput
+    update?: XOR<XOR<ShopUpdateToOneWithWhereWithoutCryptoWalletsInput, ShopUpdateWithoutCryptoWalletsInput>, ShopUncheckedUpdateWithoutCryptoWalletsInput>
+  }
+
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -22135,14 +24269,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserCreateNestedOneWithoutShopsInput = {
@@ -22170,6 +24296,13 @@ export namespace Prisma {
     connectOrCreate?: TransactionCreateOrConnectWithoutShopInput | TransactionCreateOrConnectWithoutShopInput[]
     createMany?: TransactionCreateManyShopInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type CryptoWalletCreateNestedManyWithoutShopInput = {
+    create?: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput> | CryptoWalletCreateWithoutShopInput[] | CryptoWalletUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutShopInput | CryptoWalletCreateOrConnectWithoutShopInput[]
+    createMany?: CryptoWalletCreateManyShopInputEnvelope
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
   }
 
   export type PaymentMethodCreateNestedManyWithoutShopInput = {
@@ -22212,6 +24345,13 @@ export namespace Prisma {
     connectOrCreate?: TransactionCreateOrConnectWithoutShopInput | TransactionCreateOrConnectWithoutShopInput[]
     createMany?: TransactionCreateManyShopInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type CryptoWalletUncheckedCreateNestedManyWithoutShopInput = {
+    create?: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput> | CryptoWalletCreateWithoutShopInput[] | CryptoWalletUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutShopInput | CryptoWalletCreateOrConnectWithoutShopInput[]
+    createMany?: CryptoWalletCreateManyShopInputEnvelope
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
   }
 
   export type PaymentMethodUncheckedCreateNestedManyWithoutShopInput = {
@@ -22287,6 +24427,20 @@ export namespace Prisma {
     update?: TransactionUpdateWithWhereUniqueWithoutShopInput | TransactionUpdateWithWhereUniqueWithoutShopInput[]
     updateMany?: TransactionUpdateManyWithWhereWithoutShopInput | TransactionUpdateManyWithWhereWithoutShopInput[]
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type CryptoWalletUpdateManyWithoutShopNestedInput = {
+    create?: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput> | CryptoWalletCreateWithoutShopInput[] | CryptoWalletUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutShopInput | CryptoWalletCreateOrConnectWithoutShopInput[]
+    upsert?: CryptoWalletUpsertWithWhereUniqueWithoutShopInput | CryptoWalletUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: CryptoWalletCreateManyShopInputEnvelope
+    set?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    disconnect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    delete?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    update?: CryptoWalletUpdateWithWhereUniqueWithoutShopInput | CryptoWalletUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: CryptoWalletUpdateManyWithWhereWithoutShopInput | CryptoWalletUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
   }
 
   export type PaymentMethodUpdateManyWithoutShopNestedInput = {
@@ -22373,6 +24527,20 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type CryptoWalletUncheckedUpdateManyWithoutShopNestedInput = {
+    create?: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput> | CryptoWalletCreateWithoutShopInput[] | CryptoWalletUncheckedCreateWithoutShopInput[]
+    connectOrCreate?: CryptoWalletCreateOrConnectWithoutShopInput | CryptoWalletCreateOrConnectWithoutShopInput[]
+    upsert?: CryptoWalletUpsertWithWhereUniqueWithoutShopInput | CryptoWalletUpsertWithWhereUniqueWithoutShopInput[]
+    createMany?: CryptoWalletCreateManyShopInputEnvelope
+    set?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    disconnect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    delete?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    connect?: CryptoWalletWhereUniqueInput | CryptoWalletWhereUniqueInput[]
+    update?: CryptoWalletUpdateWithWhereUniqueWithoutShopInput | CryptoWalletUpdateWithWhereUniqueWithoutShopInput[]
+    updateMany?: CryptoWalletUpdateManyWithWhereWithoutShopInput | CryptoWalletUpdateManyWithWhereWithoutShopInput[]
+    deleteMany?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
+  }
+
   export type PaymentMethodUncheckedUpdateManyWithoutShopNestedInput = {
     create?: XOR<PaymentMethodCreateWithoutShopInput, PaymentMethodUncheckedCreateWithoutShopInput> | PaymentMethodCreateWithoutShopInput[] | PaymentMethodUncheckedCreateWithoutShopInput[]
     connectOrCreate?: PaymentMethodCreateOrConnectWithoutShopInput | PaymentMethodCreateOrConnectWithoutShopInput[]
@@ -22419,10 +24587,6 @@ export namespace Prisma {
     create?: XOR<ShopCreateWithoutPaymentMethodsInput, ShopUncheckedCreateWithoutPaymentMethodsInput>
     connectOrCreate?: ShopCreateOrConnectWithoutPaymentMethodsInput
     connect?: ShopWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type ShopUpdateOneRequiredWithoutPaymentMethodsNestedInput = {
@@ -22763,6 +24927,22 @@ export namespace Prisma {
     divide?: Decimal | DecimalJsLike | number | string
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ProductUpdateOneRequiredWithoutVariantsNestedInput = {
     create?: XOR<ProductCreateWithoutVariantsInput, ProductUncheckedCreateWithoutVariantsInput>
     connectOrCreate?: ProductCreateOrConnectWithoutVariantsInput
@@ -22809,6 +24989,10 @@ export namespace Prisma {
     create?: XOR<ShopCreateWithoutTransactionsInput, ShopUncheckedCreateWithoutTransactionsInput>
     connectOrCreate?: ShopCreateOrConnectWithoutTransactionsInput
     connect?: ShopWhereUniqueInput
+  }
+
+  export type EnumTransactionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionType
   }
 
   export type EnumTransactionStatusFieldUpdateOperationsInput = {
@@ -23037,14 +25221,6 @@ export namespace Prisma {
     update?: XOR<XOR<ProductVariantUpdateToOneWithWhereWithoutCartItemsInput, ProductVariantUpdateWithoutCartItemsInput>, ProductVariantUncheckedUpdateWithoutCartItemsInput>
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -23129,6 +25305,29 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedEnumCryptoCurrencyFilter<$PrismaModel = never> = {
+    equals?: $Enums.CryptoCurrency | EnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCryptoCurrencyFilter<$PrismaModel> | $Enums.CryptoCurrency
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23145,7 +25344,25 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumCryptoCurrencyWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CryptoCurrency | EnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    in?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CryptoCurrency[] | ListEnumCryptoCurrencyFieldRefInput<$PrismaModel>
+    not?: NestedEnumCryptoCurrencyWithAggregatesFilter<$PrismaModel> | $Enums.CryptoCurrency
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCryptoCurrencyFilter<$PrismaModel>
+    _max?: NestedEnumCryptoCurrencyFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
     notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -23153,7 +25370,12 @@ export namespace Prisma {
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
@@ -23196,19 +25418,6 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -23310,6 +25519,17 @@ export namespace Prisma {
     not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
@@ -23326,11 +25546,71 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumTransactionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeFilter<$PrismaModel> | $Enums.TransactionType
+  }
+
   export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  }
+
+  export type NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionType | EnumTransactionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionType[] | ListEnumTransactionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionTypeWithAggregatesFilter<$PrismaModel> | $Enums.TransactionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionTypeFilter<$PrismaModel>
+    _max?: NestedEnumTransactionTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -23377,33 +25657,6 @@ export namespace Prisma {
     _max?: NestedEnumCheckoutStatusFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type SessionCreateWithoutUserInput = {
     token: string
     createdAt?: Date | string
@@ -23427,6 +25680,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CryptoWalletCreateWithoutUserInput = {
+    id?: string
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shop: ShopCreateNestedOneWithoutCryptoWalletsInput
+  }
+
+  export type CryptoWalletUncheckedCreateWithoutUserInput = {
+    id?: string
+    shopId: number
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CryptoWalletCreateOrConnectWithoutUserInput = {
+    where: CryptoWalletWhereUniqueInput
+    create: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput>
+  }
+
+  export type CryptoWalletCreateManyUserInputEnvelope = {
+    data: CryptoWalletCreateManyUserInput | CryptoWalletCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ShopCreateWithoutOwnerInput = {
     name: string
     subdomain: string
@@ -23436,6 +25723,7 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
@@ -23451,6 +25739,7 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
@@ -23493,6 +25782,38 @@ export namespace Prisma {
     expiresAt?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type CryptoWalletUpsertWithWhereUniqueWithoutUserInput = {
+    where: CryptoWalletWhereUniqueInput
+    update: XOR<CryptoWalletUpdateWithoutUserInput, CryptoWalletUncheckedUpdateWithoutUserInput>
+    create: XOR<CryptoWalletCreateWithoutUserInput, CryptoWalletUncheckedCreateWithoutUserInput>
+  }
+
+  export type CryptoWalletUpdateWithWhereUniqueWithoutUserInput = {
+    where: CryptoWalletWhereUniqueInput
+    data: XOR<CryptoWalletUpdateWithoutUserInput, CryptoWalletUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CryptoWalletUpdateManyWithWhereWithoutUserInput = {
+    where: CryptoWalletScalarWhereInput
+    data: XOR<CryptoWalletUpdateManyMutationInput, CryptoWalletUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type CryptoWalletScalarWhereInput = {
+    AND?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
+    OR?: CryptoWalletScalarWhereInput[]
+    NOT?: CryptoWalletScalarWhereInput | CryptoWalletScalarWhereInput[]
+    id?: StringFilter<"CryptoWallet"> | string
+    userId?: StringFilter<"CryptoWallet"> | string
+    shopId?: IntFilter<"CryptoWallet"> | number
+    isActive?: BoolFilter<"CryptoWallet"> | boolean
+    currency?: EnumCryptoCurrencyFilter<"CryptoWallet"> | $Enums.CryptoCurrency
+    subIndex?: IntFilter<"CryptoWallet"> | number
+    address?: StringFilter<"CryptoWallet"> | string
+    balance?: FloatFilter<"CryptoWallet"> | number
+    createdAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+    updatedAt?: DateTimeFilter<"CryptoWallet"> | Date | string
+  }
+
   export type ShopUpsertWithWhereUniqueWithoutOwnerInput = {
     where: ShopWhereUniqueInput
     update: XOR<ShopUpdateWithoutOwnerInput, ShopUncheckedUpdateWithoutOwnerInput>
@@ -23522,6 +25843,148 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Shop"> | Date | string
   }
 
+  export type UserCreateWithoutCryptoWalletsInput = {
+    id?: string
+    username: string
+    email: string
+    role?: $Enums.Roles
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    shops?: ShopCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserUncheckedCreateWithoutCryptoWalletsInput = {
+    id?: string
+    username: string
+    email: string
+    role?: $Enums.Roles
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
+  }
+
+  export type UserCreateOrConnectWithoutCryptoWalletsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCryptoWalletsInput, UserUncheckedCreateWithoutCryptoWalletsInput>
+  }
+
+  export type ShopCreateWithoutCryptoWalletsInput = {
+    name: string
+    subdomain: string
+    customDomain?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    owner: UserCreateNestedOneWithoutShopsInput
+    products?: ProductCreateNestedManyWithoutShopInput
+    customers?: ShopCustomerCreateNestedManyWithoutShopInput
+    transactions?: TransactionCreateNestedManyWithoutShopInput
+    paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
+    checkouts?: CheckoutCreateNestedManyWithoutShopInput
+    carts?: CartCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopUncheckedCreateWithoutCryptoWalletsInput = {
+    id?: number
+    name: string
+    subdomain: string
+    customDomain?: string | null
+    ownerId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutShopInput
+    customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
+    transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
+    checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
+    carts?: CartUncheckedCreateNestedManyWithoutShopInput
+  }
+
+  export type ShopCreateOrConnectWithoutCryptoWalletsInput = {
+    where: ShopWhereUniqueInput
+    create: XOR<ShopCreateWithoutCryptoWalletsInput, ShopUncheckedCreateWithoutCryptoWalletsInput>
+  }
+
+  export type UserUpsertWithoutCryptoWalletsInput = {
+    update: XOR<UserUpdateWithoutCryptoWalletsInput, UserUncheckedUpdateWithoutCryptoWalletsInput>
+    create: XOR<UserCreateWithoutCryptoWalletsInput, UserUncheckedCreateWithoutCryptoWalletsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutCryptoWalletsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutCryptoWalletsInput, UserUncheckedUpdateWithoutCryptoWalletsInput>
+  }
+
+  export type UserUpdateWithoutCryptoWalletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    shops?: ShopUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutCryptoWalletsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumRolesFieldUpdateOperationsInput | $Enums.Roles
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
+  }
+
+  export type ShopUpsertWithoutCryptoWalletsInput = {
+    update: XOR<ShopUpdateWithoutCryptoWalletsInput, ShopUncheckedUpdateWithoutCryptoWalletsInput>
+    create: XOR<ShopCreateWithoutCryptoWalletsInput, ShopUncheckedCreateWithoutCryptoWalletsInput>
+    where?: ShopWhereInput
+  }
+
+  export type ShopUpdateToOneWithWhereWithoutCryptoWalletsInput = {
+    where?: ShopWhereInput
+    data: XOR<ShopUpdateWithoutCryptoWalletsInput, ShopUncheckedUpdateWithoutCryptoWalletsInput>
+  }
+
+  export type ShopUpdateWithoutCryptoWalletsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    customDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutShopsNestedInput
+    products?: ProductUpdateManyWithoutShopNestedInput
+    customers?: ShopCustomerUpdateManyWithoutShopNestedInput
+    transactions?: TransactionUpdateManyWithoutShopNestedInput
+    paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
+    checkouts?: CheckoutUpdateManyWithoutShopNestedInput
+    carts?: CartUpdateManyWithoutShopNestedInput
+  }
+
+  export type ShopUncheckedUpdateWithoutCryptoWalletsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    subdomain?: StringFieldUpdateOperationsInput | string
+    customDomain?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutShopNestedInput
+    customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
+    transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
+    checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
+    carts?: CartUncheckedUpdateManyWithoutShopNestedInput
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     username: string
@@ -23530,6 +25993,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutUserInput
     shops?: ShopCreateNestedManyWithoutOwnerInput
   }
 
@@ -23541,6 +26005,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutUserInput
     shops?: ShopUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -23568,6 +26033,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cryptoWallets?: CryptoWalletUpdateManyWithoutUserNestedInput
     shops?: ShopUpdateManyWithoutOwnerNestedInput
   }
 
@@ -23579,6 +26045,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutUserNestedInput
     shops?: ShopUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -23591,6 +26058,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutShopsInput = {
@@ -23602,6 +26070,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutShopsInput = {
@@ -23611,6 +26080,7 @@ export namespace Prisma {
 
   export type ProductCreateWithoutShopInput = {
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -23623,6 +26093,7 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutShopInput = {
     id?: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -23643,8 +26114,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateWithoutShopInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23656,8 +26127,9 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateWithoutShopInput = {
-    id?: string
+    id?: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23682,6 +26154,7 @@ export namespace Prisma {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23690,9 +26163,10 @@ export namespace Prisma {
 
   export type TransactionUncheckedCreateWithoutShopInput = {
     id?: string
-    customerId: string
+    customerId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -23705,6 +26179,40 @@ export namespace Prisma {
 
   export type TransactionCreateManyShopInputEnvelope = {
     data: TransactionCreateManyShopInput | TransactionCreateManyShopInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CryptoWalletCreateWithoutShopInput = {
+    id?: string
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutCryptoWalletsInput
+  }
+
+  export type CryptoWalletUncheckedCreateWithoutShopInput = {
+    id?: string
+    userId: string
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CryptoWalletCreateOrConnectWithoutShopInput = {
+    where: CryptoWalletWhereUniqueInput
+    create: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput>
+  }
+
+  export type CryptoWalletCreateManyShopInputEnvelope = {
+    data: CryptoWalletCreateManyShopInput | CryptoWalletCreateManyShopInput[]
     skipDuplicates?: boolean
   }
 
@@ -23779,7 +26287,7 @@ export namespace Prisma {
 
   export type CartUncheckedCreateWithoutShopInput = {
     id?: string
-    customerId: string
+    customerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: CartItemUncheckedCreateNestedManyWithoutCartInput
@@ -23815,6 +26323,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutShopsInput = {
@@ -23826,6 +26335,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductUpsertWithWhereUniqueWithoutShopInput = {
@@ -23851,6 +26361,7 @@ export namespace Prisma {
     id?: IntFilter<"Product"> | number
     shopId?: IntFilter<"Product"> | number
     name?: StringFilter<"Product"> | string
+    url_path?: StringNullableFilter<"Product"> | string | null
     description?: StringNullableFilter<"Product"> | string | null
     stock?: IntFilter<"Product"> | number
     visibility?: EnumProductVisibilityFilter<"Product"> | $Enums.ProductVisibility
@@ -23878,9 +26389,10 @@ export namespace Prisma {
     AND?: ShopCustomerScalarWhereInput | ShopCustomerScalarWhereInput[]
     OR?: ShopCustomerScalarWhereInput[]
     NOT?: ShopCustomerScalarWhereInput | ShopCustomerScalarWhereInput[]
-    id?: StringFilter<"ShopCustomer"> | string
+    id?: IntFilter<"ShopCustomer"> | number
     shopId?: IntFilter<"ShopCustomer"> | number
     email?: StringFilter<"ShopCustomer"> | string
+    password?: StringFilter<"ShopCustomer"> | string
     notes?: JsonNullableFilter<"ShopCustomer">
     createdAt?: DateTimeFilter<"ShopCustomer"> | Date | string
     updatedAt?: DateTimeFilter<"ShopCustomer"> | Date | string
@@ -23908,13 +26420,30 @@ export namespace Prisma {
     OR?: TransactionScalarWhereInput[]
     NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
     id?: StringFilter<"Transaction"> | string
-    customerId?: StringFilter<"Transaction"> | string
+    customerId?: IntFilter<"Transaction"> | number
     shopId?: IntFilter<"Transaction"> | number
     totalAmount?: DecimalFilter<"Transaction"> | Decimal | DecimalJsLike | number | string
     deliverables?: JsonNullableFilter<"Transaction">
+    type?: EnumTransactionTypeFilter<"Transaction"> | $Enums.TransactionType
     status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+  }
+
+  export type CryptoWalletUpsertWithWhereUniqueWithoutShopInput = {
+    where: CryptoWalletWhereUniqueInput
+    update: XOR<CryptoWalletUpdateWithoutShopInput, CryptoWalletUncheckedUpdateWithoutShopInput>
+    create: XOR<CryptoWalletCreateWithoutShopInput, CryptoWalletUncheckedCreateWithoutShopInput>
+  }
+
+  export type CryptoWalletUpdateWithWhereUniqueWithoutShopInput = {
+    where: CryptoWalletWhereUniqueInput
+    data: XOR<CryptoWalletUpdateWithoutShopInput, CryptoWalletUncheckedUpdateWithoutShopInput>
+  }
+
+  export type CryptoWalletUpdateManyWithWhereWithoutShopInput = {
+    where: CryptoWalletScalarWhereInput
+    data: XOR<CryptoWalletUpdateManyMutationInput, CryptoWalletUncheckedUpdateManyWithoutShopInput>
   }
 
   export type PaymentMethodUpsertWithWhereUniqueWithoutShopInput = {
@@ -23998,7 +26527,7 @@ export namespace Prisma {
     OR?: CartScalarWhereInput[]
     NOT?: CartScalarWhereInput | CartScalarWhereInput[]
     id?: StringFilter<"Cart"> | string
-    customerId?: StringFilter<"Cart"> | string
+    customerId?: IntFilter<"Cart"> | number
     shopId?: IntFilter<"Cart"> | number
     createdAt?: DateTimeFilter<"Cart"> | Date | string
     updatedAt?: DateTimeFilter<"Cart"> | Date | string
@@ -24014,6 +26543,7 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
   }
@@ -24029,6 +26559,7 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
   }
@@ -24059,6 +26590,7 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
   }
@@ -24074,6 +26606,7 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
   }
@@ -24087,6 +26620,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     products?: ProductCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
@@ -24102,6 +26636,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
@@ -24167,6 +26702,7 @@ export namespace Prisma {
     id?: string
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24178,6 +26714,7 @@ export namespace Prisma {
     shopId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24239,6 +26776,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     products?: ProductUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
@@ -24254,6 +26792,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
@@ -24280,7 +26819,7 @@ export namespace Prisma {
     OR?: CustomerSessionScalarWhereInput[]
     NOT?: CustomerSessionScalarWhereInput | CustomerSessionScalarWhereInput[]
     id?: IntFilter<"CustomerSession"> | number
-    customerId?: StringFilter<"CustomerSession"> | string
+    customerId?: IntFilter<"CustomerSession"> | number
     type?: EnumCustomerSessionTypeFilter<"CustomerSession"> | $Enums.CustomerSessionType
     token?: StringFilter<"CustomerSession"> | string
     createdAt?: DateTimeFilter<"CustomerSession"> | Date | string
@@ -24308,7 +26847,7 @@ export namespace Prisma {
     OR?: CustomerLoginTokenScalarWhereInput[]
     NOT?: CustomerLoginTokenScalarWhereInput | CustomerLoginTokenScalarWhereInput[]
     id?: StringFilter<"CustomerLoginToken"> | string
-    customerId?: StringFilter<"CustomerLoginToken"> | string
+    customerId?: IntFilter<"CustomerLoginToken"> | number
     token?: StringFilter<"CustomerLoginToken"> | string
     expiresAt?: DateTimeFilter<"CustomerLoginToken"> | Date | string
     used?: BoolFilter<"CustomerLoginToken"> | boolean
@@ -24348,8 +26887,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateWithoutTokensInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24361,9 +26900,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateWithoutTokensInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24390,8 +26930,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateWithoutTokensInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24403,9 +26943,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateWithoutTokensInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24424,6 +26965,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
@@ -24439,6 +26981,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
@@ -24451,7 +26994,11 @@ export namespace Prisma {
 
   export type ProductVariantCreateWithoutProductInput = {
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -24462,7 +27009,11 @@ export namespace Prisma {
   export type ProductVariantUncheckedCreateWithoutProductInput = {
     id?: number
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -24530,6 +27081,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
@@ -24545,6 +27097,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
@@ -24573,7 +27126,11 @@ export namespace Prisma {
     id?: IntFilter<"ProductVariant"> | number
     productId?: IntFilter<"ProductVariant"> | number
     name?: StringFilter<"ProductVariant"> | string
+    description?: StringNullableFilter<"ProductVariant"> | string | null
     price?: DecimalFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string
+    slashed_price?: DecimalNullableFilter<"ProductVariant"> | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFilter<"ProductVariant"> | number
+    max_quantity?: IntNullableFilter<"ProductVariant"> | number | null
     stockCount?: IntFilter<"ProductVariant"> | number
     deliverables?: JsonNullableFilter<"ProductVariant">
     createdAt?: DateTimeFilter<"ProductVariant"> | Date | string
@@ -24612,6 +27169,7 @@ export namespace Prisma {
 
   export type ProductCreateWithoutVariantsInput = {
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -24625,6 +27183,7 @@ export namespace Prisma {
     id?: number
     shopId: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -24681,6 +27240,7 @@ export namespace Prisma {
 
   export type ProductUpdateWithoutVariantsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -24694,6 +27254,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -24719,8 +27280,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateWithoutTransactionsInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24732,9 +27293,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateWithoutTransactionsInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24758,6 +27320,7 @@ export namespace Prisma {
     owner: UserCreateNestedOneWithoutShopsInput
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
@@ -24773,6 +27336,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
@@ -24795,8 +27359,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateWithoutTransactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24808,9 +27372,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateWithoutTransactionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24840,6 +27405,7 @@ export namespace Prisma {
     owner?: UserUpdateOneRequiredWithoutShopsNestedInput
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
@@ -24855,14 +27421,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCustomerCreateWithoutSessionsInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24874,9 +27441,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateWithoutSessionsInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -24903,8 +27471,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateWithoutSessionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24916,9 +27484,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateWithoutSessionsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25022,6 +27591,7 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     carts?: CartCreateNestedManyWithoutShopInput
   }
@@ -25037,6 +27607,7 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     carts?: CartUncheckedCreateNestedManyWithoutShopInput
   }
@@ -25094,6 +27665,7 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
   }
@@ -25109,13 +27681,14 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
   }
 
   export type ShopCustomerCreateWithoutCartsInput = {
-    id?: string
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25127,9 +27700,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedCreateWithoutCartsInput = {
-    id?: string
+    id?: number
     shopId: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25154,6 +27728,7 @@ export namespace Prisma {
     products?: ProductCreateNestedManyWithoutShopInput
     customers?: ShopCustomerCreateNestedManyWithoutShopInput
     transactions?: TransactionCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodCreateNestedManyWithoutShopInput
     checkouts?: CheckoutCreateNestedManyWithoutShopInput
   }
@@ -25169,6 +27744,7 @@ export namespace Prisma {
     products?: ProductUncheckedCreateNestedManyWithoutShopInput
     customers?: ShopCustomerUncheckedCreateNestedManyWithoutShopInput
     transactions?: TransactionUncheckedCreateNestedManyWithoutShopInput
+    cryptoWallets?: CryptoWalletUncheckedCreateNestedManyWithoutShopInput
     paymentMethods?: PaymentMethodUncheckedCreateNestedManyWithoutShopInput
     checkouts?: CheckoutUncheckedCreateNestedManyWithoutShopInput
   }
@@ -25220,8 +27796,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateWithoutCartsInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25233,9 +27809,10 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateWithoutCartsInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25266,6 +27843,7 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
   }
@@ -25281,6 +27859,7 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
   }
@@ -25311,7 +27890,7 @@ export namespace Prisma {
 
   export type CartUncheckedCreateWithoutItemsInput = {
     id?: string
-    customerId: string
+    customerId: number
     shopId: number
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25324,6 +27903,7 @@ export namespace Prisma {
 
   export type ProductCreateWithoutCartItemsInput = {
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -25337,6 +27917,7 @@ export namespace Prisma {
     id?: number
     shopId: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -25352,7 +27933,11 @@ export namespace Prisma {
 
   export type ProductVariantCreateWithoutCartItemsInput = {
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -25364,7 +27949,11 @@ export namespace Prisma {
     id?: number
     productId: number
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -25397,7 +27986,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25416,6 +28005,7 @@ export namespace Prisma {
 
   export type ProductUpdateWithoutCartItemsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -25429,6 +28019,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     shopId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -25450,7 +28041,11 @@ export namespace Prisma {
 
   export type ProductVariantUpdateWithoutCartItemsInput = {
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25462,7 +28057,11 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     productId?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25474,6 +28073,18 @@ export namespace Prisma {
     token: string
     createdAt?: Date | string
     expiresAt: Date | string
+  }
+
+  export type CryptoWalletCreateManyUserInput = {
+    id?: string
+    shopId: number
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ShopCreateManyOwnerInput = {
@@ -25505,6 +28116,42 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CryptoWalletUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shop?: ShopUpdateOneRequiredWithoutCryptoWalletsNestedInput
+  }
+
+  export type CryptoWalletUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    shopId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ShopUpdateWithoutOwnerInput = {
     name?: StringFieldUpdateOperationsInput | string
     subdomain?: StringFieldUpdateOperationsInput | string
@@ -25514,6 +28161,7 @@ export namespace Prisma {
     products?: ProductUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUpdateManyWithoutShopNestedInput
     transactions?: TransactionUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUpdateManyWithoutShopNestedInput
     carts?: CartUpdateManyWithoutShopNestedInput
@@ -25529,6 +28177,7 @@ export namespace Prisma {
     products?: ProductUncheckedUpdateManyWithoutShopNestedInput
     customers?: ShopCustomerUncheckedUpdateManyWithoutShopNestedInput
     transactions?: TransactionUncheckedUpdateManyWithoutShopNestedInput
+    cryptoWallets?: CryptoWalletUncheckedUpdateManyWithoutShopNestedInput
     paymentMethods?: PaymentMethodUncheckedUpdateManyWithoutShopNestedInput
     checkouts?: CheckoutUncheckedUpdateManyWithoutShopNestedInput
     carts?: CartUncheckedUpdateManyWithoutShopNestedInput
@@ -25546,6 +28195,7 @@ export namespace Prisma {
   export type ProductCreateManyShopInput = {
     id?: number
     name: string
+    url_path?: string | null
     description?: string | null
     stock?: number
     visibility?: $Enums.ProductVisibility
@@ -25554,8 +28204,9 @@ export namespace Prisma {
   }
 
   export type ShopCustomerCreateManyShopInput = {
-    id?: string
+    id?: number
     email: string
+    password: string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25564,10 +28215,23 @@ export namespace Prisma {
 
   export type TransactionCreateManyShopInput = {
     id?: string
-    customerId: string
+    customerId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CryptoWalletCreateManyShopInput = {
+    id?: string
+    userId: string
+    isActive?: boolean
+    currency: $Enums.CryptoCurrency
+    subIndex: number
+    address: string
+    balance?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -25594,13 +28258,14 @@ export namespace Prisma {
 
   export type CartCreateManyShopInput = {
     id?: string
-    customerId: string
+    customerId: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ProductUpdateWithoutShopInput = {
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -25613,6 +28278,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -25625,6 +28291,7 @@ export namespace Prisma {
   export type ProductUncheckedUpdateManyWithoutShopInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    url_path?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     stock?: IntFieldUpdateOperationsInput | number
     visibility?: EnumProductVisibilityFieldUpdateOperationsInput | $Enums.ProductVisibility
@@ -25633,8 +28300,8 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUpdateWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25646,8 +28313,9 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25659,8 +28327,9 @@ export namespace Prisma {
   }
 
   export type ShopCustomerUncheckedUpdateManyWithoutShopInput = {
-    id?: StringFieldUpdateOperationsInput | string
+    id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
     notes?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25671,6 +28340,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25679,9 +28349,10 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25689,10 +28360,47 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateManyWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCryptoWalletsNestedInput
+  }
+
+  export type CryptoWalletUncheckedUpdateWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CryptoWalletUncheckedUpdateManyWithoutShopInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    currency?: EnumCryptoCurrencyFieldUpdateOperationsInput | $Enums.CryptoCurrency
+    subIndex?: IntFieldUpdateOperationsInput | number
+    address?: StringFieldUpdateOperationsInput | string
+    balance?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25768,7 +28476,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: CartItemUncheckedUpdateManyWithoutCartNestedInput
@@ -25776,7 +28484,7 @@ export namespace Prisma {
 
   export type CartUncheckedUpdateManyWithoutShopInput = {
     id?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
+    customerId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25802,6 +28510,7 @@ export namespace Prisma {
     shopId: number
     totalAmount: Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type: $Enums.TransactionType
     status?: $Enums.TransactionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25865,6 +28574,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25876,6 +28586,7 @@ export namespace Prisma {
     shopId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25886,6 +28597,7 @@ export namespace Prisma {
     shopId?: IntFieldUpdateOperationsInput | number
     totalAmount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     deliverables?: NullableJsonNullValueInput | InputJsonValue
+    type?: EnumTransactionTypeFieldUpdateOperationsInput | $Enums.TransactionType
     status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25917,7 +28629,11 @@ export namespace Prisma {
   export type ProductVariantCreateManyProductInput = {
     id?: number
     name: string
+    description?: string | null
     price: Decimal | DecimalJsLike | number | string
+    slashed_price?: Decimal | DecimalJsLike | number | string | null
+    min_quantity?: number
+    max_quantity?: number | null
     stockCount?: number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
@@ -25936,7 +28652,11 @@ export namespace Prisma {
 
   export type ProductVariantUpdateWithoutProductInput = {
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25947,7 +28667,11 @@ export namespace Prisma {
   export type ProductVariantUncheckedUpdateWithoutProductInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25958,7 +28682,11 @@ export namespace Prisma {
   export type ProductVariantUncheckedUpdateManyWithoutProductInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    slashed_price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    min_quantity?: IntFieldUpdateOperationsInput | number
+    max_quantity?: NullableIntFieldUpdateOperationsInput | number | null
     stockCount?: IntFieldUpdateOperationsInput | number
     deliverables?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

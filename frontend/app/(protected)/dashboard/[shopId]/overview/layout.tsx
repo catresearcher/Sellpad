@@ -1,5 +1,5 @@
 "use client";
-import ShopAnalyticDate from "@/components/Sections/Dashboard/Shop/date-picker";
+import ShopAnalyticDate from "@/components/Shop/date-picker";
 import PageTitle from "@/components/ui/pageTitle";
 import { useShop } from "@/context/shopContext";
 import React, { useState } from "react";
@@ -28,7 +28,7 @@ export default function ShopOverviewLayout({
   const greeting = getGreeting();
 
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-2 w-full">
       <div className="flex items-center justify-between w-full">
         {" "}
         <PageTitle

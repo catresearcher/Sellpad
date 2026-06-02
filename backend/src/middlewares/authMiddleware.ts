@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import sessionService from "../services/sessionService";
+import sessionService from "../services/session.service";
 import { asyncHandler } from "../utils/asyncHandler";
 
 export async function validateSession(token: string | undefined) {

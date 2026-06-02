@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 type InputProps = React.ComponentProps<"input"> & {
   icon?: String;
+  subdomain?: boolean;
   "aria-invalid"?: boolean;
 };
 
@@ -12,10 +13,41 @@ function Input({
   className,
   icon,
   type,
+  subdomain,
   "aria-invalid": isInvalid,
   ...props
 }: InputProps) {
   const [showPassword, setShowPassword] = React.useState(false);
+  if (subdomain) {
+    return (
+      <div
+        className={cn(
+          "flex items-center bg-card gap-2 h-12 w-full rounded-md text-md border px-3 transition-colors",
+          "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+          isInvalid
+            ? "border-destructive ring-3 ring-destructive/20 text-destructive"
+            : "border-transparent",
+          className,
+        )}
+      >
+        {/* User input */}
+        <input
+          type={showPassword ? "text" : type}
+          data-slot="input"
+          placeholder="example"
+          className="flex-1 w-[35%] h-full bg-transparent outline-none"
+          {...props}
+        />
+
+        {/* Divider */}
+        <div className="h-full w-px bg-border" />
+
+        <span className="text-muted-foreground font-medium px-4 whitespace-nowrap">
+          .sellpad.io
+        </span>
+      </div>
+    );
+  }
   if (icon) {
     return (
       <div

@@ -3,9 +3,9 @@ const router = Router();
 
 import { sessionAuth } from "../middlewares/authMiddleware";
 
-import authRoutes from "./authRoutes";
-import shopRoutes from "./shopRoutes";
-import userRoutes from "./userRoutes";
+import authRoutes from "./auth.route";
+import shopRoutes from "./shop.route";
+import userRoutes from "./user.route";
 
 // Apply routes
 router.use("/api/auth", authRoutes);

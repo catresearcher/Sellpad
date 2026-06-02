@@ -1,5 +1,9 @@
 import prisma from "../db";
 import { v4 as uuid } from "uuid";
+import { deriveMerchantWallet } from "./crypto/bitcoin/wallet";
+import { deriveLitecoinMerchantWallet } from "./crypto/litecoin/wallet";
+import { deriveEthereumMerchantWallet } from "./crypto/ethereum/wallet";
+import { CryptoCurrency } from "../lib/database/generated";
 
 export async function SeedDatabase() {
   try {
@@ -27,6 +31,44 @@ export async function SeedDatabase() {
         },
       });
 
+      const btcAddress = deriveMerchantWallet(shop.id).address;
+      const ltcAddress = deriveLitecoinMerchantWallet(shop.id).address;
+      const ethAddress = deriveEthereumMerchantWallet(shop.id).address;
+
+      if (!btcAddress || !ltcAddress || !ethAddress) {
+        throw new Error("Missing wallet address");
+      }
+
+      const addresses: Record<CryptoCurrency, string> = {
+        BITCOIN: btcAddress,
+        LITECOIN: ltcAddress,
+        ETHEREUM: ethAddress,
+      };
+
+      const wallets = await Promise.all(
+        Object.entries(addresses).map(([currency, address]) =>
+          tx.cryptoWallet.upsert({
+            where: {
+              userId_shopId_currency: {
+                userId: user.id,
+                shopId: shop.id,
+                currency: currency as CryptoCurrency,
+              },
+            },
+            update: {
+              address,
+            },
+            create: {
+              userId: user.id,
+              shopId: shop.id,
+              currency: currency as CryptoCurrency,
+              address,
+              subIndex: shop.id,
+            },
+          }),
+        ),
+      );
+
       const product = await tx.product.upsert({
         where: { id: 1 },
         update: {
@@ -49,7 +91,7 @@ export async function SeedDatabase() {
         where: { id: 1 },
         update: {
           price: 19.99,
-          stockCount: 10,
+          stockCount: 2,
           deliverables: ["Deliverable 1", "Deliverable 2"],
         },
         create: {
@@ -57,12 +99,12 @@ export async function SeedDatabase() {
           productId: product.id,
           name: "Default Variant",
           price: 19.99,
-          stockCount: 10,
+          stockCount: 2,
           deliverables: ["Deliverable 1", "Deliverable 2"],
         },
       });
 
-      return { user, shop, product, variant };
+      return { user, shop, wallets, product, variant };
     });
 
     console.log("DB seeded/upserted successfully:", result);

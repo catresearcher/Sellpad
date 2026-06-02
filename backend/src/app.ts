@@ -7,15 +7,22 @@ import cors from "cors";
 
 const app = express();
 
-SeedDatabase();
+const allowedOrigins = ["http://localhost:3000", "http://localhost:5173"];
 
 app.use(
-  // Whitelist frontend for cors
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
+
+SeedDatabase();
 
 app.set("trust proxy", true);
 app.use(json());
@@ -25,7 +32,6 @@ app.use(requestLogger);
 import routes from "./routes";
 
 app.use(routes);
-
 app.use(errorHandler);
 
 export default app;

@@ -1,7 +1,7 @@
 "use client";
 
-import ShopAnalytics from "@/components/Sections/Dashboard/Shop/analytics";
-import ShopRevenueChart from "@/components/Sections/Dashboard/Shop/chart";
+import ShopAnalytics from "@/components/Shop/analytics";
+import ShopRevenueChart from "@/components/Shop/chart";
 import {
   Card,
   CardContent,
@@ -42,7 +42,7 @@ export default function ShopOverview() {
         )}
       />
       <div className="grid grid-cols-3 gap-4 w-full min-h-[65vh]">
-        <Card className="col-span-3 h-full">
+        <Card className="col-span-3 h-full border border-border rounded">
           <CardHeader>
             <CardTitle>Revenue chart</CardTitle>
             <CardDescription>Your revenue growth over month</CardDescription>

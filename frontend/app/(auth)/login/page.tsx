@@ -1,5 +1,6 @@
 "use client";
 import Form from "@/components/Form/form";
+import { useShop } from "@/context/shopContext";
 import { useUser } from "@/context/userContext";
 import { useLogin } from "@/hooks/Auth/useLogin";
 import { LoginSchema } from "@/schemas/auth.schema";
@@ -31,8 +32,9 @@ export default function Login() {
           username: value.username,
           password: value.password,
         });
-        login(data);
-        router.push("/dashboard/1/overview");
+        await login(data.user);
+        if (!data.shops[0]) return router.push("/onboarding");
+        router.push(`/dashboard/${data.shops[0].id}/overview`);
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);

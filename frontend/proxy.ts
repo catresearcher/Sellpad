@@ -1,59 +1,29 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function proxy(req: NextRequest) {
-  const url = req.nextUrl;
-  const pathname = url.pathname;
+export function proxy(req: NextRequest) {
+  const token = req.cookies.get("fgr")?.value;
+  const adminToken = req.cookies.get("fgra")?.value;
 
-  const cookie = req.cookies.get("fgr")?.value;
+  const { pathname } = req.nextUrl;
 
-  const protectedRoutes = ["/dashboard"];
-  const publicRoutes = ["/login", "/register"];
+  // Routes accessible without auth
+  const publicPaths = ["/login", "/register"];
 
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
+  // Routes requiring admin auth
+  const protectedPaths = ["/dashboard"];
 
-  const isPublicRoute = publicRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
+  const isPublic = publicPaths.includes(pathname);
 
-  let loggedIn = false;
+  const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
 
-  console.log(cookie);
-
-  if (cookie) {
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/me`,
-        {
-          method: "GET",
-          headers: {
-            cookie: `fgr=${cookie}`,
-          },
-          credentials: "include",
-        },
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-
-        if (data.id) {
-          loggedIn = true;
-        }
-      }
-    } catch (err) {
-      console.error("Error checking session:", err);
-    }
-  }
-
-  // Not logged in trying to access protected route
-  if (!loggedIn && isProtectedRoute) {
+  // Not logged in → redirect protected routes
+  if (!token && isProtected) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Logged in trying to access auth pages
-  if (loggedIn && isPublicRoute) {
+  // Logged in users shouldn't access auth pages
+  if (token && isPublic) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
@@ -62,6 +32,6 @@ export async function proxy(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif)).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp)$).*)",
   ],
 };

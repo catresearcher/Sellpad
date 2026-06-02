@@ -1,5 +1,5 @@
 import { HandleRequestError } from "@/lib/errorHandler";
-import { LoginProps } from "@/types/Auth";
+import { LoginProps } from "@/types/auth.type";
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 

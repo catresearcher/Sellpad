@@ -1,47 +1,103 @@
-export type ProductVisibility = "Public" | "Private" | "Unlisted";
-
-export type ProductType = {
-  name: string;
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  stock: number;
-  price: number;
-  shopId: string;
-  description: string | null;
-  visibility: ProductVisibility;
-};
-
-export type MinimalProduct = Pick<ProductType, "id" | "name" | "visibility">;
-
-export interface ProductVariantType {
-  id: number;
-  name: string;
-  price: number;
-  stock: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deliverables?: string[];
-}
-
-export interface FullProduct extends MinimalProduct {
-  description: string | null;
-  variants?: ProductVariantType[];
-}
-
-import { fetchProducts } from "@/api/products/products";
+import { MinimalProduct } from "@/types/user.type";
 import { useQuery } from "@tanstack/react-query";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 interface ProductsResponse {
   products: MinimalProduct[];
   totalCount: number;
 }
 
-export const useProducts = (shopId: string, page: number, search: string) => {
+const fetchProducts = async (
+  shopId: number,
+  page: number,
+  search: string,
+): Promise<ProductsResponse> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/shop/${shopId}/products?page=${page}&search=${search}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    },
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      shopId,
+      productId,
+    }: {
+      shopId: number;
+      productId: any;
+    }) => {
+      return toast.promise(
+        (async () => {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/shop/${shopId}/products/${productId}`,
+            {
+              method: "DELETE",
+              credentials: "include",
+            },
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to delete product");
+          }
+
+          return { productId };
+        })(),
+        {
+          pending: "Deleting product...",
+          success: "Product deleted successfully",
+          error: "Something went wrong",
+        },
+      );
+    },
+
+    onSuccess: ({ productId }, { shopId }) => {
+      queryClient.setQueriesData(
+        {
+          queryKey: ["products", shopId],
+        },
+        (oldData: any) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            products: oldData.products.filter(
+              (product: any) => product.id !== productId,
+            ),
+          };
+        },
+      );
+    },
+  });
+};
+
+export const useProducts = (
+  shopId: number | undefined,
+  page: number,
+  search: string,
+) => {
   return useQuery<ProductsResponse, Error>({
-    queryKey: ["products", page, search],
-    queryFn: () => fetchProducts(shopId, page, search),
+    queryKey: ["products", shopId, page, search],
+    queryFn: () => fetchProducts(shopId!, page, search),
     refetchOnWindowFocus: false,
+    enabled: !!shopId,
     retry: 1,
   });
 };

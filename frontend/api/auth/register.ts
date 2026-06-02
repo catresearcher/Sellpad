@@ -1,5 +1,5 @@
 import { HandleRequestError } from "@/lib/errorHandler";
-import { AuthProps } from "@/types/Auth";
+import { AuthProps } from "@/types/auth.type";
 
 const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -9,6 +9,9 @@ export async function RegisterApi({ password, username, email }: AuthProps) {
   try {
     const response = await fetch(`${apiUrl}/auth/register`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       credentials: "include",
       body: JSON.stringify({
         email,

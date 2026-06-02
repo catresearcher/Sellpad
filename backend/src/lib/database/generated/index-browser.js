@@ -131,6 +131,19 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CryptoWalletScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  shopId: 'shopId',
+  isActive: 'isActive',
+  currency: 'currency',
+  subIndex: 'subIndex',
+  address: 'address',
+  balance: 'balance',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -164,6 +177,7 @@ exports.Prisma.ShopCustomerScalarFieldEnum = {
   id: 'id',
   shopId: 'shopId',
   email: 'email',
+  password: 'password',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -183,6 +197,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   shopId: 'shopId',
   name: 'name',
+  url_path: 'url_path',
   description: 'description',
   stock: 'stock',
   visibility: 'visibility',
@@ -194,7 +209,11 @@ exports.Prisma.ProductVariantScalarFieldEnum = {
   id: 'id',
   productId: 'productId',
   name: 'name',
+  description: 'description',
   price: 'price',
+  slashed_price: 'slashed_price',
+  min_quantity: 'min_quantity',
+  max_quantity: 'max_quantity',
   stockCount: 'stockCount',
   deliverables: 'deliverables',
   createdAt: 'createdAt',
@@ -207,6 +226,7 @@ exports.Prisma.TransactionScalarFieldEnum = {
   shopId: 'shopId',
   totalAmount: 'totalAmount',
   deliverables: 'deliverables',
+  type: 'type',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -290,13 +310,27 @@ exports.Prisma.JsonNullValueFilter = {
 };
 exports.Roles = exports.$Enums.Roles = {
   Admin: 'Admin',
+  Moderator: 'Moderator',
   User: 'User'
+};
+
+exports.CryptoCurrency = exports.$Enums.CryptoCurrency = {
+  BITCOIN: 'BITCOIN',
+  LITECOIN: 'LITECOIN',
+  ETHEREUM: 'ETHEREUM'
 };
 
 exports.ProductVisibility = exports.$Enums.ProductVisibility = {
   Public: 'Public',
   Private: 'Private',
   Unlisted: 'Unlisted'
+};
+
+exports.TransactionType = exports.$Enums.TransactionType = {
+  PURCHASE: 'PURCHASE',
+  DEPOSIT: 'DEPOSIT',
+  WITHDRAW: 'WITHDRAW',
+  REFUND: 'REFUND'
 };
 
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
@@ -319,6 +353,7 @@ exports.CheckoutStatus = exports.$Enums.CheckoutStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  CryptoWallet: 'CryptoWallet',
   Session: 'Session',
   Shop: 'Shop',
   PaymentMethod: 'PaymentMethod',

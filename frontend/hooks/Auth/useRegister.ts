@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { AuthProps } from "@/types/Auth";
+import { AuthProps } from "@/types/auth.type";
 import { RegisterApi } from "@/api/auth/register";
 
 export function useRegister() {
   return useMutation({
     mutationFn: ({ password, username, email }: AuthProps) =>
-      RegisterApi({ username, password, email }),
+      RegisterApi({ email, username, password }),
   });
 }
