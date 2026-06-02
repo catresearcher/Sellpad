@@ -27,6 +27,7 @@ import { useDebounce } from "@/hooks/hooks/use-debounce";
 import { useShop } from "@/context/shopContext";
 import { useTransactions } from "@/hooks/hooks/use-transactions";
 import { TransactionColumns } from "./transactionColumns";
+import MultiSelect from "@/components/ui/multiSelect";
 
 export default function TransactionTable() {
   const { selectedShop } = useShop();
@@ -48,10 +49,7 @@ export default function TransactionTable() {
   const [search, setSearch] = React.useState("");
   const debouncedSearch = useDebounce(search, 500);
 
-  if (!selectedShop) return null;
-
-  const { data, isLoading } = useTransactions(selectedShop.id);
-
+  const { data, isLoading } = useTransactions(selectedShop?.id ?? 0);
   React.useEffect(() => {
     setPageIndex(0);
   }, [debouncedSearch]);
@@ -82,8 +80,26 @@ export default function TransactionTable() {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  const [selectedStatus, setSelectedStatus] = React.useState<string[]>([]);
+
+  const status = [
+    { value: "completed", label: "Completed" },
+    { value: "pending", label: "Pending" },
+    { value: "failed", label: "Failed" },
+  ];
+
+  if (!selectedShop) return null;
+
   return (
     <div className="pb-4 rounded border border-border shadow-sm bg-card w-full space-y-4">
+      <div className="p-2 grid grid-cols-4 gap-2">
+        <MultiSelect
+          items={status}
+          selected={selectedStatus}
+          setSelected={setSelectedStatus}
+          placeholder="Select Status"
+        />
+      </div>
       <div className="overflow-hidden border-b border-border">
         <Table>
           <TableHeader>
@@ -145,7 +161,6 @@ export default function TransactionTable() {
           </TableBody>
         </Table>
       </div>
-
       <div className="flex items-center justify-end space-x-2 px-4">
         <div className="space-x-2">
           <Button

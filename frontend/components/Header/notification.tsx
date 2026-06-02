@@ -68,7 +68,7 @@ export default function Notification() {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-[340px] overflow-hidden rounded-md border border-border bg-popover shadow-xl p-0"
+        className="w-85 overflow-hidden rounded-md border border-border bg-popover shadow-xl p-0"
       >
         <div className="px-4 py-3 flex items-center justify-between">
           <h1 className="font-medium text-base text-accent-foreground">
@@ -81,7 +81,7 @@ export default function Notification() {
 
         <DropdownMenuSeparator />
 
-        <div className="max-h-[320px] overflow-y-auto">
+        <div className="max-h-80 overflow-y-auto">
           {notifications.length > 0 ? (
             notifications.map((n) => (
               <DropdownMenuItem
@@ -103,7 +103,7 @@ export default function Notification() {
               </DropdownMenuItem>
             ))
           ) : (
-            <div className="flex flex-col items-center justify-center h-[220px] gap-2">
+            <div className="flex flex-col items-center justify-center h-55 gap-2">
               <div className="w-10 h-10 rounded-full bg-muted/30 flex items-center justify-center">
                 <span className="icon-[solar--bell-off-bold] text-muted-foreground" />
               </div>
