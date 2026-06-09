@@ -28,7 +28,7 @@ export const allProductsController = asyncHandler(
     );
 
     if (!isUserShop) {
-      return res.status(401).json({ error: "Invalid shop ID" });
+      return res.status(401).json({ error: "Not owner" });
     }
 
     const page = Number(req.query.page) || 1;
@@ -71,7 +71,7 @@ export const productByIdController = asyncHandler(
     );
 
     if (!isUserShop) {
-      return res.status(201).json({ error: "Unauthorized" });
+      return res.status(201).json({ error: "Not owner" });
     }
 
     const product = await shopService.findProductById(productId, shopId);
@@ -102,7 +102,7 @@ export const createProductController = asyncHandler(
     );
 
     if (!isUserShop) {
-      return res.status(401).json({ error: "Invalid shop ID" });
+      return res.status(401).json({ error: "Not owner" });
     }
 
     const result = createProductFormSchema.safeParse(req.body);
@@ -151,7 +151,7 @@ export const updateProductController = asyncHandler(
     );
 
     if (!isUserShop) {
-      return res.status(401).json({ error: "Invalid shop ID" });
+      return res.status(401).json({ error: "Not owner" });
     }
 
     const result = createProductFormSchema.safeParse(req.body);
@@ -204,7 +204,7 @@ export const deleteProductController = asyncHandler(
     );
 
     if (!isUserShop) {
-      return res.status(401).json({ error: "Invalid shop ID" });
+      return res.status(401).json({ error: "Not owner." });
     }
 
     const deleted = await shopService.deleteProduct(productId);

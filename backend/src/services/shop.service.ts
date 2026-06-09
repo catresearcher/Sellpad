@@ -351,6 +351,16 @@ export async function createShop(data: {
   });
 }
 
+export async function findShopByTenant(tenant: string) {
+  const shop = await prisma.shop.findFirst({
+    where: {
+      OR: [{ customDomain: tenant }, { subdomain: tenant.split(".")[0] }],
+    },
+  });
+  if (!shop) return false;
+  return shop;
+}
+
 export default {
   findAllProducts,
   findProductById,
@@ -360,4 +370,5 @@ export default {
   getShopsByUserId,
   deleteProduct,
   createShop,
+  findShopByTenant,
 };

@@ -9,7 +9,7 @@ import userRoutes from "./user.route";
 
 // Apply routes
 router.use("/api/auth", authRoutes);
-router.use("/api/shop", sessionAuth, shopRoutes);
+router.use("/api/shop", shopRoutes);
 router.use("/api/user", sessionAuth, userRoutes);
 
 export default router;
