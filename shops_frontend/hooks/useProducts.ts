@@ -6,5 +6,6 @@ export function useProducts() {
   return useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
+    select: (data) => data.products,
   });
 }
