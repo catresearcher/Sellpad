@@ -109,7 +109,7 @@ export function TeamSwitcher({
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <Link
-                href={"/dashboard/onboarding"}
+                href={"/onboarding"}
                 className="flex items-center gap-2 w-full"
               >
                 <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">

@@ -11,7 +11,7 @@ import {
 const notifications = [
   {
     id: "1",
-    title: "Nigga",
+    title: "Teemu",
     sender: "Teemu",
     type: "message",
     date: "5/3/2026 12:05",

@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { addDays, format } from "date-fns";
 
 import { type DateRange } from "react-day-picker";
+import { useUser } from "@/context/userContext";
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -22,7 +23,9 @@ export default function ShopOverviewLayout({
   children: React.ReactNode;
 }) {
   const { selectedShop, date, setDate } = useShop();
+  const { user } = useUser();
 
+  if (!user) return <div>User not found..</div>;
   if (!selectedShop) return <div>Shop not found</div>;
 
   const greeting = getGreeting();
@@ -32,7 +35,7 @@ export default function ShopOverviewLayout({
       <div className="flex items-center justify-between w-full">
         {" "}
         <PageTitle
-          title={`${greeting.text}, Teemu ${greeting.emoji}`}
+          title={`${greeting.text}, ${user.username} ${greeting.emoji}`}
           description="Here you can view your shops analytics"
         />
         <ShopAnalyticDate date={date} setDate={setDate} />
