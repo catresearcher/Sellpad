@@ -117,17 +117,28 @@ http://localhost:3000
 ```
 
 ## 📁 Project Structure
-
 ```text
-src/
+frontend/
+├── api/
 ├── app/
 ├── components/
-├── features/
+├── context/
 ├── hooks/
 ├── lib/
-├── services/
+├── schemas/
 ├── types/
 └── utils/
+backend/
+├── prisma/
+├── src/
+  ├── controllers/
+  ├── lib/
+  ├── middlewares/
+  ├── routes/
+  ├── schemas/
+  ├── services/
+  ├── utils/
+  └── types/
 ```
 
 ## Screenshots
