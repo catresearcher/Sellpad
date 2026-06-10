@@ -1,4 +1,4 @@
-import shopService from "../services/shop.service";
+import shopPublicService from "../services/shop.public.service";
 import { asyncHandler } from "../utils/asyncHandler";
 import { Request, Response } from "express";
 
@@ -11,7 +11,11 @@ export const allProductsController = asyncHandler(
     const page = Number(req.query.page) || 1;
     const search = (req.query.search as string) || "";
 
-    const data = await shopService.findAllProducts(req.shopId, page, search);
+    const data = await shopPublicService.findAllProducts(
+      req.shopId,
+      page,
+      search,
+    );
 
     if (!data?.result || data.result.length === 0) {
       return res.status(404).json({ error: "No products found" });
@@ -30,7 +34,7 @@ export const productByIdController = asyncHandler(
     const shopId = req.shopId;
     const productId = Number(data.productId);
 
-    const product = await shopService.findProductById(productId, shopId);
+    const product = await shopPublicService.findProductById(productId, shopId);
 
     if (!product) {
       return res.status(404).json({ error: "No products found" });

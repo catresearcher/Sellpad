@@ -34,6 +34,8 @@ function ScrollButton() {
 export default function Home() {
   const { data: products } = useProducts();
 
+  if (!products) return <div>No products..</div>;
+
   return (
     <div className="flex flex-col mx-auto w-[55%] min-h-screen py-6 gap-20">
       <header className="w-fit mx-auto px-4 py-2 flex items-center space-x-8 justify-between bg-muted/5 border border-border shadow-sm rounded-full">
@@ -102,7 +104,42 @@ export default function Home() {
         <section id="products" className="flex flex-col gap-6 pt-24 pb-32">
           <h1 className="text-3xl font-semibold">Products</h1>
 
-          <ul></ul>
+          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {products?.map((p: any) => (
+              <li key={p.id} className="group rounded bg-card p-5 ">
+                <div className="flex h-full flex-col">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold tracking-tight">
+                        {p.name}
+                      </h3>
+
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Stock: {p.stock}
+                      </p>
+                    </div>
+
+                    <p className="text-lg font-bold text-emerald-600">
+                      {Number(p.price).toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </p>
+                  </div>
+
+                  <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">
+                    {p.description}
+                  </p>
+
+                  <div className="mt-auto pt-5">
+                    <button className="w-full rounded border bg-background px-4 py-2.5 text-sm font-medium">
+                      View Product
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       </main>
 
