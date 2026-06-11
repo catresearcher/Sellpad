@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/useProducts";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 function ScrollButton() {
   const scrollToProducts = () => {
@@ -132,9 +133,12 @@ export default function Home() {
                   </p>
 
                   <div className="mt-auto pt-5">
-                    <button className="w-full rounded border bg-background px-4 py-2.5 text-sm font-medium">
+                    <Link
+                      href={`/${p.id}`}
+                      className="w-full rounded border bg-background px-4 py-2.5 text-sm font-medium"
+                    >
                       View Product
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </li>
